@@ -1,0 +1,85 @@
+@font-face{
+    font-family:"Eurostib";
+    src: url(http://165.98.75.42/COREGUMA/assets/font/eurostile/Eurostib.ttf);
+    /*src: url(http://localhost:8448/GUMA_DASHBOARD/assets/font/eurostile/Eurostib.ttf);*/
+}
+html {
+    font-family: Eurostib;
+}
+ body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+.header{
+    margin-top: 40px;
+}
+.btn{
+    /*background-color: #3e984c;*/
+}
+ .centro p{
+     margin-top: 20px;
+     text-align: center;
+     /* position: absolute;
+     margin: 0 auto;*/
+}
+
+.error{
+    color: rgba(255, 150, 0, 0.91);
+    font-size: 18px;
+}
+#name{
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+#pass{
+     letter-spacing: 4px;
+}
+
+table.tableizer-table {
+    font-size: 14px;
+    font-family: Eurostib;
+} 
+.tableizer-table td {
+    padding: 3px;
+    margin: 3px;    
+    
+
+    /*border: 1px solid #ccc;*/
+}
+.tableizer-table th {
+    text-align: center;
+    background-color: #29b6f6 ; 
+    color: #FFF;
+    font-weight: bold;
+}
+.tableizer-lastrow {
+    text-align: center;
+    background-color: #29b6f6 ; 
+    color: #FFF;
+    font-weight: bold;
+}
+.tableizer-Middelrow {
+    text-align: center;
+    background-color: #00695c; 
+    color: #FFF;
+    font-weight: bold;
+}
+.AnchoLineaTitulo{
+  height: 10px;
+}
+ul >  li {
+  list-style-type:none;
+  text-align:center;
+  width:200px;
+}
+ul >  li > img{
+  
+vertical-align: middle;
+  
+}
