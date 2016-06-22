@@ -22,8 +22,7 @@ $route['Eliminar/(:any)']= "Usuarios/Eliminar/$1";
 
 $route['dashboard'] = 'Menu';
 $route['Articulos'] = 'Articulos';
-$route['SaveComentario/(:any)/(:any)/(:any)'] = 'Articulos/SaveComentarios/$1/$2/$3';
-$route['RestoreComentario/(:any)/(:any)'] = 'Articulos/RestoreComentario/$1/$2';
+
 
 /*************RUTAS PDF***********/
 $route['pdf_detalles'] = 'reportes/pdfdetalle';
@@ -31,4 +30,6 @@ $route['pdf_detalles'] = 'reportes/pdfdetalle';
 /**************RUTAS AJAX***********/
 $route['ajax_contrato/(:any)']= "Articulos/get_contrato/$1";
 $route['UpdateRow/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = 'Articulos/UpdateRow/$1/$2/$3/$4/$5/$6';
-
+$route['SaveComentario/(:any)/(:any)/(:any)'] = 'Articulos/SaveComentarios/$1/$2/$3';
+$route['RestoreComentario/(:any)/(:any)'] = 'Articulos/RestoreComentario/$1/$2';
+$route['ajax_abc/(:any)']= "Articulos/get_abc/$1";

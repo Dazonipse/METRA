@@ -12,10 +12,15 @@ class Table extends CI_Model
     {
         parent::__construct();
     }
-    
+    public function obtenerABC($id)
+    {
+        $Array = $this->sqlsrv -> fetchArray("SELECT TOP 1 * FROM Softland.dbo.ALDER where ARTICULO='".$id."'",SQLSRV_FETCH_ASSOC); 
+        $json = array();
+        $i=0;
+    }
     public function obtenercontrato($id)
     {
-          $Array = $this->sqlsrv -> fetchArray("SELECT TOP 1 * FROM Softland.dbo.ALDER where ARTICULO='".$id."'",SQLSRV_FETCH_ASSOC); 
+          $Array = $this->sqlsrv -> fetchArray("SELECT TOP 1 * FROM Softland.dbo.SP_ALDER_CLASIFICACION_ABC where ARTICULO='".$id."'",SQLSRV_FETCH_ASSOC); 
         $json = array();
         $i=0;
 
@@ -337,23 +342,23 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['PROMEDIO'] =$row['PROMEDIO'];
                     $json['Analisis'][$i]['PEDDCA'] = $row['PEDDCA'];
                     $json['Analisis'][$i]['CSCA'] = $row['CSCA'];
+                    $json['Analisis'][$i]['Comnet0'] = $row['Comnet0'];
+                    $json['Analisis'][$i]['Comnet1'] = $row['Comnet1'];
+                    $json['Analisis'][$i]['Comnet2'] = $row['Comnet2'];
+                    $json['Analisis'][$i]['Comnet3'] = $row['Comnet3'];
 
-                    $Coment0 = $this ->RestoreComentario ($row['ARTICULO'],0);                    
+                   /* $Coment0 = $this ->RestoreComentario ($row['ARTICULO'],0);                    
                     if ($Coment0 <> "") {
                         $json['Analisis'][$i]['CTBP'] = "<a class='tooltipped' data-position='top' data-delay='50' data-tooltip='".$Coment0."'>".number_format($row['CTBP'], 2)."</a>";
-                    } else {
+                    } else {*/
                         $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'], 2);
-                    }
-
+                   /* }
                     $Coment1 = $this ->RestoreComentario ($row['ARTICULO'],1);                    
                     if ($Coment1 <> "") {
                         $json['Analisis'][$i]['CTTS'] = "<a class='tooltipped' data-position='top' data-delay='50' data-tooltip='".$Coment1."'>".number_format($row['CTTS'], 2)."</a>";
-                    } else {
+                    } else {*/
                         $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'], 2);
-                    }
-                    
-                    
-                    
+                   // }
                     $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
                     $i++;   
                 }
@@ -370,9 +375,11 @@ class Table extends CI_Model
                 $json['Analisis'][$i]['CSCA'] = "";
                 $json['Analisis'][$i]['CTBP'] = "";
                 $json['Analisis'][$i]['CTTS'] = "";
-                $json['Analisis'][$i]['ORDENAR'] = "";
-             
-            
+                $json['Analisis'][$i]['Comnet0'] = "";
+                $json['Analisis'][$i]['Comnet1'] = "";
+                $json['Analisis'][$i]['Comnet2'] = "";
+                $json['Analisis'][$i]['Comnet3'] = "";
+                $json['Analisis'][$i]['ORDENAR'] = "";        
         }
         
        
@@ -415,30 +422,54 @@ class Table extends CI_Model
 
         if($query->num_rows() > 0){         
 
-                if ($IDC <> 0) {
+                if ($IDC == 0) {
+                   $data = array(
+                        'Comnet0' =>  base64_decode($Coment)
+                    );  
+                }
+                if ($IDC == 1) {
                     $data = array(
                         'Comnet1' =>  base64_decode($Coment)
                     );        
-                } else {
+                }
+                if ($IDC == 2) {
                     $data = array(
-                        'Comnet0' =>  base64_decode($Coment)
+                        'Comnet2' =>  base64_decode($Coment)
                     );        
                 }
-                
+                 if ($IDC == 3) {
+                    $data = array(
+                        'Comnet3' =>  base64_decode($Coment)
+                    );        
+                }               
                 
                 $this->db->where('ARTICULO', $Arti);
                 $Accion=$this->db->update('comentarios', $data);
             } else {
 
-                if ($IDC <> 0) {
+                if ($IDC == 0) {
+                    $data = array(
+                        'Articulo' => $Arti,
+                        'Comnet0' =>  base64_decode($Coment)
+                    );        
+                }
+                if ($IDC == 1) {
                     $data = array(
                         'Articulo' => $Arti,
                         'Comnet1' =>  base64_decode($Coment)
                     );        
-                } else {
+                }
+                if ($IDC == 2) {
                     $data = array(
                         'Articulo' => $Arti,
-                        'Comnet0' =>  base64_decode($Coment)
+                        'Comnet1' =>  base64_decode($Coment)
+                    );        
+                }
+
+                if ($IDC == 3) {
+                    $data = array(
+                        'Articulo' => $Arti,
+                        'Comnet3' =>  base64_decode($Coment)
                     );        
                 }
                 
@@ -453,15 +484,22 @@ class Table extends CI_Model
     }
     public function RestoreComentario($Articulo,$IDC){
         
+
         $query = $this->db->query("SELECT * FROM comentarios WHERE Articulo='".$Articulo."'");
         $com="";
         if($query->num_rows() <> 0){            
             foreach ($query->result_array() as $row)
             {                
-                    if ($IDC <> 0) {
-                        $com = $row['Comnet1'];
-                    } else {
+                    if ($IDC ==0) {
                         $com = $row['Comnet0'];
+                    } if ($IDC == 1) {
+                        $com = $row['Comnet1'];
+                    }
+                    if ($IDC == 2) {
+                        $com = $row['Comnet2'];
+                    }
+                    if ($IDC == 3) {
+                        $com = $row['Comnet3'];
                     }
                     
             }

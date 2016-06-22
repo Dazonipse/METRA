@@ -51,7 +51,7 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    background: url('/metra/assets/images/back.jpg');
+    /*background: url('/metra/assets/images/back.jpg');*/
 }
 
 main {
@@ -235,4 +235,8 @@ font-family: 'robotoblack';
 }
 .modal.modalcontrato{
     width: 90%!important;
+}
+
+.modal#modalABC{
+     width: 90%!important;
 }

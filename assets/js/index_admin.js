@@ -126,13 +126,10 @@
         var Row0 = $("#Row-0-"+key).val();
         var Row1 = $("#Row-1-"+key).val();
         var Row2 = $("#Row-2-"+key).val();
-        var Row3 = $("#Row-3-"+key).val();
-
-       
+        var Row3 = $("#Row-3-"+key).val();      
 
         Row0 = Row0.replace(",",'');
-        Row1 = Row1.replace(",",'');
-        
+        Row1 = Row1.replace(",",'');       
                 
         if (($("#Row-0-"+key).hasClass("ClssEdited")) ||($("#Row-1-"+key).hasClass("ClssEdited")) ) {
             if(($("#Row-0-"+key).hasClass("ClssEdited"))){

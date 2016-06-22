@@ -101,10 +101,10 @@
             <td class='Ancho medium'>".$key['PROVEEDOR']."</td>
             <td>".number_format($key['CANT_DISPONIBLE'], 2)."</td>
             <td class='Ancho negra'><a style='cursor:pointer;' onclick='generarReporte(".'"'.$key['ARTICULO'].'"'.")'>".number_format($key['PROMEDIO'],2)."</a></td>
-            <td>".number_format($key['PEDDCA'], 2)."</td>
-            <td>".number_format($key['CSCA'], 2)."</td>
-            <td>".$key['CTBP']."</td>
-            <td>".$key['CTTS']."</td>
+            <td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".number_format($key['PEDDCA'], 2)."</a></td>
+            <td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet1']."'>".number_format($key['CSCA'], 2)."</a></td>
+            <td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet2']."'>".$key['CTBP']."</a></td>
+            <td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a></td>
             <td>".number_format($key['ORDENAR'], 2)."</td>                                
             </tr>
             ";                       

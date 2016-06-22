@@ -100,16 +100,7 @@
             $MYUDP .= 'WHERE Articulo IN ('.substr(@$ArticuloIN, 0,-1).')';
             $ObjMysql->query($MYUDP);
 
-
-
-
-
-
-
-
-
-
-            
+          
 
             
             //VERIFICAMOS LA INFORMACION DEL BASE MYSQL

@@ -107,7 +107,8 @@
             $sql .= "                                        
             <th>CANTIDAD BAJO PEDIDO</th>
             <th>CANTIDAD EN TRANSITO</th>
-            <th >COMENTARIOS</th>";
+            
+            ";
             break;
         }
 
@@ -147,8 +148,7 @@
             case 3:
             $sql .= "                                        
             <th style='display:none'>CANTIDAD BAJO PEDIDO</th>
-            <th style='display:none'>CANTIDAD EN TRANCITO</th>
-            <th style='display:none'>COMENTARIOS</th>";
+            <th style='display:none'>CANTIDAD EN TRANCITO</th>";
             break;
         }
 
@@ -170,7 +170,7 @@
         <td><input type='hidden' readonly value=".$key['UNIDAD'].">".$key['UNIDAD']."</td>
         <td class='Ancho medium'>".$key['PROVEEDOR']."</td>
         <td class='Ancho'><input type='hidden' readonly value=".$key['CANT_DISPONIBLE'].">".number_format($key['CANT_DISPONIBLE'], 2)."</td>
-         <td class='Ancho'>".number_format($key['PROMEDIO'],2)."PENDIENTE</td>";
+        <td class='Ancho'><a onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".number_format($key['PROMEDIO'],2)."</a></td>";
 
         switch ($_SESSION['Permiso']) {
             case 1:
@@ -237,18 +237,17 @@
             $sql .= "   
             <td>
             <div class='input-field col s12'>                                                  
-            <input type='number' min = '0' value=".number_format($tv, 2)." id='Row-0-".$key['ARTICULO']."'>
-            <a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."0".")'><i class='material-icons Small'>note_add</i></a>
+            <input type='number' min = '0' value=".number_format($tv, 2)." id='Row-0-".$key['ARTICULO']."'><br>
+            <a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."2".")'><i style='font-size:30px;' class='material-icons Small'>add_circle_outline</i></a>
             </div>                                                
             </td>
             <td>
             <div class='input-field col s12'>
-            <input type='number' min = '0' value=".number_format($cv, 2)." id='Row-1-".$key['ARTICULO']."'>
-            <a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."1".")'><i class='material-icons Small'>note_add</i></a>
+            <input type='number' min = '0' value=".number_format($cv, 2)." id='Row-1-".$key['ARTICULO']."'><br>
+            <a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."3".")'><i style='font-size:30px;' class='material-icons Small'>add_circle_outline</i></a>
             </div>                                                
             </td>
-
-            <td></td> ";
+            ";
             break;                            
         }
 
@@ -270,16 +269,12 @@
 </table>
 </div>
 </div>
-<!-- Modal Trigger -->
-
-
-
 <!-- Modal Structure -->
-<div id="modal1" class="modal modal-fixed-footer">
+<div id="modal1" class="modal modal-fixed-footer" style="height:45%;">
     <div class="modal-content">
         <span style="display: none;" id="IdRowComent">000000</span>
-        <h4 class="center">Agregar Comentarios sobre el Articulo: <span id="IdArtiComent">000000</span></h4>
-        <p><textarea id='textarea1' class='materialize-textarea' length='450'></textarea></p>
+        <h4 class="center negra" style="color: #4D4D4D">Agregar Comentarios sobre el Articulo: <span id="IdArtiComent">000000</span></h4>
+        <textarea id='textarea1' class='materialize-textarea' length='450'></textarea>
     </div>
     <div class="modal-footer">
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat "><i class='material-icons'>close</i></a>
@@ -287,3 +282,90 @@
 
     </div>
 </div>
+
+
+  <!-- Modal Structure -->
+  <div id="modalABC" class="modal">
+    <div class="modal-content">
+      <h4 class="center">Modal Header</h4>
+      <table id="tableabc" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>    
+    </table>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
