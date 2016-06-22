@@ -1,8 +1,7 @@
 <div id= "MyBar" class="progress green" style="Display:none;">
     <div class="indeterminate blue"></div>
 </div>
-
-
+<?php echo"asd"; ?>
 <h5 class="center" style="font-family:'robotoblack'; color:#616161"><br>PEDIDOS</h5>
 
 <div class="row">
