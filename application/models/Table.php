@@ -14,13 +14,101 @@ class Table extends CI_Model
     }
     public function obtenerABC($id)
     {
-        $Array = $this->sqlsrv -> fetchArray("SELECT TOP 1 * FROM Softland.dbo.ALDER where ARTICULO='".$id."'",SQLSRV_FETCH_ASSOC); 
+        $Array = $this->sqlsrv -> fetchArray("CALL Softland.dbo.ALDER('".$id."'"),SQLSRV_FETCH_ASSOC); 
         $json = array();
         $i=0;
+
+        if (count($Array)==0) {
+                $json['data'][$i]['Tipo'] = NULL;
+                $json['data'][$i]['ARTICULO'] = NULL;
+                $json['data'][$i]['Clasificacion5'] = NULL;
+                $json['data'][$i]['Clasificacion3'] = NULL;
+                $json['data'][$i]['DESCRIPCION'] =NULL;
+                $json['data'][$i]['1'] =NULL;
+                $json['data'][$i]['2'] =NULL;
+                $json['data'][$i]['3'] = NULL;
+                $json['data'][$i]['4'] = NULL;
+                $json['data'][$i]['5'] = NULL;
+                $json['data'][$i]['6'] = NULL;
+                $json['data'][$i]['7'] = NULL;
+                $json['data'][$i]['8'] = NULL;
+                $json['data'][$i]['9'] = NULL;
+                $json['data'][$i]['10'] = NULL;
+                $json['data'][$i]['11'] = NULL;
+                $json['data'][$i]['12'] = NULL;
+                $json['data'][$i]['EXISTENCIA'] = NULL;
+                $i++;
+        } else {
+            foreach ($Array as $row) {               
+                $json['data'][$i]['ARTICULO'] = $row['ARTICULO'];
+                $json['data'][$i]['Clasificacion5'] = $row['DESCRIPCION'];
+                $json['data'][$i]['Clasificacion3'] = $row['PRESENTACION'];                                  
+                $json['data'][$i]['DESCRIPCION'] = $row['LABORATORIO'];                                  
+                $json['data'][$i]['1'] = number_format($row['IPRIVADA1'],2);                                  
+                $json['data'][$i]['2'] = number_format($row['FPRIVADA1'],2);                                  
+                $json['data'][$i]['3'] = number_format($row['FPUBLICA1'],2);
+                $json['data'][$i]['4'] = number_format($row['TOTAL1'],2);
+                $json['data'][$i]['5'] = number_format($row['IPRIVADA2'],2);
+                $json['data'][$i]['6'] = number_format($row['FPRIVADA2'],2);
+                $json['data'][$i]['7'] = number_format($row['FPUBLICA2'],2);
+                $json['data'][$i]['8'] = number_format($row['TOTAL2'],2);
+                $json['data'][$i]['9'] = number_format($row['IPRIVADA3'],2);
+                $json['data'][$i]['10'] = number_format($row['FPRIVADA3'],2);
+                $json['data'][$i]['11'] = number_format($row['FPUBLICA3'],2);
+                $json['data'][$i]['12'] = number_format($row['TOTAL3'],2);
+                $json['data'][$i]['13'] = number_format($row['IPRIVADA4'],2);                                  
+                $json['data'][$i]['14'] = number_format($row['FPRIVADA4'],2);                                  
+                $json['data'][$i]['15'] = number_format($row['FPUBLICA4'],2);
+                $json['data'][$i]['16'] = number_format($row['TOTAL4'],2);
+                $json['data'][$i]['17'] = number_format($row['IPRIVADA5'],2);
+                $json['data'][$i]['18'] = number_format($row['FPRIVADA5'],2);
+                $json['data'][$i]['19'] = number_format($row['FPUBLICA5'],2);
+                $json['data'][$i]['20'] = number_format($row['TOTAL5'],2);
+                $json['data'][$i]['21'] = number_format($row['IPRIVADA6'],2);
+                $json['data'][$i]['22'] = number_format($row['FPRIVADA6'],2);
+                $json['data'][$i]['23'] = number_format($row['TOTAL6'],2);
+                $json['data'][$i]['24'] = number_format($row['IPRIVADA7'],2);
+                $json['data'][$i]['25'] = number_format($row['FPRIVADA7'],2);
+                $json['data'][$i]['26'] = number_format($row['FPUBLICA7'],2);
+                $json['data'][$i]['27'] = number_format($row['TOTAL7'],2);
+                $json['data'][$i]['28'] = number_format($row['IPRIVADA8'],2);                                  
+                $json['data'][$i]['29'] = number_format($row['FPRIVADA8'],2);                                  
+                $json['data'][$i]['30'] = number_format($row['FPUBLICA8'],2);
+                $json['data'][$i]['31'] = number_format($row['TOTAL8'],2);
+                $json['data'][$i]['32'] = number_format($row['IPUBLICA9'],2);
+                $json['data'][$i]['33'] = number_format($row['FPRIVADA9'],2);
+                $json['data'][$i]['34'] = number_format($row['FPUBLICA9'],2);
+                $json['data'][$i]['35'] = number_format($row['TOTAL9'],2);
+                $json['data'][$i]['36'] = number_format($row['IPRIVADA10'],2);
+                $json['data'][$i]['37'] = number_format($row['FPRIVADA10'],2);
+                $json['data'][$i]['38'] = number_format($row['FPUBLICA10'],2);
+                $json['data'][$i]['39'] = number_format($row['24'],2);
+                $json['data'][$i]['40'] = number_format($row['10'],2);
+                $json['data'][$i]['41'] = number_format($row['11'],2);
+                $json['data'][$i]['42'] = number_format($row['12'],2);
+                $json['data'][$i]['43'] = number_format($row['13'],2);                                  
+                $json['data'][$i]['44'] = number_format($row['14'],2);                                  
+                $json['data'][$i]['45'] = number_format($row['15'],2);
+                $json['data'][$i]['46'] = number_format($row['16'],2);
+                $json['data'][$i]['47'] = number_format($row['17'],2);
+                $json['data'][$i]['48'] = number_format($row['18'],2);
+                $json['data'][$i]['49'] = number_format($row['19'],2);
+                $json['data'][$i]['50'] = number_format($row['20'],2);
+                $json['data'][$i]['51'] = number_format($row['21'],2);
+                $json['data'][$i]['52'] = number_format($row['22'],2);
+                $json['data'][$i]['EXISTENCIA'] = number_format($row['EXISTENCIA'],2);
+                $i++;
+            }
+        }
+        $this->sqlsrv->close();
+        return $json;
+
+
+
     }
     public function obtenercontrato($id)
     {
-          $Array = $this->sqlsrv -> fetchArray("SELECT TOP 1 * FROM Softland.dbo.SP_ALDER_CLASIFICACION_ABC where ARTICULO='".$id."'",SQLSRV_FETCH_ASSOC); 
+          $Array = $this->sqlsrv -> fetchArray("SELECT TOP 1 * FROM Softland.dbo.ALDER where ARTICULO='".$id."'",SQLSRV_FETCH_ASSOC); 
         $json = array();
         $i=0;
 
