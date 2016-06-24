@@ -5,7 +5,12 @@ class Reportes extends CI_Controller {
 		parent::__construct();
         $this->load->library('session');
  		$this->load->library('MPDF/mpdf');
-        $this->seguridad->estactivo($this->session->userdata('logged'));
+        //$this->seguridad->estactivo($this->session->userdata('logged'));
+        $user = $this->session->userdata('logged');
+
+           if (!isset($user)) { 
+               redirect(base_url().'index.php','refresh');
+           } 
 	}
 
 	public function pdfdetalle($IdArticulos)

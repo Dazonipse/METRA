@@ -4,14 +4,103 @@
  */
  //INICIALIZARDORES
  $( document ).ready(function(){
- 	//MENU PRINCIPAL
-	//$(".button-collapse").sideNav(); 
+// $('#modalABC').openModal();
+
 } );
 
 
- function modalABC(ID)
+function modalABC(id)
  {
-  $('#modalABC').openModal();
+$('#modalABC').openModal();
+Objtable = $('#tableabc').DataTable();
+            Objtable.destroy();
+            Objtable.clear();
+            Objtable.draw();
+            $('#tableabc').DataTable({                
+                "searching":false,                
+                ajax: "ajax_abc/"+ id,
+               "ordering": false,
+                "info": false,
+                "pagingType": "full_numbers",
+                "lengthMenu": [[10, -1], [10, "Todo"]],
+                "language": {
+                    "emptyTable": "No hay datos disponibles en la tabla",
+                    "lengthMenu": '_MENU_ ',
+                    "emptyTable": "NO SE ENCONTRO VENTAS DE ESTE ARTICULO",
+                    "search": '<i class=" material-icons">search</i>',
+                    "loadingRecords": "CARGANDO...",
+                    "paginate": {
+                        "first": "Primera",
+                        "last": "Última ",
+                        "next":       "Siguiente",
+                        "previous":   "Anterior"
+                    }
+                },
+              columns: [                    
+                    { "data": "ARTICULO" },
+                    { "data": "DESCRIPCION" },
+                    { "data": "PRESENTACION" },
+                    { "data": "LABORATORIO" },
+                    { "data": "1" },
+                    { "data": "2" },
+                    { "data": "3" },
+                    { "data": "4" },
+                    { "data": "5" },
+                    { "data": "6" },
+                    { "data": "7" },
+                    { "data": "8" },
+                    { "data": "9" },
+                    { "data": "10" },
+                    { "data": "11" },
+                    { "data": "12" },
+                    { "data": "13" },
+                    { "data": "14" },
+                    { "data": "15" },
+                    { "data": "16" },
+                    { "data": "17" },
+                    { "data": "18" },
+                    { "data": "19" },
+                    { "data": "20" },
+                    { "data": "21" },
+                    { "data": "22" },
+                    { "data": "23" },
+                    { "data": "24" },
+                    { "data": "25" },
+                    { "data": "26" },
+                    { "data": "27" },
+                    { "data": "28" },
+                    { "data": "29" },
+                    { "data": "30" },
+                    { "data": "31" },
+                    { "data": "32" },
+                    { "data": "33" },
+                    { "data": "34" },
+                    { "data": "35" },
+                    { "data": "36" },
+                    { "data": "37" },
+                    { "data": "38" },
+                    { "data": "39" },
+                    { "data": "40" },
+                    { "data": "41" },
+                    { "data": "42" },
+                    { "data": "43" },
+                    { "data": "44" },
+                    { "data": "45" },
+                    { "data": "46" },
+                    { "data": "47" },
+                    { "data": "48" },
+                    { "data": "49" },
+                    { "data": "50" },
+                    { "data": "51" },
+                    { "data": "52" },
+                    { "data": "TOTALGENERAL" },
+                    { "data": "EXISTENCIA" },
+                    { "data": "PROMEDIO3MESES" },
+                    { "data": "MESESEXISTENCIA" },
+                    { "data": "PDA" },
+                    { "data": "CTBP" }
+              ]
+            });
  }
  $(document).ready(function() {
     $('#tableabc').DataTable();

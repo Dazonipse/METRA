@@ -14,18 +14,17 @@ class Table extends CI_Model
     }
     public function obtenerABC($id)
     {
-        $Array = $this->sqlsrv -> fetchArray("CALL Softland.dbo.ALDER('".$id."'"),SQLSRV_FETCH_ASSOC); 
+        $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$id."'",SQLSRV_FETCH_ASSOC); 
         $json = array();
         $i=0;
 
         if (count($Array)==0) {
-                $json['data'][$i]['Tipo'] = NULL;
                 $json['data'][$i]['ARTICULO'] = NULL;
-                $json['data'][$i]['Clasificacion5'] = NULL;
-                $json['data'][$i]['Clasificacion3'] = NULL;
-                $json['data'][$i]['DESCRIPCION'] =NULL;
-                $json['data'][$i]['1'] =NULL;
-                $json['data'][$i]['2'] =NULL;
+                $json['data'][$i]['DESCRIPCION'] = NULL;
+                $json['data'][$i]['PRESENTACION'] = NULL;                       
+                $json['data'][$i]['LABORATORIO'] =NULL;                              
+                $json['data'][$i]['1'] = NULL;                                 
+                $json['data'][$i]['2'] = NULL;                                 
                 $json['data'][$i]['3'] = NULL;
                 $json['data'][$i]['4'] = NULL;
                 $json['data'][$i]['5'] = NULL;
@@ -36,14 +35,57 @@ class Table extends CI_Model
                 $json['data'][$i]['10'] = NULL;
                 $json['data'][$i]['11'] = NULL;
                 $json['data'][$i]['12'] = NULL;
+                $json['data'][$i]['13'] = NULL;
+                $json['data'][$i]['14'] = NULL;
+                $json['data'][$i]['15'] = NULL;
+                $json['data'][$i]['16'] = NULL;
+                $json['data'][$i]['17'] = NULL;
+                $json['data'][$i]['18'] = NULL;
+                $json['data'][$i]['19'] = NULL;
+                $json['data'][$i]['20'] = NULL;
+                $json['data'][$i]['21'] = NULL;
+                $json['data'][$i]['22'] = NULL;
+                $json['data'][$i]['29'] = NULL;
+                $json['data'][$i]['23'] = NULL;
+                $json['data'][$i]['24'] = NULL;
+                $json['data'][$i]['25'] = NULL;
+                $json['data'][$i]['26'] = NULL;
+                $json['data'][$i]['27'] = NULL;
+                $json['data'][$i]['28'] = NULL;
+                $json['data'][$i]['30'] = NULL;
+                $json['data'][$i]['31'] = NULL;
+                $json['data'][$i]['32'] = NULL;
+                $json['data'][$i]['33'] = NULL;
+                $json['data'][$i]['34'] = NULL;
+                $json['data'][$i]['35'] = NULL;
+                $json['data'][$i]['36'] = NULL;
+                $json['data'][$i]['37'] = NULL;
+                $json['data'][$i]['38'] = NULL;
+                $json['data'][$i]['39'] = NULL;
+                $json['data'][$i]['40'] = NULL;
+                $json['data'][$i]['41'] = NULL;
+                $json['data'][$i]['42'] = NULL;
+                $json['data'][$i]['43'] = NULL;
+                $json['data'][$i]['44'] = NULL;
+                $json['data'][$i]['45'] = NULL;
+                $json['data'][$i]['46'] = NULL;
+                $json['data'][$i]['47'] = NULL;
+                $json['data'][$i]['48'] = NULL;
+                $json['data'][$i]['49'] = NULL;
+                $json['data'][$i]['50'] = NULL;
+                $json['data'][$i]['51'] = NULL;
+                $json['data'][$i]['52'] = NULL;
+                $json['data'][$i]['TOTALGENERAL'] = NULL;
                 $json['data'][$i]['EXISTENCIA'] = NULL;
-                $i++;
+                $json['data'][$i]['PROMEDIO3MESES'] = NULL;
+                $json['data'][$i]['MESESEXISTENCIA'] = NULL;
+                //$i++;
         } else {
-            foreach ($Array as $row) {               
+            foreach ($Array as $row) {      
                 $json['data'][$i]['ARTICULO'] = $row['ARTICULO'];
-                $json['data'][$i]['Clasificacion5'] = $row['DESCRIPCION'];
-                $json['data'][$i]['Clasificacion3'] = $row['PRESENTACION'];                                  
-                $json['data'][$i]['DESCRIPCION'] = $row['LABORATORIO'];                                  
+                $json['data'][$i]['DESCRIPCION'] = $row['DESCRIPCION'];
+                $json['data'][$i]['PRESENTACION'] = $row['PRESENTACION'];                                  
+                $json['data'][$i]['LABORATORIO'] = $row['LABORATORIO'];                                  
                 $json['data'][$i]['1'] = number_format($row['IPRIVADA1'],2);                                  
                 $json['data'][$i]['2'] = number_format($row['FPRIVADA1'],2);                                  
                 $json['data'][$i]['3'] = number_format($row['FPUBLICA1'],2);
@@ -66,45 +108,62 @@ class Table extends CI_Model
                 $json['data'][$i]['20'] = number_format($row['TOTAL5'],2);
                 $json['data'][$i]['21'] = number_format($row['IPRIVADA6'],2);
                 $json['data'][$i]['22'] = number_format($row['FPRIVADA6'],2);
+                $json['data'][$i]['29'] = number_format($row['FPUBLICA6'],2);                                
                 $json['data'][$i]['23'] = number_format($row['TOTAL6'],2);
                 $json['data'][$i]['24'] = number_format($row['IPRIVADA7'],2);
                 $json['data'][$i]['25'] = number_format($row['FPRIVADA7'],2);
                 $json['data'][$i]['26'] = number_format($row['FPUBLICA7'],2);
                 $json['data'][$i]['27'] = number_format($row['TOTAL7'],2);
                 $json['data'][$i]['28'] = number_format($row['IPRIVADA8'],2);                                  
-                $json['data'][$i]['29'] = number_format($row['FPRIVADA8'],2);                                  
-                $json['data'][$i]['30'] = number_format($row['FPUBLICA8'],2);
-                $json['data'][$i]['31'] = number_format($row['TOTAL8'],2);
-                $json['data'][$i]['32'] = number_format($row['IPUBLICA9'],2);
-                $json['data'][$i]['33'] = number_format($row['FPRIVADA9'],2);
-                $json['data'][$i]['34'] = number_format($row['FPUBLICA9'],2);
-                $json['data'][$i]['35'] = number_format($row['TOTAL9'],2);
-                $json['data'][$i]['36'] = number_format($row['IPRIVADA10'],2);
-                $json['data'][$i]['37'] = number_format($row['FPRIVADA10'],2);
-                $json['data'][$i]['38'] = number_format($row['FPUBLICA10'],2);
-                $json['data'][$i]['39'] = number_format($row['24'],2);
-                $json['data'][$i]['40'] = number_format($row['10'],2);
-                $json['data'][$i]['41'] = number_format($row['11'],2);
-                $json['data'][$i]['42'] = number_format($row['12'],2);
-                $json['data'][$i]['43'] = number_format($row['13'],2);                                  
-                $json['data'][$i]['44'] = number_format($row['14'],2);                                  
-                $json['data'][$i]['45'] = number_format($row['15'],2);
-                $json['data'][$i]['46'] = number_format($row['16'],2);
-                $json['data'][$i]['47'] = number_format($row['17'],2);
-                $json['data'][$i]['48'] = number_format($row['18'],2);
-                $json['data'][$i]['49'] = number_format($row['19'],2);
-                $json['data'][$i]['50'] = number_format($row['20'],2);
-                $json['data'][$i]['51'] = number_format($row['21'],2);
-                $json['data'][$i]['52'] = number_format($row['22'],2);
+                $json['data'][$i]['30'] = number_format($row['FPRIVADA8'],2);  
+                $json['data'][$i]['31'] = number_format($row['FPUBLICA8'],2);
+                $json['data'][$i]['32'] = number_format($row['TOTAL8'],2);
+                $json['data'][$i]['33'] = number_format($row['IPUBLICA9'],2);
+                $json['data'][$i]['34'] = number_format($row['FPRIVADA9'],2);
+                $json['data'][$i]['35'] = number_format($row['FPUBLICA9'],2);
+                $json['data'][$i]['36'] = number_format($row['TOTAL9'],2);
+                $json['data'][$i]['37'] = number_format($row['IPRIVADA10'],2);
+                $json['data'][$i]['38'] = number_format($row['FPRIVADA10'],2);
+                $json['data'][$i]['39'] = number_format($row['FPUBLICA10'],2);
+                $json['data'][$i]['40'] = number_format($row['TOTAL10'],2);
+                $json['data'][$i]['41'] = number_format($row['IPRIVADA11'],2);
+                $json['data'][$i]['42'] = number_format($row['FPRIVADA11'],2);
+                $json['data'][$i]['43'] = number_format($row['FPUBLICA11'],2);                               
+                $json['data'][$i]['44'] = number_format($row['TOTAL11'],2);                                   
+                $json['data'][$i]['45'] = number_format($row['IPRIVADA12'],2);  
+                $json['data'][$i]['46'] = number_format($row['FPRIVADA12'],2);
+                $json['data'][$i]['47'] = number_format($row['FPUBLICA12'],2);
+                $json['data'][$i]['48'] = number_format($row['TOTAL12'],2);
+                $json['data'][$i]['49'] = number_format($row['IPRIVADA13'],2);
+                $json['data'][$i]['50'] = number_format($row['FPRIVADA13'],2);
+                $json['data'][$i]['51'] = number_format($row['FPUBLICA13'],2);
+                $json['data'][$i]['52'] = number_format($row['TOTAL13'],2);
+                $json['data'][$i]['TOTALGENERAL'] = number_format($row['TOTALGENERAL'],2);
                 $json['data'][$i]['EXISTENCIA'] = number_format($row['EXISTENCIA'],2);
-                $i++;
+                $json['data'][$i]['PROMEDIO3MESES'] = number_format($row['PROMEDIO3MESES'],2);
+                $json['data'][$i]['MESESEXISTENCIA'] = number_format($row['MESESEXISTENCIA'],2);
+               // $i++;                
             }
         }
+       
+        $this->db->select('PEDDCA,CTBP');
+        $this->db->where('ARTICULO',$id);
+        $Array2=$this->db->get('masterarticulos');
+
+        foreach ($Array2->result_array() as $row) 
+        { 
+          if($row['PEDDCA']==NULL)
+            {$json['data'][$i]['PDA'] =0;
+             $json['data'][$i]['CTBP'] =0;$i++;}
+            else
+            {                  
+            $json['data'][$i]['PDA'] = number_format($row['PEDDCA'],2);
+            $json['data'][$i]['CTBP'] = number_format($row['CTBP'],2);   
+            $i++;
+            }
+        }            
         $this->sqlsrv->close();
         return $json;
-
-
-
     }
     public function obtenercontrato($id)
     {
@@ -174,7 +233,35 @@ class Table extends CI_Model
      }
     return $pila;
     }
+     public function generateMeses()
+    {
+        $fecha = date('d-m-Y');
+        //$nuevafecha = strtotime ( '-"'.$i.'" month' , strtotime ($fecha)) ;
+        $pila = array();  
+        for ($i=12; $i >=0 ; $i--) { 
+         $nuevafecha = strtotime ( '-'.$i.' month' , strtotime ($fecha)) ;
+         $nuevafecha = date ( 'd-m-Y' , $nuevafecha );
+        $transf = strtotime($nuevafecha);     
 
+        $mes = date("F", $transf);
+        $ano = date("Y", $transf);
+        if ($mes=="January") $mes="Enero";
+        if ($mes=="February") $mes="Febrero";
+        if ($mes=="March") $mes="Marzo";
+        if ($mes=="April") $mes="Abril";
+        if ($mes=="May") $mes="Mayo";
+        if ($mes=="June") $mes="Junio";
+        if ($mes=="July") $mes="Julio";
+        if ($mes=="August") $mes="Agosto";
+        if ($mes=="September") $mes="Septiembre";
+        if ($mes=="October") $mes="Octubre";
+        if ($mes=="November") $mes="Noviembre";
+        if ($mes=="December") $mes="Diciembre";
+        $definitiva=$mes.' '.$ano;
+         array_push($pila, $definitiva);
+        }
+        return $pila;
+    }
 
     public function FechadeVencimiento($Pro,$Lote){
         $Array = $this->sqlsrv -> fetchArray("SELECT  CONVERT(CHAR, Softland.umk.LOTE.FECHA_VENCIMIENTO, 101) AS FECHA_VENCIMIENTO FROM Softland.umk.LOTE where ARTICULO='".$Pro."' and LOTE='".$Lote."'",SQLSRV_FETCH_ASSOC); 
@@ -269,16 +356,13 @@ class Table extends CI_Model
             }
         }
         echo $i;   */     
-        $this->sqlsrv->close();
-        
+        $this->sqlsrv->close();        
     }
-    public function LOTES_ARTICULOS($id){
-      
+    public function LOTES_ARTICULOS($id){      
         //CANTIDAD DE EXISTENTE DE PRODUCTO REAL
         $Array = $this->sqlsrv -> fetchArray("SELECT  * FROM dbo.View_Lotes_UMK where ARTICULO='".$id."'",SQLSRV_FETCH_ASSOC); 
         $json = array();
         $i=0;
-
         if (count($Array)==0) {
                 $json['BodegaReal'][$i]['NAME'] = "";
                 $json['BodegaReal'][$i]['ARTICULO'] = "";
@@ -406,7 +490,7 @@ class Table extends CI_Model
     }
     public function MASTER_ARTICULOS(){        
         //$this->db->order_by('DESCRIPCION', 'ASC');
-        $this->db->limit(5);
+       // $this->db->limit(5);
         $query = $this->db->get('masterarticulos');
         if($query->num_rows() <> 0){            
             return $query->result_array();
@@ -468,9 +552,7 @@ class Table extends CI_Model
                 $json['Analisis'][$i]['Comnet2'] = "";
                 $json['Analisis'][$i]['Comnet3'] = "";
                 $json['Analisis'][$i]['ORDENAR'] = "";        
-        }
-        
-       
+        }      
         return $json;
     }
     
@@ -493,8 +575,7 @@ class Table extends CI_Model
                     'CTBP' => $P1,
                     'CTTS' =>  $P2
                 );
-        }
-        
+        }        
         $this->db->where('ARTICULO', $Key);
         $update=$this->db->update('masterarticulos', $data);
 

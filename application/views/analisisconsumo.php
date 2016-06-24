@@ -120,10 +120,8 @@
 <!-- Modal Structure -->
 <div id="modal1" class="modal modal-fixed-footer modalcontrato">
     <div class="modal-content">
-
     <div class="row center">  
-    <h5 class="center" style="font-family:'robotoblack'; color:#616161"><br>CONTRATO ANUAL DE CANTIDADES</h5>
-  
+    <h5 class="center" style="font-family:'robotoblack'; color:#616161"><br>CONTRATO ANUAL DE CANTIDADES</h5>  
     </div>
        <div class="row">
         <div class="col s12 l12">

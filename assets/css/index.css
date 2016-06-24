@@ -51,7 +51,7 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    /*background: url('/metra/assets/images/back.jpg');*/
+    background: url('/metra/assets/images/back.jpg');
 }
 
 main {
@@ -214,6 +214,14 @@ font-family: 'robotoblack';
     border-collapse: separate;
     border: 1px solid #28B1E7!important;
 }
+#tableabc tr td {
+    padding: 1px;
+    border-collapse: separate;
+    border: 1px solid #28B1E7!important;
+}
+#tableabc tr th {
+    border: 1px solid #28B1E7 !important;
+}
 #tbArticulos tr td input[type=number]{
    width: 75%;
    text-align: center;
@@ -239,4 +247,17 @@ font-family: 'robotoblack';
 
 .modal#modalABC{
      width: 90%!important;
+}
+
+#tableabc, table.dataTable.no-footer
+{
+    border-bottom: none!important;
+}
+#tableabc
+{
+    font-size: 12px!important;
+}
+#tableabc, table.dataTable thead th
+{
+    padding: 1px 18px!important;
 }

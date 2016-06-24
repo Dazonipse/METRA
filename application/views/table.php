@@ -1,13 +1,10 @@
 <div id= "MyBar" class="progress green" style="Display:none;">
     <div class="indeterminate blue"></div>
 </div>
-<?php echo"asd"; ?>
 <h5 class="center" style="font-family:'robotoblack'; color:#616161"><br>PEDIDOS</h5>
 
 <div class="row">
     <div class="col s12"> 
-
-
         <div class="row center">
             <?php
             if ((!$LOG)) {
@@ -24,12 +21,12 @@
           <div class="filtro">
             <table class="tableizer-table striped filtroo responsive-table" style="width:70%;">        
                 <thead>
-                    <tr class="cabecerafiltro" style="text-align:left">
-                        <th>Buscar</th>       
-                        <th>Mostrar Registro</th>                     
-                        <th>Laboratorio</th>       
-                        <th>Proveedor</th> 
-                        <th>Exportar</th>
+                    <tr class="cabecerafiltro" style="text-align:left; ">
+                        <th style="font-size:14px;">Buscar</th>       
+                        <th style="font-size:14px;">Mostrar Registro</th>                     
+                        <th style="font-size:14px;">Laboratorio</th>       
+                        <th style="font-size:14px;">Proveedor</th> 
+                        <th style="font-size:14px;">Exportar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,14 +59,11 @@
             </table>
         </div>
     </div>
-    <div id="DivFiltros" class="left"><br><br><br>
+    <div id="DivFiltros" class="left"><br>
         <div  id="Filtro4_wrapper" class="dataTables_wrapper"></div>
     </div>
 
 </div>
-
-
-
 <!--<table id = "tbArticulos" class="tableizer-table striped responsive-table">-->
 <table style="width:97%;" id = "tbArticulos" class="tableizer-table striped " cellspacing="0" >
     <thead >
@@ -82,7 +76,6 @@
         <th >PROVEEDOR</th>
         <th >DISPONIBLE</th>
         <th >PROMEDIO MÁS ALTO</th>';
-
         switch ($_SESSION['Permiso']) {
             case 1:
             case 4:
@@ -125,9 +118,8 @@
         <th style='display:none'>DESCRIPCION</th>
         <th>LABORATORIO</th>
         <th style='display:none'>UNIDAD</th>
-        <th >PROVEEDOR</th>
+        <th>PROVEEDOR</th>
         <th style='display:none'>DISPONIBLE</th>";
-
         switch ($_SESSION['Permiso']) {
             case 1:
             case 4:
@@ -150,7 +142,6 @@
             <th style='display:none'>CANTIDAD EN TRANCITO</th>";
             break;
         }
-
         if($_SESSION['Permiso'] <> 4){
          //   $sql .= "<th style='display:none'>ACTUALIZAR</th>";
         }
@@ -285,86 +276,87 @@
 
   <!-- Modal Structure -->
   <div id="modalABC" class="modal">
+    <div class="row center">
+              <h4 class="center negra">ANALISIS DE CONSUMO</h4>
+    </div>
     <div class="modal-content">
-      <h4 class="center">Modal Header</h4>
       <table id="tableabc" class="display" cellspacing="0" width="100%">
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
+            <tr style="background-color:#273778;color:white;">
+                <th rowspan="2">CÓDIGO</th>
+                <th rowspan="2">DESCRIPCIÓN</th>
+                <th rowspan="2">PRESENTACIÓN</th>
+                <th rowspan="2">LABORATORIO</th>
 
+                <?php for($i = 0; $i < count($meses); ++$i) {?>
+                     <th colspan="4"><?php echo $meses[$i];?></th>
+                  <?php }?>
+                <th colspan="6"></th>
+            </tr>
+            <tr style="background-color:#273778;color:white;">
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>         
+                <th>TOTAL GENERAL</th>
+                <th>EXISTENCIAS</th>
+                <th>PROMEDIO TRES MAS ALTOS</th>
+                <th>MESES DE EXISTENCIA- POR PROMEDIO DE TRES MAS ALTOS</th>
+                <th>PENDIENTES INST.PUBLICA</th>
+                <th>CANT. BAJO PEDIDO</th>
             </tr>
         </thead>
         <tbody>
             
         </tbody>    
     </table>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
     </div>
   </div>

@@ -4,7 +4,12 @@ class Menu extends CI_Controller {
 	{
 		parent::__construct();	
 		$this->load->library('session');
-		$this->seguridad->estactivo($this->session->userdata('logged'));			
+		//$this->seguridad->estactivo($this->session->userdata('logged'));	
+		$user = $this->session->userdata('logged');
+
+           if (!isset($user)) { 
+               redirect(base_url().'index.php','refresh');
+           } 		
 	}
     public function index()
     {

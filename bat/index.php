@@ -10,10 +10,10 @@
     }
     
     class CnxSrvSQL {
-        public $serverName = '192.168.1.112';
-        public $dbname = 'PRODUCCION';
-        public $user = 'sa';
-        public $password = 'Server2012!';
+        public $serverName = "192.168.1.112";
+        public $dbname = "PRODUCCION";
+        public $user = "sa";
+        public $password = "Server2012!";
         public $characterSet = "UTF-8";
         public $connection;
         protected $statement = null;
@@ -82,25 +82,34 @@
 
             echo "FASE 1: Ingreso de Articulos.<br>";
             //VERIFICAR CAMBIOS EN LAS CANTIDADES DE MYSQL
-            @$sql = "SELECT Articulo, CANT_DISPONIBLE FROM MasterArticulos";
+            @$sql = "SELECT ARTICULO, CANT_DISPONIBLE FROM MasterArticulos";
             
             $Array = $ObjMysql->query($sql);
-            
             $MYUDP ='UPDATE MasterArticulos SET CANT_DISPONIBLE = CASE  Articulo';
             foreach ($Array AS $fila) {
-                $sql = "WHERE ARTICULO = '".$fila['Articulo']."' AND CANT_DISPONIBLE <> ".$fila['CANT_DISPONIBLE'];
-                $sql = $ObjSQLSRV->fetchArray("SELECT Articulo, CANT_DISPONIBLE FROM WEB_METRA_ACD ".$sql, SQLSRV_FETCH_ASSOC);
+                $sql = "WHERE ARTICULO = '".$fila['ARTICULO']."' AND CANT_DISPONIBLE <> ".$fila['CANT_DISPONIBLE'];
+                $sql = $ObjSQLSRV->fetchArray("SELECT ARTICULO, CANT_DISPONIBLE FROM WEB_METRA_ACD ".$sql, SQLSRV_FETCH_ASSOC);
                 
                 if (count($sql) > 0){
                     $MYUDP.= ' WHEN '."'".$sql[0]['Articulo']."'".' THEN '."'".$sql[0]['CANT_DISPONIBLE']."'";
                     @$ArticuloIN.="'".$sql[0]['Articulo']."',";
                 }
             }
+            echo $MYUDP;
             $MYUDP.=' END ';
             $MYUDP .= 'WHERE Articulo IN ('.substr(@$ArticuloIN, 0,-1).')';
             $ObjMysql->query($MYUDP);
 
-          
+
+
+
+
+
+
+
+
+
+            
 
             
             //VERIFICAMOS LA INFORMACION DEL BASE MYSQL
