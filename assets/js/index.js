@@ -21,6 +21,7 @@ Objtable = $('#tableabc').DataTable();
                 ajax: "ajax_abc/"+ id,
                "ordering": false,
                 "info": false,
+                "bLengthChange": false,
                 "pagingType": "full_numbers",
                 "lengthMenu": [[10, -1], [10, "Todo"]],
                 "language": {
@@ -93,12 +94,12 @@ Objtable = $('#tableabc').DataTable();
                     { "data": "50" },
                     { "data": "51" },
                     { "data": "52" },
-                    { "data": "TOTALGENERAL" },
+                    { "data": "TOTALGENERAL" }/*,
                     { "data": "EXISTENCIA" },
                     { "data": "PROMEDIO3MESES" },
                     { "data": "MESESEXISTENCIA" },
                     { "data": "PDA" },
-                    { "data": "CTBP" }
+                    { "data": "CTBP" }*/  
               ]
             });
  }
@@ -152,7 +153,6 @@ function toTimestamp(strDate){
    return datum/1000;
 }
 
-
 /*************funcion para mostrar el contrato anual de un articulo a la vez, este se muestra en una tabla #tblcontrato que esta en un modal*/
  function generarReporte(id){
 console.log(id);
@@ -166,6 +166,7 @@ Objtable = $('#tblcontrato').DataTable();
                 ajax: "ajax_contrato/"+ id,
                 "ordering": false,
                 "info": false,
+                "bLengthChange": false,
                 "pagingType": "full_numbers",
                 "lengthMenu": [[10, -1], [10, "Todo"]],
                 "language": {

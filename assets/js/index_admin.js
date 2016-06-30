@@ -156,7 +156,7 @@
             condicion = "UpdateRow/"+key+"/"+per+"/"+Row0+"/"+Row1+"/"+Row2+"/"+Row3;
         }else{
             condicion = "UpdateRow/"+key+"/"+per+"/"+Row0+"/"+Row1+"/0/0";
-        }                       
+        }                 
         
        $.ajax({
             url: condicion,

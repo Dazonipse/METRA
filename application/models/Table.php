@@ -76,9 +76,9 @@ class Table extends CI_Model
                 $json['data'][$i]['51'] = NULL;
                 $json['data'][$i]['52'] = NULL;
                 $json['data'][$i]['TOTALGENERAL'] = NULL;
-                $json['data'][$i]['EXISTENCIA'] = NULL;
+                /*$json['data'][$i]['EXISTENCIA'] = NULL;
                 $json['data'][$i]['PROMEDIO3MESES'] = NULL;
-                $json['data'][$i]['MESESEXISTENCIA'] = NULL;
+                $json['data'][$i]['MESESEXISTENCIA'] = NULL;*/
                 //$i++;
         } else {
             foreach ($Array as $row) {      
@@ -139,20 +139,20 @@ class Table extends CI_Model
                 $json['data'][$i]['51'] = number_format($row['FPUBLICA13'],2);
                 $json['data'][$i]['52'] = number_format($row['TOTAL13'],2);
                 $json['data'][$i]['TOTALGENERAL'] = number_format($row['TOTALGENERAL'],2);
-                $json['data'][$i]['EXISTENCIA'] = number_format($row['EXISTENCIA'],2);
+                /*$json['data'][$i]['EXISTENCIA'] = number_format($row['EXISTENCIA'],2);
                 $json['data'][$i]['PROMEDIO3MESES'] = number_format($row['PROMEDIO3MESES'],2);
-                $json['data'][$i]['MESESEXISTENCIA'] = number_format($row['MESESEXISTENCIA'],2);
+                $json['data'][$i]['MESESEXISTENCIA'] = number_format($row['MESESEXISTENCIA'],2);*/
                // $i++;                
             }
         }
        
-        $this->db->select('PEDDCA,CTBP');
+        /*$this->db->select('PEDDCA,CTBP');
         $this->db->where('ARTICULO',$id);
         $Array2=$this->db->get('masterarticulos');
 
         foreach ($Array2->result_array() as $row) 
         { 
-          if($row['PEDDCA']==NULL)
+          if($row['PEDDCA']==NULL OR $row['PEDDCA']==NULL)
             {$json['data'][$i]['PDA'] =0;
              $json['data'][$i]['CTBP'] =0;$i++;}
             else
@@ -161,7 +161,7 @@ class Table extends CI_Model
             $json['data'][$i]['CTBP'] = number_format($row['CTBP'],2);   
             $i++;
             }
-        }            
+        } */
         $this->sqlsrv->close();
         return $json;
     }
@@ -482,7 +482,7 @@ class Table extends CI_Model
             }
         }
         
-        
+    
 
         $this->sqlsrv->close();
         return $json;
@@ -490,7 +490,7 @@ class Table extends CI_Model
     }
     public function MASTER_ARTICULOS(){        
         //$this->db->order_by('DESCRIPCION', 'ASC');
-       // $this->db->limit(5);
+       $this->db->limit(5);
         $query = $this->db->get('masterarticulos');
         if($query->num_rows() <> 0){            
             return $query->result_array();
@@ -499,11 +499,13 @@ class Table extends CI_Model
     }
     public function ANALISIS_CONSUMO(){        
         
-        $query = $this->db->query("SELECT * FROM view_analisis_consumo");
+        $query = $this->db->query("SELECT * FROM view_analisis_consumo LIMIT 15");
         $json = array();
-        $i=0;
-        if($query->num_rows() <> 0){            
-             
+        $i=0;       
+        
+
+
+        if($query->num_rows() <> 0){                
                 foreach ($query->result_array() as $row){      
                     $json['Analisis'][$i]['ARTICULO'] = $row['ARTICULO'];
                     $json['Analisis'][$i]['DESCRIPCION'] = $row['DESCRIPCION'];
@@ -518,21 +520,34 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['Comnet1'] = $row['Comnet1'];
                     $json['Analisis'][$i]['Comnet2'] = $row['Comnet2'];
                     $json['Analisis'][$i]['Comnet3'] = $row['Comnet3'];
-
-                   /* $Coment0 = $this ->RestoreComentario ($row['ARTICULO'],0);                    
-                    if ($Coment0 <> "") {
-                        $json['Analisis'][$i]['CTBP'] = "<a class='tooltipped' data-position='top' data-delay='50' data-tooltip='".$Coment0."'>".number_format($row['CTBP'], 2)."</a>";
-                    } else {*/
-                        $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'], 2);
-                   /* }
-                    $Coment1 = $this ->RestoreComentario ($row['ARTICULO'],1);                    
-                    if ($Coment1 <> "") {
-                        $json['Analisis'][$i]['CTTS'] = "<a class='tooltipped' data-position='top' data-delay='50' data-tooltip='".$Coment1."'>".number_format($row['CTTS'], 2)."</a>";
-                    } else {*/
-                        $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'], 2);
-                   // }
+                    $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'], 2);
+                    $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'], 2);              
                     $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
-                    $i++;   
+                    /*tambien mando a traer otros datos de un procedimiento almacenado*/
+                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
+                    if(count($Array) <> 0)
+                    {
+                        for ($a=0; $a <count($Array) ; $a++)
+                        {$json['Analisis'][$i]['MESES'] = number_format($Array[$a]['MESESEXISTENCIA'],2);}
+                    }
+                    else{$json['Analisis'][$i]['MESES'] =0;}
+
+                    $this->db->select('PEDDCA,CTBP');
+                    $this->db->where('ARTICULO',$row['ARTICULO']);
+                    $Array2=$this->db->get('masterarticulos');
+
+                    foreach ($Array2->result_array() as $row) 
+                    { 
+                      if($row['PEDDCA']==NULL OR $row['PEDDCA']==NULL)
+                        {$json['Analisis'][$i]['PDA'] ="EKISDE";
+                         $json['Analisis'][$i]['CTBP'] ="EKISDE";$i++;}
+                        else
+                        {                  
+                        $json['Analisis'][$i]['PDA'] = number_format($row['PEDDCA'],2);
+                        $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);   
+                        $i++;
+                        }
+                    }
                 }
              
         } else {   
@@ -551,7 +566,10 @@ class Table extends CI_Model
                 $json['Analisis'][$i]['Comnet1'] = "";
                 $json['Analisis'][$i]['Comnet2'] = "";
                 $json['Analisis'][$i]['Comnet3'] = "";
-                $json['Analisis'][$i]['ORDENAR'] = "";        
+                $json['Analisis'][$i]['ORDENAR'] = "";   
+                $json['Analisis'][$i]['MESES'] ="";  
+                $json['Analisis'][$i]['PDA'] ="";
+                $json['Analisis'][$i]['CTBP'] ="";  
         }      
         return $json;
     }

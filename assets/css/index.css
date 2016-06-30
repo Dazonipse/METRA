@@ -51,7 +51,7 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    background: url('/metra/assets/images/back.jpg');
+    /*background: url('/metra/assets/images/back.jpg');*/
 }
 
 main {
@@ -260,4 +260,12 @@ font-family: 'robotoblack';
 #tableabc, table.dataTable thead th
 {
     padding: 1px 18px!important;
+}
+input[type=search]
+{
+    border-bottom: 1px solid #3e3939!important;
+}
+select
+{
+    border: 1px solid #3a3535!important;
 }

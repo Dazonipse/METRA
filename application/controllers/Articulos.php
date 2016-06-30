@@ -65,6 +65,7 @@ class Articulos extends CI_Controller {
         $this->load->view('dashboardclean');
         $data['fechas']=$this->Table->generarDates();
         $data['AllART']=$this->Table->ANALISIS_CONSUMO();
+        $data['meses']=$this->Table->generateMeses();
         $this->load->view('analisisconsumo', $data);
         $this->load->view('footer');
     }
@@ -160,11 +161,11 @@ class Articulos extends CI_Controller {
                 $json['data'][$i]['51'] = $row[$i]['51'];
                 $json['data'][$i]['52'] = $row[$i]['52'];
                 $json['data'][$i]['TOTALGENERAL'] = $row[$i]['TOTALGENERAL'];
-                $json['data'][$i]['EXISTENCIA'] = $row[$i]['EXISTENCIA'];
+                /*$json['data'][$i]['EXISTENCIA'] = $row[$i]['EXISTENCIA'];
                 $json['data'][$i]['PROMEDIO3MESES'] = $row[$i]['PROMEDIO3MESES'];
                 $json['data'][$i]['MESESEXISTENCIA'] = $row[$i]['MESESEXISTENCIA'];
                 $json['data'][$i]['PDA'] = $row[$i]['PDA'];
-                $json['data'][$i]['CTBP'] = $row[$i]['CTBP'];
+                $json['data'][$i]['CTBP'] = $row[$i]['CTBP'];*/
             $i++;
         }
         echo json_encode($json);         

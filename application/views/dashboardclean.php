@@ -1,12 +1,12 @@
 <nav>
 	<div style="background-color:#253778!important;" class="nav-wrapper orange accent-4">
-		<a style=" margin:1%;" href="<?php echo base_url('index.php/Menu')?>" class="brand-logo left"><img src="<?php echo base_url('assets/images/unimark-blanco.png')?>" width="200px"></a>
+		<a style=" margin-top:10px;margin-left:10px;" href="<?php echo base_url('index.php/Menu')?>" class="brand-logo left"><img src="<?php echo base_url('assets/images/unimark-blanco.png')?>" width="200px"></a>
 		
 		<?php 
 		
 		if ($this->uri->segment(1)=='Usuarios' or $this->uri->segment(1)=='Ingreso') {?>
 	 <a  href="#" class="brand-logo center"><img style="width:75%;height:75%;" src="<?php echo base_url('assets/images/user.png')?>"></a>
-				<?php} else {?>			
+				<?php } else { ?>			
 		<?php }
 			if ($this->uri->segment(1)=='Detalles') {?>
 					<a  href="#" class="brand-logo center"><img style="width:75%;height:75%;" src="<?php echo base_url('assets/images/articulo-icon-superior.png')?>"></a>

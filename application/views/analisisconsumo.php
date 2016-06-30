@@ -66,8 +66,11 @@
              <th>CONSUMO CRUZ AZUL</th>
              <th>CANTIDAD BAJO PEDIDO</th>
              <th>CANTIDAD EN TRANSITO</th>
-
              <th>ORDENAR</th>
+             <th>MESES DE EXISTENCIA POR PROMEDIO DE TRES MAS ALTOS</th>
+             <th>PENDIENTES INST-PUB</th>
+             <th>CANT SEIS MESES CRUZ AZUL</th>
+             <th>CANTIDAD BAJO PEDIDO</th>
          </tr>
      </thead>
      <tfoot id="TblFiltros" >
@@ -100,12 +103,27 @@
             <td>".$key['UNIDAD']."</td>
             <td class='Ancho medium'>".$key['PROVEEDOR']."</td>
             <td>".number_format($key['CANT_DISPONIBLE'], 2)."</td>
-            <td class='Ancho negra'><a style='cursor:pointer;' onclick='generarReporte(".'"'.$key['ARTICULO'].'"'.")'>".number_format($key['PROMEDIO'],2)."</a></td>
-            <td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".number_format($key['PEDDCA'], 2)."</a></td>
-            <td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet1']."'>".number_format($key['CSCA'], 2)."</a></td>
-            <td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet2']."'>".$key['CTBP']."</a></td>
-            <td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a></td>
-            <td>".number_format($key['ORDENAR'], 2)."</td>                                
+            <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".number_format($key['PROMEDIO'],2)."</a></td>";
+            
+            if ($key['Comnet0']=="")
+                {echo "<td><a style='color:#4D4D4D;'>".number_format($key['PEDDCA'], 2)."</a></td>";}
+            else{echo "<td><a style='color:#4D4D4D;'class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".number_format($key['PEDDCA'], 2)."</a></td>";}
+            if ($key['Comnet1']=="")
+                {echo "<td><a style='color:#4D4D4D;'>".number_format($key['PEDDCA'], 2)."</a></td>";}
+            else{echo "<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".number_format($key['PEDDCA'], 2)."</a></td>";}
+            if ($key['Comnet2']=="")
+                {echo "<td><a style='color:#4D4D4D;'>".$key['CTBP']."</a></td>";}
+            else{echo "<td><a style='color:#4D4D4D;'
+            class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet2']."'>".$key['CTBP']."</a></td>";}
+            if ($key['Comnet3']=="")
+                {echo "<td><a style='color:#4D4D4D;'>".$key['CTTS']."</a></td>";}
+            else{echo "<td><a style='color:#4D4D4D;' 
+            class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a></td>";}
+            echo "<td>".number_format($key['ORDENAR'], 2)."</td>
+            <td>".$key['MESES']."</td>
+            <td>".number_format($key['PEDDCA'],2)."</td>
+            <td>PENDIENTE</td>
+            <td>PENDIENTE</td>
             </tr>
             ";                       
         }
@@ -116,6 +134,94 @@
 </div>
 </div>
 
+
+
+  <!-- Modal Structure -->
+  <div id="modalABC" class="modal">
+    <div class="row center">
+              <h4 class="center negra">ANALISIS DE CONSUMO</h4>
+    </div>
+    <div class="modal-content">
+      <table id="tableabc" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr style="background-color:#273778;color:white;">
+                <th rowspan="2">CÓDIGO</th>
+                <th rowspan="2">DESCRIPCIÓN</th>
+                <th rowspan="2">PRESENTACIÓN</th>
+                <th rowspan="2">LABORATORIO</th>
+
+                <?php for($i = 0; $i < count($meses); ++$i) {?>
+                     <th colspan="4"><?php echo $meses[$i];?></th>
+                  <?php }?>
+                <th colspan="6"></th>
+            </tr>
+            <tr style="background-color:#273778;color:white;">
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>
+                <th>INST.PUB</th>
+                <th>INST.PRIV</th>
+                <th>FPRIVADO</th>
+                <th>TOTAL</th>         
+                <th>TOTAL GENERAL</th>
+                <!--<th>EXISTENCIAS</th>
+                <th>PROMEDIO TRES MAS ALTOS</th>
+                <th>MESES DE EXISTENCIA- POR PROMEDIO DE TRES MAS ALTOS</th>
+                <th>PENDIENTES INST.PUBLICA</th>
+                <th>CANT. BAJO PEDIDO</th>-->
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>    
+    </table>
+    </div>
+  </div>
 
 <!-- Modal Structure -->
 <div id="modal1" class="modal modal-fixed-footer modalcontrato">
@@ -167,3 +273,4 @@
   <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">ACEPTAR</a>
 </div>
 </div>
+

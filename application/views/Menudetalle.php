@@ -46,7 +46,7 @@
         </div>
 
         <div class="col s12 m6 l12">
-                    <h5 style="color:#4D4D4D;">BONIFICADO</h5>
+                    <h5 style="color:#4D4D4D;">PRODUCTO BONIFICADO</h5>
                      <table id="pdf" class="responsive-table">
                         <thead>
                           <tr>
@@ -111,7 +111,7 @@
         </div>
 
         <div class="col s12 m6 l12">        
-                     <h5 style="color:#4D4D4D;">BONIFICADO</h5>
+                     <h5 style="color:#4D4D4D;">PRODUCTO BONIFICADO</h5>
                      <table id="pdf" class="responsive-table">
                         <thead>
                           <tr>

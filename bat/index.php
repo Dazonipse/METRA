@@ -1,7 +1,7 @@
  <?php
     class CoreMySQL extends mysqli {
         public function __construct() {
-            parent::__construct("127.0.0.1","root","a7m1425.","metra");
+            parent::__construct("localhost","root","a7m1425.","metra");
 
             if (mysqli_connect_error()) {
                 die('Error de Conexi0n (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
@@ -10,10 +10,10 @@
     }
     
     class CnxSrvSQL {
-        public $serverName = "192.168.1.112";
-        public $dbname = "PRODUCCION";
-        public $user = "sa";
-        public $password = "Server2012!";
+        public $serverName = '192.168.1.112';
+        public $dbname = 'PRODUCCION';
+        public $user = 'sa';
+        public $password = 'Server2012!';
         public $characterSet = "UTF-8";
         public $connection;
         protected $statement = null;
@@ -80,37 +80,26 @@
             $ArticuloIN = "";
             
 
-            echo "FASE 1: Ingreso de Articulos.<br>";
+           echo "<br>";
+           echo " - FASE 1: Ingreso de Articulos.<br>";
             //VERIFICAR CAMBIOS EN LAS CANTIDADES DE MYSQL
-            @$sql = "SELECT ARTICULO, CANT_DISPONIBLE FROM MasterArticulos";
+           @$sql = "SELECT Articulo, CANT_DISPONIBLE FROM MasterArticulos";
             
             $Array = $ObjMysql->query($sql);
+            
             $MYUDP ='UPDATE MasterArticulos SET CANT_DISPONIBLE = CASE  Articulo';
             foreach ($Array AS $fila) {
-                $sql = "WHERE ARTICULO = '".$fila['ARTICULO']."' AND CANT_DISPONIBLE <> ".$fila['CANT_DISPONIBLE'];
-                $sql = $ObjSQLSRV->fetchArray("SELECT ARTICULO, CANT_DISPONIBLE FROM WEB_METRA_ACD ".$sql, SQLSRV_FETCH_ASSOC);
+                $sql = "WHERE ARTICULO = '".$fila['Articulo']."' AND CANT_DISPONIBLE <> ".$fila['CANT_DISPONIBLE'];
+                $sql = $ObjSQLSRV->fetchArray("SELECT Articulo, CANT_DISPONIBLE FROM WEB_METRA_ACD ".$sql, SQLSRV_FETCH_ASSOC);
                 
                 if (count($sql) > 0){
                     $MYUDP.= ' WHEN '."'".$sql[0]['Articulo']."'".' THEN '."'".$sql[0]['CANT_DISPONIBLE']."'";
                     @$ArticuloIN.="'".$sql[0]['Articulo']."',";
                 }
             }
-            echo $MYUDP;
             $MYUDP.=' END ';
             $MYUDP .= 'WHERE Articulo IN ('.substr(@$ArticuloIN, 0,-1).')';
             $ObjMysql->query($MYUDP);
-
-
-
-
-
-
-
-
-
-
-            
-
             
             //VERIFICAMOS LA INFORMACION DEL BASE MYSQL
             @$sql = "SELECT Articulo FROM MasterArticulos";
@@ -152,26 +141,19 @@
             }//*/
             
             
-            /*
-                $rows = funny_query_results("SELECT ...");
+            /*  $rows = funny_query_results("SELECT ...");
                 foreach($rows as $row) { // Uh... What should I use? foreach VS for VS while?
-                    echo $row->something;
-                }
-                
-                
-                $results = $mysqli->query("SELECT ...");
+                echo $row->something;
+                }$results = $mysqli->query("SELECT ...");
                 while( $row = $results->fetch_object()) {
                     echo $row->something;
-                }
-                
-                while ($row = mysql_fetch_assoc($result)) {
+                }   while ($row = mysql_fetch_assoc($result)) {
                     echo $row["userid"];
                     echo $row["fullname"];
-                    echo $row["userstatus"];
-                }
+                    echo $row["userstatus"];}
             */
             
-            echo "FASE 2: Actualizaciones de Cantidades Disponibles de Articulos.<br>";
+            echo " - FASE 2: Actualizaciones de Cantidades Disponibles de Articulos.<br>";
             //VERIFICAR CAMBIOS EN LAS CANTIDADES DE MYSQL
             @$sql = "SELECT Articulo, CANT_DISPONIBLE FROM MasterArticulos";
             $Array = $ObjMysql->query($sql);
@@ -192,7 +174,7 @@
 
 
 
-            echo "FASE 3: Actualizaciones de promedio sobre Articulos.<br>";
+            echo " - FASE 3: Actualizaciones de promedio sobre Articulos.<br>";
             //VERIFICAR CAMBIOS EN LAS CANTIDADES DE MYSQL
             @$sql = "SELECT Articulo, PROMEDIO FROM MasterArticulos";
             $Array = $ObjMysql->query($sql);
@@ -211,10 +193,8 @@
             $MYUDP .= 'WHERE Articulo IN ('.substr(@$ArticuloIN, 0,-1).')';
             $ObjMysql->query($MYUDP);
 
-
-
             
-            echo "FASE 4: Actualizaciones de Laboratorios.<br>";
+            echo " - FASE 4: Actualizaciones de Laboratorios.<br>";
             //BUSCAR ACTUALIZACION DE LABORATORIOS
             @$sql = "SELECT Articulo FROM MasterArticulos WHERE LABORATORIO = ''";
             $Array = $ObjMysql->query($sql);
@@ -237,7 +217,7 @@
             }
             //echo $MYUDP; //
             
-            echo "FASE 5: Actualizaciones de Proveedores.<br>";
+            echo " - FASE 5: Actualizaciones de Proveedores.<br>";
             //BUSCAR ACTUALIZACION DE PROVEEDORES
             @$sql = "SELECT Articulo FROM MasterArticulos WHERE PROVEEDOR = ''";
             $Array = $ObjMysql->query($sql);
@@ -259,12 +239,67 @@
                 $ObjMysql->query($MYUDP);
             }
             //echo $MYUDP;//*/
+
+
+            echo " - FASE 6: Actualizaciones de Dañados y Vencidos.<br><br>";
+            $actualizado=0;$insertado=0;  $MYUDP="";$acumulado=0;
+            $sql = $ObjSQLSRV->fetchArray("SELECT * FROM WEB_DANADO_VENCIDO", SQLSRV_FETCH_ASSOC);
+            for ($i=0; $i <count($sql) ; $i++) {  
+                $mysql="SELECT * FROM lotesvendidos
+                where ARTICULO='".$sql[$i]['ARTICULO']."' AND LOTE ='".$sql[$i]['LOTE']."' 
+                AND FECHA_ENTRADA ='".$sql[$i]['FECHA_ENTRADA']."' AND FECHA_VENCIMIENTO = '".$sql[$i]['FECHA_VENCIMIENTO']."'";
+                //AND CANTIDAD_INGRESADA <> '".$sql[$i]['CANTIDAD_INGRESADA']."'";    
+
+                $Array2 = $ObjMysql->query($mysql);              
+                if($Array2->num_rows > 0)
+                {   
+                    foreach ($Array2 as $key) {
+                    if($sql[$i]['CANTIDAD_INGRESADA']!=$key['CANTIDAD_INGRESADA']){
+                    $acumulado=$acumulado+$sql[$i]['CANTIDAD_INGRESADA'];
+                    $MYUDP="UPDATE lotesvendidos set CANTIDAD_INGRESADA='".$acumulado."',
+                    CANT_DISPONIBLE= '".$sql[$i]['CANT_DISPONIBLE']."',
+                    FECHA_VENCIMIENTO='".$sql[$i]['FECHA_VENCIMIENTO']."'
+                    WHERE ARTICULO='".$key['ARTICULO']."'  AND LOTE ='".$key['LOTE']."'
+                    AND FECHA_ENTRADA ='".$key['FECHA_ENTRADA']."' AND FECHA_VENCIMIENTO = '".$sql[$i]['FECHA_VENCIMIENTO']."'";
+                    //AND CANTIDAD_INGRESADA <> '".$key['CANTIDAD_INGRESADA']."'";
+                    $ObjMysql->query($MYUDP);    
+                     $actualizado++;                 
+                    }
+                    
+                    //echo $MYUDP;
+                    //echo "Se encontro, se actualizo registro <br>";
+                    }
+
+                }
+                else{ 
+                     /*  $mysql="SELECT * FROM lotesvendidos
+                        where ARTICULO='".$sql[$i]['ARTICULO']."' AND LOTE ='".$sql[$i]['LOTE']."' 
+                        AND FECHA_ENTRADA ='".$sql[$i]['FECHA_ENTRADA']."' AND FECHA_VENCIMIENTO = '".$sql[$i]['FECHA_VENCIMIENTO']."'
+                        AND CANTIDAD_INGRESADA = '".$sql[$i]['CANTIDAD_INGRESADA']."'";                   
+                        $Array = $ObjMysql->query($mysql);              
+                    if($Array->num_rows > 0)
+                     { }*/
+                    //else{
+                    $MYUDP="INSERT INTO lotesvendidos
+                    (ARTICULO,DESCRIPCION,CATEGORIA,LAB,CLASETER,BODEGA,LOTE,FECHA_VENCIMIENTO,CANT_DISPONIBLE,FECHA_ENTRADA,CANTIDAD_INGRESADA)
+                    VALUES ('".$sql[$i]['ARTICULO']."','".$sql[$i]['DESCRIPCION']."','".$sql[$i]['CATEGORIA']."','".$sql[$i]['Lab']."','".$sql[$i]['ClaseTer']."','".$sql[$i]['BODEGA']."','".$sql[$i]['LOTE']."','".$sql[$i]['FECHA_VENCIMIENTO']."','".$sql[$i]['CANT_DISPONIBLE']."','".$sql[$i]['FECHA_ENTRADA']."','".$sql[$i]['CANTIDAD_INGRESADA']."')";
+                    $ObjMysql->query($MYUDP);
+                    $insertado++;  
+                  //  echo $MYUDP;
+                   //        echo "no se encontro nada, se ingresara registro nuevo <br>";
+                   // }            
+                                
+                } 
+                //$ObjMysql->query($MYUDP);         
+            }
+          // echo "SE ACTUALIZARON: ".$actualizado." REGISTROS, SE INGRESARON: ".$insertado."<br>";                
             
             $ObjSQLSRV->close();
         }
     }
 
     echo "Inicio: ".date('Y-m-d h:i:s');
+    echo "<br>";
     $Obj = new ClassCore;
     $Obj -> UpdateBAT();
     echo "Termino: ".date('Y-m-d h:i:s');
