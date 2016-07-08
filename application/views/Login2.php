@@ -1,6 +1,6 @@
 
 <body class="avoid-fout page-blue ">
-	<header class="header">		
+	<header class="header" style="margin-top:0px;">		
 		<img src="<?php echo base_url('assets/images/unimark-blanco.png');?>" style="width:170px;height:auto">
 	</header>
 	<div class="content">
@@ -15,7 +15,8 @@
 										<div class="card-inner">
 											<center>
 												<h5 class="card-heading">Plataforma TWEB, Bienvenido.</h5>
-			    								<p>Mercaderia en transito UNIMARK</p>			  
+			    								<p style="margin-bottom:0px !important;">Mercaderia en transito UNIMARK</p>
+			    								<p style="margin-top:0px !important;">v 2.3</p>			  
 			    							</center>
 										</div>
 									</div>

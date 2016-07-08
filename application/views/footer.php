@@ -2,7 +2,7 @@
     <main></main>
     <footer class="page-footer" style="background-color: #28B1E7 !important;">
         <div class="footer-copyright center" style="background-color: #28B1E7!important; font-family:'robotomedium';color:white;">         
-                © <?php echo date('Y')?> Copyright UNIMARK S.A
+                © <?php echo date('Y')?> Copyright GCIT-GUMA
         </div>
     </footer>
     

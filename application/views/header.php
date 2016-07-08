@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 
+           <!--Import Google Icon Font localmente by Alder-->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/js/fuente.css" >
+
     <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/tweb.png" />
     <link rel="icon" type="image/png" href="<?php echo base_url(); ?>/images/tweb.png" />
     <meta charset="utf-8">

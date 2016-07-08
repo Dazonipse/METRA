@@ -60,17 +60,21 @@
              <th>LABORATORIO</th>
              <th>UNIDAD</th>
              <th>PROVEEDOR</th>
-             <th>DISPONIBLE</th>
+             <th>EXISTENCIAS</th>
              <th>PROMEDIO TRES MÁS ALTOS</th>
              <th>PEDIDO CRUZ AZUL</th>
              <th>CONSUMO CRUZ AZUL</th>
              <th>CANTIDAD BAJO PEDIDO</th>
-             <th>CANTIDAD EN TRANSITO</th>
-             <th>ORDENAR</th>
+             <th>CANTIDAD EN TRANSITO</th>             
              <th>MESES DE EXISTENCIA POR PROMEDIO DE TRES MAS ALTOS</th>
+             <th>MESES DE EXISTENCIA POR CONSUMO HISTORICO</th>
              <th>PENDIENTES INST-PUB</th>
              <th>CANT SEIS MESES CRUZ AZUL</th>
+             <th>CUMPLIMIENTO CA %</th>
+             <th>PENDIENTE ORDER CA</th>
              <th>CANTIDAD BAJO PEDIDO</th>
+             <th>TRANSITO</th>
+             <th>ORDENAR</th>
          </tr>
      </thead>
      <tfoot id="TblFiltros" >
@@ -91,10 +95,7 @@
     </tfoot>
 
     <tbody>
-
         <?php
-
-
         foreach ($AllART['Analisis'] as $key) {
             echo "<tr>
             <td class='Ancho negra'><a href='#' onclick='Deathalles(".'"'.$key['ARTICULO'].'"'.")'>".$key['ARTICULO']."</a></td>
@@ -119,11 +120,23 @@
                 {echo "<td><a style='color:#4D4D4D;'>".$key['CTTS']."</a></td>";}
             else{echo "<td><a style='color:#4D4D4D;' 
             class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a></td>";}
-            echo "<td>".number_format($key['ORDENAR'], 2)."</td>
-            <td>".$key['MESES']."</td>
+            if ($key['PROMEDIO']==0)
+            {
+            echo "<td>0.00</td>";   
+            }
+            else
+            {
+            echo "<td>".number_format($key['CANT_DISPONIBLE']/$key['PROMEDIO'],2)."</td>";
+            }
+            echo "   
+            <td>PENDIENTE</td>        
             <td>".number_format($key['PEDDCA'],2)."</td>
             <td>PENDIENTE</td>
             <td>PENDIENTE</td>
+            <td>PENDIENTE</td>
+            <td>".$key['CTBP']."</td>
+            <td>".$key['CTTS']."</td>
+            <td>".number_format($key['ORDENAR'], 2)."</td>
             </tr>
             ";                       
         }
@@ -133,7 +146,6 @@
 </table>
 </div>
 </div>
-
 
 
   <!-- Modal Structure -->

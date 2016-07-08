@@ -1,10 +1,8 @@
     <center>
-        <p><h5 style="color:#253778;" class="negra"><?php echo $Bodega['BodegaReal'][0]['ARTICULO']; ?></h5></p>
+      <br>
         <p><h4 style="color:#253778;" class="medium"><?php echo $Bodega['BodegaReal'][0]['NAME']; ?></h4></p>
+        <p><h5 style="color:#253778;" class="negra"><?php echo $Bodega['BodegaReal'][0]['ARTICULO']; ?></h5></p>
         </center>
-    
-
-
         <div class="col s12"> 
             <div class="center" > 
                 <h4 class="negra" style="color:#4D4D4D">EXISTENCIAS</h4>
@@ -45,6 +43,7 @@
                       </table>
         </div>
 
+<!--
         <div class="col s12 m6 l12">
                     <h5 style="color:#4D4D4D;">PRODUCTO BONIFICADO</h5>
                      <table id="pdf" class="responsive-table">
@@ -69,6 +68,8 @@
                         </tbody>
                       </table>
         </div>
+
+     FIN DE COMENTARIO PRODUCTO BONIFICADO -->
 
         <div class="row ">     
         <div class="col s12"> 
@@ -110,6 +111,8 @@
                       </table>
         </div>
 
+
+<!--
         <div class="col s12 m6 l12">        
                      <h5 style="color:#4D4D4D;">PRODUCTO BONIFICADO</h5>
                      <table id="pdf" class="responsive-table">
@@ -138,6 +141,8 @@
                         </tbody>
                       </table>
         </div>
+FIN PRODUCTO MODIFICADO -->
+
 
        <div class="row ">     
         <div class="col s12"> 

@@ -201,7 +201,7 @@
                 </td>
                 <td><input type='number' min = '0' value=".number_format($cv, 2)." id='Row-3-".$key['FACTOREMPAQUE']."'>
                 </td>
-                <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>sync</i></a></td>
+                <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>send</i></a></td>
                 ";
             }
 
@@ -229,7 +229,7 @@
             <div style='display:none' id = 'DivRow-1-".$key['ARTICULO']."'><center><span>Modificado</span></center></div>
             <br><a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."1".")'><i class='material-icons Small' style='font-size:30px;'>note_add</i></a>
             </td>
-            <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>sync</i></a></td>
+            <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>send</i></a></td>
             ";
 
             break;
@@ -250,7 +250,7 @@
             <a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."3".")'><i style='font-size:30px;' class='material-icons Small'>note_add</i></a>
             </div>                                                
             </td>
-            <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>sync</i></a></td>
+            <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>send</i></a></td>
             ";
             break;                            
         }
