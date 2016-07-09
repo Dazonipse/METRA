@@ -1,15 +1,15 @@
  <?php
     class CoreMySQL extends mysqli {
         public function __construct() {
-            parent::__construct("localhost","root","a7m1425.","metra");
+            parent::__construct("localhost","root","","metra");
 
             if (mysqli_connect_error()) {
                 die('Error de Conexi0n (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
             }
         }
     }
-    
-    class CnxSrvSQL {
+    // TODO: ALTER TABLE  masterarticulos ADD  CLASE_ABC VARCHAR( 5 ) NOT NULL AFTER  CTTS
+ class CnxSrvSQL {
         public $serverName = '192.168.1.112';
         public $dbname = 'PRODUCCION';
         public $user = 'sa';
@@ -120,15 +120,14 @@
                 $ArraySQL = $ObjSQLSRV->fetchArray("SELECT * FROM WEB_METRA_ACD WHERE ARTICULO NOT IN (".$sql.")", SQLSRV_FETCH_ASSOC);
             }else{
                 //CARGAMOS LA TABLA DE EXACTUS COMPLETA
-                $ArraySQL = $ObjSQLSRV->fetchArray("SELECT ARTICULO, DESCRIPCION, LABORATORIO, UNIDAD,FACTOR_EMPAQUE, PROVEEDOR, CANT_DISPONIBLE,PROMEDIO FROM WEB_METRA_ACD", SQLSRV_FETCH_ASSOC);
+                $ArraySQL = $ObjSQLSRV->fetchArray("SELECT ARTICULO, DESCRIPCION, LABORATORIO, UNIDAD,FACTOR_EMPAQUE, PROVEEDOR, CANT_DISPONIBLE,PROMEDIO,CLASE_ABC FROM WEB_METRA_ACD", SQLSRV_FETCH_ASSOC);
             }
             
             if (count($ArraySQL) > 0) {
                 //$UPDTPROMEDIO ='UPDATE MasterArticulos SET PROMEDIO = CASE  Articulo';
-                $sql = "INSERT INTO MasterArticulos (ARTICULO, DESCRIPCION, LABORATORIO, UNIDAD,FACTOREMPAQUE, PROVEEDOR, CANT_DISPONIBLE) VALUES";
-                
+                $sql = "INSERT INTO MasterArticulos (ARTICULO, DESCRIPCION, LABORATORIO, UNIDAD,FACTOREMPAQUE, PROVEEDOR, CANT_DISPONIBLE,CLASE_ABC) VALUES";
                 foreach ($ArraySQL AS $fila) {
-                    $sql .= "('".$fila['ARTICULO']."','".$fila['DESCRIPCION']."','".$fila['LABORATORIO']."','".$fila['UNIDAD']."','".$fila['FACTOR_EMPAQUE']."','".$fila['PROVEEDOR']."','".$fila['CANT_DISPONIBLE']."'),";
+                    $sql .= "('".$fila['ARTICULO']."','".$fila['DESCRIPCION']."','".$fila['LABORATORIO']."','".$fila['UNIDAD']."','".$fila['FACTOR_EMPAQUE']."','".$fila['PROVEEDOR']."','".$fila['CANT_DISPONIBLE']."','".$fila['CLASE_ABC']."'),";
                   //  $UPDTPROMEDIO.= ' WHEN '."'".$fila['ARTICULO']."'".' THEN '."'".$fila['PROMEDIO']."'";
                 }
                 $sql = substr($sql,0,-1);
