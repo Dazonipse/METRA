@@ -118,7 +118,7 @@ class Table extends CI_Model
                 $json['data'][$i]['30'] = number_format($row['FPRIVADA8'],2);  
                 $json['data'][$i]['31'] = number_format($row['FPUBLICA8'],2);
                 $json['data'][$i]['32'] = number_format($row['TOTAL8'],2);
-                $json['data'][$i]['33'] = number_format($row['IPUBLICA9'],2);
+                $json['data'][$i]['33'] = number_format($row['IPRIVADA9'],2);
                 $json['data'][$i]['34'] = number_format($row['FPRIVADA9'],2);
                 $json['data'][$i]['35'] = number_format($row['FPUBLICA9'],2);
                 $json['data'][$i]['36'] = number_format($row['TOTAL9'],2);
@@ -499,7 +499,7 @@ class Table extends CI_Model
     }
     public function ANALISIS_CONSUMO(){        
         
-        $query = $this->db->query("SELECT * FROM view_analisis_consumo LIMIT 15");
+        $query = $this->db->query("SELECT * FROM view_analisis_consumo limit 15");
         $json = array();
         $i=0;       
         
@@ -523,14 +523,28 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'], 2);
                     $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'], 2);              
                     $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
+                    $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
                     /*tambien mando a traer otros datos de un procedimiento almacenado*/
-                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
+                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
                     if(count($Array) <> 0)
                     {
                         for ($a=0; $a <count($Array) ; $a++)
                         {$json['Analisis'][$i]['MESES'] = number_format($Array[$a]['MESESEXISTENCIA'],2);}
                     }
                     else{$json['Analisis'][$i]['MESES'] =0;}
+
+                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);  
+                    
+                    if(count($Array) <> 0)
+                    {
+                        for ($a=0; $a <count($Array) ; $a++)
+                        {
+                            $json['Analisis'][$i]['TOTAL_ANUAL'] =number_format($Array[$a]['TOTALGENERAL'],2);
+                        }
+                    }
+                    else{
+                        $json['Analisis'][$i]['TOTAL_ANUAL'] =0;
+                        }
 
                     $this->db->select('PEDDCA,CTBP');
                     $this->db->where('ARTICULO',$row['ARTICULO']);
@@ -569,7 +583,9 @@ class Table extends CI_Model
                 $json['Analisis'][$i]['ORDENAR'] = "";   
                 $json['Analisis'][$i]['MESES'] ="";  
                 $json['Analisis'][$i]['PDA'] ="";
-                $json['Analisis'][$i]['CTBP'] ="";  
+                $json['Analisis'][$i]['CTBP'] =""; 
+                $json['Analisis'][$i]['CONTRATO_ANUAL'] ="";
+                $json['Analisis'][$i]['TOTAL_ANUAL'] = "";
         }      
         return $json;
     }

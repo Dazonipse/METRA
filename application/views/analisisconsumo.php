@@ -69,11 +69,9 @@
              <th>MESES DE EXISTENCIA POR PROMEDIO DE TRES MAS ALTOS</th>
              <th>MESES DE EXISTENCIA POR CONSUMO HISTORICO</th>
              <th>PENDIENTES INST-PUB</th>
-             <th>CANT SEIS MESES CRUZ AZUL</th>
+             <th>CANT DOCE MESES CRUZ AZUL</th>
              <th>CUMPLIMIENTO CA %</th>
              <th>PENDIENTE ORDER CA</th>
-             <th>CANTIDAD BAJO PEDIDO</th>
-             <th>TRANSITO</th>
              <th>ORDENAR</th>
          </tr>
      </thead>
@@ -130,12 +128,16 @@
             }
             echo "   
             <td>PENDIENTE</td>        
-            <td>".number_format($key['PEDDCA'],2)."</td>
+            <td>".number_format($key['PEDDCA'],2)."</td>";
+
+           if(($key['PEDDCA']+$key['TOTAL_ANUAL'])>$key['CONTRATO_ANUAL'])
+                    {echo"<td>".number_format($key['PEDDCA']+$key['TOTAL_ANUAL'])." es la real</td>";            }
+            else if(($key['PEDDCA']+$key['TOTAL_ANUAL'])<$key['CONTRATO_ANUAL']) 
+                    {echo"<td>".number_format($key['CONTRATO_ANUAL'])." es el contrato anual</td>";}
+            else    {echo"<td>".number_format($key['CONTRATO_ANUAL'])." es el contrato anual</td>";}
+            echo"
+            <td>".number_format(($key['TOTAL_ANUAL']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'])." %</td>
             <td>PENDIENTE</td>
-            <td>PENDIENTE</td>
-            <td>PENDIENTE</td>
-            <td>".$key['CTBP']."</td>
-            <td>".$key['CTTS']."</td>
             <td>".number_format($key['ORDENAR'], 2)."</td>
             </tr>
             ";                       

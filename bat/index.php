@@ -1,8 +1,7 @@
- <?php
+<?php
     class CoreMySQL extends mysqli {
         public function __construct() {
-            parent::__construct("localhost","root","","metra");
-
+            parent::__construct("localhost","root","a7m1425.","metra");
             if (mysqli_connect_error()) {
                 die('Error de Conexi0n (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
             }
@@ -18,7 +17,6 @@
         public $connection;
         protected $statement = null;
         protected $status = null;
-
         function __construct()
         {
             $connectionInfo = array(
@@ -27,20 +25,16 @@
                 "Database" => $this->dbname,
                 "CharacterSet" => $this->characterSet
             );
-
             $this->connection = sqlsrv_connect($this->serverName, $connectionInfo);
-
             if ($this->connection) {
                 $this->status = true;
             } else {
                 $this->status = false;
             }
         }
-
         public function getStatus(){
             return $this->status;
         }
-
         public function close(){
             if ($this->connection) {
                 sqlsrv_close($this->connection);
@@ -52,21 +46,17 @@
             if (!$this->statement) {
                 die(print_r(sqlsrv_errors(), true));
             }
-
             return $this->statement;
         }
-
         public function fetchArray($query = null, $type = SQLSRV_FETCH_ASSOC){
             $stmt = $this->query($query);
             $a_array = array();
             while ($res = sqlsrv_fetch_array($stmt, $type)) {
                 $a_array[] = $res;
             }
-
             return $a_array;
         }
     }
-
     /**
     * 
     */
@@ -79,7 +69,6 @@
             $MYUDP = "";
             $ArticuloIN = "";
             
-
            echo "<br>";
            echo " - FASE 1: Ingreso de Articulos.<br>";
             //VERIFICAR CAMBIOS EN LAS CANTIDADES DE MYSQL
@@ -131,7 +120,6 @@
                   //  $UPDTPROMEDIO.= ' WHEN '."'".$fila['ARTICULO']."'".' THEN '."'".$fila['PROMEDIO']."'";
                 }
                 $sql = substr($sql,0,-1);
-
                 //$UPDTPROMEDIO.=' END ';
                 //$UPDTPROMEDIO .= 'WHERE Articulo IN ('.substr(@$ARTUDPT, 0,-1).')';
                 //echo $UPDTPROMEDIO;
@@ -170,9 +158,6 @@
             $MYUDP.=' END ';
             $MYUDP .= 'WHERE Articulo IN ('.substr(@$ArticuloIN, 0,-1).')';
             $ObjMysql->query($MYUDP);
-
-
-
             echo " - FASE 3: Actualizaciones de promedio sobre Articulos.<br>";
             //VERIFICAR CAMBIOS EN LAS CANTIDADES DE MYSQL
             @$sql = "SELECT Articulo, PROMEDIO FROM MasterArticulos";
@@ -191,7 +176,6 @@
             $MYUDP.=' END ';
             $MYUDP .= 'WHERE Articulo IN ('.substr(@$ArticuloIN, 0,-1).')';
             $ObjMysql->query($MYUDP);
-
             
             echo " - FASE 4: Actualizaciones de Laboratorios.<br>";
             //BUSCAR ACTUALIZACION DE LABORATORIOS
@@ -238,8 +222,6 @@
                 $ObjMysql->query($MYUDP);
             }
             //echo $MYUDP;//*/
-
-
             echo " - FASE 6: Actualizaciones de Dañados y Vencidos.<br><br>";
             $actualizado=0;$insertado=0;  $MYUDP="";$acumulado=0;
             $sql = $ObjSQLSRV->fetchArray("SELECT * FROM WEB_DANADO_VENCIDO", SQLSRV_FETCH_ASSOC);
@@ -248,7 +230,6 @@
                 where ARTICULO='".$sql[$i]['ARTICULO']."' AND LOTE ='".$sql[$i]['LOTE']."' 
                 AND FECHA_ENTRADA ='".$sql[$i]['FECHA_ENTRADA']."' AND FECHA_VENCIMIENTO = '".$sql[$i]['FECHA_VENCIMIENTO']."'";
                 //AND CANTIDAD_INGRESADA <> '".$sql[$i]['CANTIDAD_INGRESADA']."'";    
-
                 $Array2 = $ObjMysql->query($mysql);              
                 if($Array2->num_rows > 0)
                 {   
@@ -268,7 +249,6 @@
                     //echo $MYUDP;
                     //echo "Se encontro, se actualizo registro <br>";
                     }
-
                 }
                 else{ 
                      /*  $mysql="SELECT * FROM lotesvendidos
@@ -296,7 +276,6 @@
             $ObjSQLSRV->close();
         }
     }
-
     echo "Inicio: ".date('Y-m-d h:i:s');
     echo "<br>";
     $Obj = new ClassCore;
