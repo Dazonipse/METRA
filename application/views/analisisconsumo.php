@@ -1,12 +1,9 @@
 <div id= "MyBar" class="progress green" style="Display:none;">
     <div class="indeterminate blue"></div>
 </div>
-
 <h5 class="center" style="font-family:'robotoblack'; color:#616161"><br>ANALISIS DE CONSUMO</h5>
-
 <div class="row">
     <div class="col s12">
-
        <div class="row center">
           <div class="filtro">
             <table class="tableizer-table striped filtroo responsive-table" style="width:70%;">        
@@ -41,9 +38,7 @@
                                 <a href="#" class="botonExcel"><i style="font-size:40px; color:#253778" class='material-icons center'>file_download</i></a>                                
                                 <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />                                           
                             </form> 
-
                         </td>
-
                     </tr>
                 </tbody>
             </table>
@@ -73,6 +68,8 @@
              <th>CUMPLIMIENTO CA %</th>
              <th>PENDIENTE ORDER CA</th>
              <th>ORDENAR</th>
+             <th>CLASIFICACIÓN</th>
+             <th>DAÑADOS Y VENCIDOS</th>
          </tr>
      </thead>
      <tfoot id="TblFiltros" >
@@ -130,21 +127,47 @@
             <td>PENDIENTE</td>        
             <td>".number_format($key['PEDDCA'],2)."</td>";
 
+            $CANTIDADCA;
            if(($key['PEDDCA']+$key['TOTAL_ANUAL'])>$key['CONTRATO_ANUAL'])
-                    {echo"<td>".number_format($key['PEDDCA']+$key['TOTAL_ANUAL'])." es la real</td>";            }
+                    {$CANTIDADCA=number_format($key['PEDDCA']+$key['TOTAL_ANUAL']);
+                        echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='CANTIDAD REAL'>
+                            ".number_format($key['PEDDCA']+$key['TOTAL_ANUAL'])."</a></td>";            }
             else if(($key['PEDDCA']+$key['TOTAL_ANUAL'])<$key['CONTRATO_ANUAL']) 
-                    {echo"<td>".number_format($key['CONTRATO_ANUAL'])." es el contrato anual</td>";}
-            else    {echo"<td>".number_format($key['CONTRATO_ANUAL'])." es el contrato anual</td>";}
+                    {$CANTIDADCA=number_format($key['CONTRATO_ANUAL']);
+                        echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='CANTIDAD CONTRATADA'>"
+                    .number_format($key['CONTRATO_ANUAL'])."</a></td>";}
+            else    {$CANTIDADCA=number_format($key['CONTRATO_ANUAL']);
+                        echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='CANTIDADES IGUALES'>"
+                    .number_format($key['CONTRATO_ANUAL'])."</a></td>";}
+
             echo"
-            <td>".number_format(($key['TOTAL_ANUAL']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'])." %</td>
-            <td>PENDIENTE</td>
-            <td>".number_format($key['ORDENAR'], 2)."</td>
+            <td>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'],1)." %</td>";
+            if ($key['CONTRATO_ANUAL']>($key['TOTAL_ANUAL_CA']+$key['PEDDCA']))
+            {
+                echo "<td class='negra' style='color: red;!important'>".number_format($key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']),2).
+                " el contrato anual es ".$key['CONTRATO_ANUAL']." y el pedido es: ".$key['TOTAL_ANUAL_CA']."</td>";
+            }
+            else{
+                echo " <td class='negra' style='color: green;!important'>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])-$key['CONTRATO_ANUAL'],2).
+                " el contrato anual es ".$key['CONTRATO_ANUAL']." y el pedido es: ".$key['TOTAL_ANUAL_CA']."</td> ";
+            }
+            $ORDENAR;
+            $ORDENAR=number_format(($key['CANT_DISPONIBLE']+$key['CTBP']+$key['CTTS'])-($key['PEDDCA']+$CANTIDADCA+($key['PROMEDIO']*6)));
+            echo"
+            <td class='Ancho negra'>".$ORDENAR."</td>
+            <td class='negra'>".$key['CLASE_ABC']."</td>
+            <td>".$key['VENCIDOS']."</td>
             </tr>
-            ";                       
+            ";
+            /*echo"
+            <td class='Ancho negra'>".number_format($key['ORDENAR'], 2)."</td>
+            <td class='negra'>".$key['CLASE_ABC']."</td>
+            <td>".$key['VENCIDOS']."</td>
+            </tr>
+            "; */                      
         }
         ?>                         
     </tbody>
-
 </table>
 </div>
 </div>

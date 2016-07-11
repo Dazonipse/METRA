@@ -499,7 +499,7 @@ class Table extends CI_Model
     }
     public function ANALISIS_CONSUMO(){        
         
-        $query = $this->db->query("SELECT * FROM view_analisis_consumo limit 15");
+        $query = $this->db->query("SELECT * FROM view_analisis_consumo limit 20");
         $json = array();
         $i=0;       
         
@@ -524,6 +524,8 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'], 2);              
                     $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
                     $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
+                    $json['Analisis'][$i]['CLASE_ABC'] = $row['CLASE_ABC'];
+                    $json['Analisis'][$i]['VENCIDOS'] = $row['VENCIDO'];
                     /*tambien mando a traer otros datos de un procedimiento almacenado*/
                     $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
                     if(count($Array) <> 0)
@@ -539,11 +541,13 @@ class Table extends CI_Model
                     {
                         for ($a=0; $a <count($Array) ; $a++)
                         {
-                            $json['Analisis'][$i]['TOTAL_ANUAL'] =number_format($Array[$a]['TOTALGENERAL'],2);
+                            $json['Analisis'][$i]['TOTAL_ANUAL'] = number_format($Array[$a]['TOTALGENERAL'],2);
+                            $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($Array[$a]['TOTAL_ANUAL_CA'],2,'.','');
                         }
                     }
                     else{
                         $json['Analisis'][$i]['TOTAL_ANUAL'] =0;
+                        $json['Analisis'][$i]['TOTAL_ANUAL_CA'] =0;
                         }
 
                     $this->db->select('PEDDCA,CTBP');
@@ -584,8 +588,11 @@ class Table extends CI_Model
                 $json['Analisis'][$i]['MESES'] ="";  
                 $json['Analisis'][$i]['PDA'] ="";
                 $json['Analisis'][$i]['CTBP'] =""; 
+                $json['Analisis'][$i]['CLASE_ABC'] ="";
                 $json['Analisis'][$i]['CONTRATO_ANUAL'] ="";
                 $json['Analisis'][$i]['TOTAL_ANUAL'] = "";
+                $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = "";
+                $json['Analisis'][$i]['VENCIDOS'] = "";
         }      
         return $json;
     }
