@@ -40,8 +40,8 @@ Objtable = $('#tableabc').DataTable();
               columns: [                    
                     { "data": "ARTICULO" },
                     { "data": "DESCRIPCION" },
-                    { "data": "PRESENTACION" },
-                    { "data": "LABORATORIO" },
+                    /*{ "data": "PRESENTACION" },
+                    { "data": "LABORATORIO" },*/
                     { "data": "1" },
                     { "data": "2" },
                     { "data": "3" },

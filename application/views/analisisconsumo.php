@@ -92,6 +92,7 @@
     <tbody>
         <?php
         foreach ($AllART['Analisis'] as $key) {
+       
             echo "<tr>
             <td class='Ancho negra'><a href='#' onclick='Deathalles(".'"'.$key['ARTICULO'].'"'.")'>".$key['ARTICULO']."</a></td>
             <td class='Ancho medium'>".utf8_decode($key['DESCRIPCION'])."</td>
@@ -101,56 +102,91 @@
             <td>".number_format($key['CANT_DISPONIBLE'], 2)."</td>
             <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".number_format($key['PROMEDIO'],2)."</a></td>";
             
+            $impresion1;
+            $impresion2;
+            $impresion3;
+            $impresion4;
             if ($key['Comnet0']=="")
-                {echo "<td><a style='color:#4D4D4D;'>".number_format($key['PEDDCA'], 2)."</a></td>";}
-            else{echo "<td><a style='color:#4D4D4D;'class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".number_format($key['PEDDCA'], 2)."</a></td>";}
+                {$impresion1 = "<a style='color:#4D4D4D;'>".number_format($key['PEDDCA'], 2)."</a>";}
+            else{$impresion1 = "<a style='color:#4D4D4D;'class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".number_format($key['PEDDCA'], 2)."</a>";}
+            
             if ($key['Comnet1']=="")
-                {echo "<td><a style='color:#4D4D4D;'>".number_format($key['PEDDCA'], 2)."</a></td>";}
-            else{echo "<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".number_format($key['PEDDCA'], 2)."</a></td>";}
+                {$impresion2 = "<a style='color:#4D4D4D;'>".number_format($key['PEDDCA'], 2)."</a>";}
+            else{$impresion2 = "<a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet1']."'>".number_format($key['PEDDCA'], 2)."</a>";}
+            
             if ($key['Comnet2']=="")
-                {echo "<td><a style='color:#4D4D4D;'>".$key['CTBP']."</a></td>";}
-            else{echo "<td><a style='color:#4D4D4D;'
-            class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet2']."'>".$key['CTBP']."</a></td>";}
+                {$impresion3 = "<a style='color:#4D4D4D;'>".$key['CTBP']."</a>";}
+            else{$impresion3 = "<a style='color:#4D4D4D;'
+            class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet2']."'>".$key['CTBP']."</a>";}
+            
             if ($key['Comnet3']=="")
-                {echo "<td><a style='color:#4D4D4D;'>".$key['CTTS']."</a></td>";}
-            else{echo "<td><a style='color:#4D4D4D;' 
-            class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a></td>";}
+                {$impresion4 = "<a style='color:#4D4D4D;'>".$key['CTTS']."</a>";}
+            else{$impresion4 = "<a style='color:#4D4D4D;' 
+            class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a>";}
+            
+            echo "<td>".$impresion1."</td>
+               <td>".$impresion2."</td> 
+               <td>".$impresion3."</td>
+               <td>".$impresion4."</td>
+            ";
+
+            $promedio;
             if ($key['PROMEDIO']==0)
-            {
-            echo "<td>0.00</td>";   
+            {$promedio=0.00;  
             }
             else
-            {
-            echo "<td>".number_format($key['CANT_DISPONIBLE']/$key['PROMEDIO'],2)."</td>";
+            {$promedio=$key['CANT_DISPONIBLE']/$key['PROMEDIO'];
             }
+            echo "<td>".number_format($promedio,2)."</td>";
+
+
             echo "   
             <td>PENDIENTE</td>        
             <td>".number_format($key['PEDDCA'],2)."</td>";
 
-            $CANTIDADCA;
-           if(($key['PEDDCA']+$key['TOTAL_ANUAL'])>$key['CONTRATO_ANUAL'])
-                    {$CANTIDADCA=number_format($key['PEDDCA']+$key['TOTAL_ANUAL']);
-                        echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='CANTIDAD REAL'>
-                            ".number_format($key['PEDDCA']+$key['TOTAL_ANUAL'])."</a></td>";            }
-            else if(($key['PEDDCA']+$key['TOTAL_ANUAL'])<$key['CONTRATO_ANUAL']) 
-                    {$CANTIDADCA=number_format($key['CONTRATO_ANUAL']);
-                        echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='CANTIDAD CONTRATADA'>"
-                    .number_format($key['CONTRATO_ANUAL'])."</a></td>";}
-            else    {$CANTIDADCA=number_format($key['CONTRATO_ANUAL']);
-                        echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='CANTIDADES IGUALES'>"
-                    .number_format($key['CONTRATO_ANUAL'])."</a></td>";}
 
+
+            /*CANT DOCE MESES CA*/
+          $CANTIDADCA = $key['CANT12CA'];
+           /*   $mensaje;
+           if(($key['PEDDCA']+$key['TOTAL_ANUAL'])>$key['CONTRATO_ANUAL']){
+                $CANTIDADCA=$key['PEDDCA']+$key['TOTAL_ANUAL'];
+                $mensaje = "CANTIDAD REAL";
+            }else if(($key['PEDDCA']+$key['TOTAL_ANUAL'])<$key['CONTRATO_ANUAL']) {
+                $CANTIDADCA=$key['CONTRATO_ANUAL'];
+                $mensaje = "CANTIDAD CONTRATADA";
+            }else {
+                $CANTIDADCA=$key['CONTRATO_ANUAL'];
+                $mensaje = "CANTIDADES IGUALES";
+            }*/
+            echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='".$key['MENSAJE']. "'>"
+                    .$key['CANT12CA']."</a></td>";
+            /***************************************/
+
+
+            /*CUMPLIMIENTO CA%*/
             echo"
             <td>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'],1)." %</td>";
+            /***************************************/
+
+
+            /*PENDIENTE ORDER CA*/    
+            $CONTRATO; $color;
             if ($key['CONTRATO_ANUAL']>($key['TOTAL_ANUAL_CA']+$key['PEDDCA']))
             {
-                echo "<td class='negra' style='color: red;!important'>".number_format($key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']),2).
-                " el contrato anual es ".$key['CONTRATO_ANUAL']." y el pedido es: ".$key['TOTAL_ANUAL_CA']."</td>";
+                $CONTRATO=$key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']);
+                $color="red";
+                /*echo "<td class='negra' style='color: red;!important'>".number_format($key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']),2)."</td>";*/
             }
             else{
-                echo " <td class='negra' style='color: green;!important'>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])-$key['CONTRATO_ANUAL'],2).
-                " el contrato anual es ".$key['CONTRATO_ANUAL']." y el pedido es: ".$key['TOTAL_ANUAL_CA']."</td> ";
+                $CONTRATO=($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])-$key['CONTRATO_ANUAL'];
+                $color="green";
+                /*echo " <td class='negra' style='color: green;!important'>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])-$key['CONTRATO_ANUAL'],2)."</td> ";*/
             }
+            echo "<td class='negra' style='color: ".$color.";!important'>".number_format($CONTRATO,2)."</td>";
+            /********************************************************/
+
+            /*ORDERNAR----CLASIFICACION-----DAÑADOS Y VENCIDOS*/
             $ORDENAR;
             $ORDENAR=number_format(($key['CANT_DISPONIBLE']+$key['CTBP']+$key['CTTS'])-($key['PEDDCA']+$CANTIDADCA+($key['PROMEDIO']*6)));
             echo"
@@ -159,12 +195,6 @@
             <td>".$key['VENCIDOS']."</td>
             </tr>
             ";
-            /*echo"
-            <td class='Ancho negra'>".number_format($key['ORDENAR'], 2)."</td>
-            <td class='negra'>".$key['CLASE_ABC']."</td>
-            <td>".$key['VENCIDOS']."</td>
-            </tr>
-            "; */                      
         }
         ?>                         
     </tbody>
@@ -184,8 +214,8 @@
             <tr style="background-color:#273778;color:white;">
                 <th rowspan="2">CÓDIGO</th>
                 <th rowspan="2">DESCRIPCIÓN</th>
-                <th rowspan="2">PRESENTACIÓN</th>
-                <th rowspan="2">LABORATORIO</th>
+              <!--  <th rowspan="2">PRESENTACIÓN</th>
+                <th rowspan="2">LABORATORIO</th>-->
 
                 <?php for($i = 0; $i < count($meses); ++$i) {?>
                      <th colspan="4"><?php echo $meses[$i];?></th>

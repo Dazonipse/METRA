@@ -499,7 +499,7 @@ class Table extends CI_Model
     }
     public function ANALISIS_CONSUMO(){        
         
-        $query = $this->db->query("SELECT * FROM view_analisis_consumo limit 20");
+        $query = $this->db->query("SELECT * FROM view_analisis_consumo limit 1000");
         $json = array();
         $i=0;       
         
@@ -535,19 +535,23 @@ class Table extends CI_Model
                     }
                     else{$json['Analisis'][$i]['MESES'] =0;}
 
-                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);  
-                    
+                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$row['ARTICULO']."','".$row['PEDDCA']."','".$row['CONTRATO_ANUAL']."'
+                        ",SQLSRV_FETCH_ASSOC);                     
                     if(count($Array) <> 0)
                     {
                         for ($a=0; $a <count($Array) ; $a++)
                         {
                             $json['Analisis'][$i]['TOTAL_ANUAL'] = number_format($Array[$a]['TOTALGENERAL'],2);
                             $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($Array[$a]['TOTAL_ANUAL_CA'],2,'.','');
+                            $json['Analisis'][$i]['CANT12CA'] = $Array[$a]['CANT12CA'];
+                            $json['Analisis'][$i]['MENSAJE'] = $Array[$a]['MENSAJE'];
                         }
                     }
                     else{
                         $json['Analisis'][$i]['TOTAL_ANUAL'] =0;
                         $json['Analisis'][$i]['TOTAL_ANUAL_CA'] =0;
+                        $json['Analisis'][$i]['CANT12CA'] ="";
+                        $json['Analisis'][$i]['MENSAJE'] = "";
                         }
 
                     $this->db->select('PEDDCA,CTBP');
