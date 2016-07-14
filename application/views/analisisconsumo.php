@@ -134,7 +134,7 @@
             {$promedio=0.00;  
             }
             else
-            {$promedio=$key['CANT_DISPONIBLE']/$key['PROMEDIO'];
+            {$promedio=number_format($key['CANT_DISPONIBLE']/$key['PROMEDIO'],2);
             }
             echo "<td>".$promedio."</td>";
             echo "   

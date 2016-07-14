@@ -499,7 +499,7 @@ class Table extends CI_Model
     }
    public function ANALISIS_CONSUMO(){        
         
-        $query = $this->db->query("SELECT * FROM view_analisis_consumo limit 1000");
+        $query = $this->db->query("SELECT * FROM view_analisis_consumo");
         $json = array();
         $i=0;       
         
@@ -514,14 +514,14 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['PROVEEDOR'] =$row['PROVEEDOR'];
                     $json['Analisis'][$i]['CANT_DISPONIBLE'] =number_format($row['CANT_DISPONIBLE'],2);
                     $json['Analisis'][$i]['PROMEDIO'] =number_format($row['PROMEDIO'],2);
-                    $json['Analisis'][$i]['PEDDCA'] = $row['PEDDCA'];
-                    $json['Analisis'][$i]['CSCA'] = $row['CSCA'];
+                    $json['Analisis'][$i]['PEDDCA'] = number_format($row['PEDDCA'],2);
+                    $json['Analisis'][$i]['CSCA'] = number_format($row['CSCA'],2);
                     $json['Analisis'][$i]['Comnet0'] = $row['Comnet0'];
                     $json['Analisis'][$i]['Comnet1'] = $row['Comnet1'];
                     $json['Analisis'][$i]['Comnet2'] = $row['Comnet2'];
                     $json['Analisis'][$i]['Comnet3'] = $row['Comnet3'];
-                    $json['Analisis'][$i]['CTBP'] = $row['CTBP'];
-                    $json['Analisis'][$i]['CTTS'] = $row['CTTS'];              
+                    $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);
+                    $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'],2);
                     $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
                     $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
                     $json['Analisis'][$i]['CLASE_ABC'] = $row['CLASE_ABC'];
@@ -544,7 +544,7 @@ class Table extends CI_Model
                         /*for ($a=0; $a <count($Array) ; $a++){*/
                             /*$json['Analisis'][$i]['TOTAL_ANUAL'] = number_format($Array[$a]['TOTALGENERAL'],2);*/
                             $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($Array[0]['TOTAL_ANUAL_CA'],2,'.','');
-                            $json['Analisis'][$i]['CANT12CA'] = $Array[0]['CANT12CA'];
+                            $json['Analisis'][$i]['CANT12CA'] = number_format($Array[0]['CANT12CA'],2);
                             $json['Analisis'][$i]['MENSAJE'] = $Array[0]['MENSAJE'];                            
                         /*}*/
                     }
