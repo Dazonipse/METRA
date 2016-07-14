@@ -5,6 +5,7 @@
  */
 class Sqlsrv
 {
+
     public $serverName = "192.168.1.112";
     public $dbname = "PRODUCCION";
     public $user = "sa";
@@ -16,6 +17,7 @@ class Sqlsrv
 
     function __construct()
     {
+
         $connectionInfo = array(
             "UID" => $this->user,
             "PWD" => $this->password,
@@ -30,6 +32,7 @@ class Sqlsrv
         } else {
             $this->status = false;
         }
+
     }
 
     /**
@@ -97,8 +100,6 @@ class Sqlsrv
      */
     public function query($query)
     {
-        //echo $query.'<br>';
-        
         $this->statement = sqlsrv_query($this->connection, $query);
         if (!$this->statement) {
             die(print_r(sqlsrv_errors(), true));
