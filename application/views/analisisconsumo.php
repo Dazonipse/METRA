@@ -99,20 +99,20 @@
             <td>".$key['LABORATORIO']."</td>
             <td>".$key['UNIDAD']."</td>
             <td class='Ancho medium'>".$key['PROVEEDOR']."</td>
-            <td>".number_format($key['CANT_DISPONIBLE'], 2)."</td>
-            <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".number_format($key['PROMEDIO'],2)."</a></td>";
+            <td>".$key['CANT_DISPONIBLE']."</td>
+            <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".$key['PROMEDIO']."</a></td>";
             
             $impresion1;
             $impresion2;
             $impresion3;
             $impresion4;
             if ($key['Comnet0']=="")
-                {$impresion1 = "<a style='color:#4D4D4D;'>".number_format($key['PEDDCA'], 2)."</a>";}
-            else{$impresion1 = "<a style='color:#4D4D4D;'class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".number_format($key['PEDDCA'], 2)."</a>";}
+                {$impresion1 = "<a style='color:#4D4D4D;'>".$key['PEDDCA']."</a>";}
+            else{$impresion1 = "<a style='color:#4D4D4D;'class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".$key['PEDDCA']."</a>";}
             
             if ($key['Comnet1']=="")
-                {$impresion2 = "<a style='color:#4D4D4D;'>".number_format($key['PEDDCA'], 2)."</a>";}
-            else{$impresion2 = "<a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet1']."'>".number_format($key['PEDDCA'], 2)."</a>";}
+                {$impresion2 = "<a style='color:#4D4D4D;'>".$key['PEDDCA']."</a>";}
+            else{$impresion2 = "<a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet1']."'>".$key['PEDDCA']."</a>";}
             
             if ($key['Comnet2']=="")
                 {$impresion3 = "<a style='color:#4D4D4D;'>".$key['CTBP']."</a>";}
@@ -129,7 +129,6 @@
                <td>".$impresion3."</td>
                <td>".$impresion4."</td>
             ";
-
             $promedio;
             if ($key['PROMEDIO']==0)
             {$promedio=0.00;  
@@ -137,30 +136,16 @@
             else
             {$promedio=$key['CANT_DISPONIBLE']/$key['PROMEDIO'];
             }
-            echo "<td>".number_format($promedio,2)."</td>";
-
-
+            echo "<td>".$promedio."</td>";
             echo "   
             <td>PENDIENTE</td>        
-            <td>".number_format($key['PEDDCA'],2)."</td>";
-
+            <td>".$key['PEDDCA']."</td>";
 
 
             /*CANT DOCE MESES CA*/
           $CANTIDADCA = $key['CANT12CA'];
-           /*   $mensaje;
-           if(($key['PEDDCA']+$key['TOTAL_ANUAL'])>$key['CONTRATO_ANUAL']){
-                $CANTIDADCA=$key['PEDDCA']+$key['TOTAL_ANUAL'];
-                $mensaje = "CANTIDAD REAL";
-            }else if(($key['PEDDCA']+$key['TOTAL_ANUAL'])<$key['CONTRATO_ANUAL']) {
-                $CANTIDADCA=$key['CONTRATO_ANUAL'];
-                $mensaje = "CANTIDAD CONTRATADA";
-            }else {
-                $CANTIDADCA=$key['CONTRATO_ANUAL'];
-                $mensaje = "CANTIDADES IGUALES";
-            }*/
-            echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='".$key['MENSAJE']. "'>"
-                    .$key['CANT12CA']."</a></td>";
+                   echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='".$key['MENSAJE']. "'>
+            ".$key['CANT12CA']."</a></td>";
             /***************************************/
 
 
@@ -168,7 +153,6 @@
             echo"
             <td>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'],1)." %</td>";
             /***************************************/
-
 
             /*PENDIENTE ORDER CA*/    
             $CONTRATO; $color;
@@ -276,11 +260,7 @@
                 <th>FPRIVADO</th>
                 <th>TOTAL</th>         
                 <th>TOTAL GENERAL</th>
-                <!--<th>EXISTENCIAS</th>
-                <th>PROMEDIO TRES MAS ALTOS</th>
-                <th>MESES DE EXISTENCIA- POR PROMEDIO DE TRES MAS ALTOS</th>
-                <th>PENDIENTES INST.PUBLICA</th>
-                <th>CANT. BAJO PEDIDO</th>-->
+             
             </tr>
         </thead>
         <tbody>
@@ -289,55 +269,4 @@
     </table>
     </div>
   </div>
-
-<!-- Modal Structure -->
-<div id="modal1" class="modal modal-fixed-footer modalcontrato">
-    <div class="modal-content">
-    <div class="row center">  
-    <h5 class="center" style="font-family:'robotoblack'; color:#616161"><br>CONTRATO ANUAL DE CANTIDADES</h5>  
-    </div>
-       <div class="row">
-        <div class="col s12 l12">
-            <table id="tblcontrato" class="display" cellspacing="0" width="100%">
-                <thead>
-                    <tr style="background-color:#273778;color:white;">
-                        <th>CAT</th>
-                        <th>ARTICULO</th>
-                        <th>PRESENTACION</th>
-                        <th>CLASIFICACIÓN</th>
-                        <th>NÓMBRE</th>
-                       <?php for($i = 0; $i < count($fechas); ++$i) {?>
-                        <th><?php 
-                         $transf = strtotime($fechas[$i]);   
-                         $mes = date("F", $transf);
-                         $anio = date("Y", $transf);
-                        if ($mes=="January") $mes="Enero";
-                        if ($mes=="February") $mes="Febrero";
-                        if ($mes=="March") $mes="Marzo";
-                        if ($mes=="April") $mes="Abril";
-                        if ($mes=="May") $mes="Mayo";
-                        if ($mes=="June") $mes="Junio";
-                        if ($mes=="July") $mes="Julio";
-                        if ($mes=="August") $mes="Agosto";
-                        if ($mes=="September") $mes="Septiembre";
-                        if ($mes=="October") $mes="Octubre";
-                        if ($mes=="November") $mes="Noviembre";
-                        if ($mes=="December") $mes="Diciembre";
-                        echo $mes.' '.$anio;?>
-                        </th>
-                        <?php }?>                       
-                        <th>EXISTENCIA</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-<div class="modal-footer">
-  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">ACEPTAR</a>
-</div>
-</div>
 

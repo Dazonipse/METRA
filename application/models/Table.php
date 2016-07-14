@@ -14,7 +14,7 @@ class Table extends CI_Model
     }
     public function obtenerABC($id)
     {
-        $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$id."'",SQLSRV_FETCH_ASSOC); 
+        $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$id."','0','0'",SQLSRV_FETCH_ASSOC); 
         $json = array();
         $i=0;
 
@@ -497,7 +497,7 @@ class Table extends CI_Model
         }
         return 0;
     }
-    public function ANALISIS_CONSUMO(){        
+   public function ANALISIS_CONSUMO(){        
         
         $query = $this->db->query("SELECT * FROM view_analisis_consumo limit 1000");
         $json = array();
@@ -512,26 +512,28 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['LABORATORIO'] = $row['LABORATORIO'];
                     $json['Analisis'][$i]['UNIDAD'] = $row['UNIDAD'];
                     $json['Analisis'][$i]['PROVEEDOR'] =$row['PROVEEDOR'];
-                    $json['Analisis'][$i]['CANT_DISPONIBLE'] =$row['CANT_DISPONIBLE'];
-                    $json['Analisis'][$i]['PROMEDIO'] =$row['PROMEDIO'];
+                    $json['Analisis'][$i]['CANT_DISPONIBLE'] =number_format($row['CANT_DISPONIBLE'],2);
+                    $json['Analisis'][$i]['PROMEDIO'] =number_format($row['PROMEDIO'],2);
                     $json['Analisis'][$i]['PEDDCA'] = $row['PEDDCA'];
                     $json['Analisis'][$i]['CSCA'] = $row['CSCA'];
                     $json['Analisis'][$i]['Comnet0'] = $row['Comnet0'];
                     $json['Analisis'][$i]['Comnet1'] = $row['Comnet1'];
                     $json['Analisis'][$i]['Comnet2'] = $row['Comnet2'];
                     $json['Analisis'][$i]['Comnet3'] = $row['Comnet3'];
-                    $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'], 2);
-                    $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'], 2);              
+                    $json['Analisis'][$i]['CTBP'] = $row['CTBP'];
+                    $json['Analisis'][$i]['CTTS'] = $row['CTTS'];              
                     $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
                     $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
                     $json['Analisis'][$i]['CLASE_ABC'] = $row['CLASE_ABC'];
                     $json['Analisis'][$i]['VENCIDOS'] = $row['VENCIDO'];
-                    /*tambien mando a traer otros datos de un procedimiento almacenado*/
-                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
+                    /*tambien mando a traer otros datos de un procedimiento almacenado*/                    
+                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);                    
+
                     if(count($Array) <> 0)
                     {
-                        for ($a=0; $a <count($Array) ; $a++)
-                        {$json['Analisis'][$i]['MESES'] = number_format($Array[$a]['MESESEXISTENCIA'],2);}
+                        /*for ($a=0; $a <count($Array) ; $a++){*/
+                            $json['Analisis'][$i]['MESES'] = number_format($Array[0]['MESESEXISTENCIA'],2);
+                        /*}*/
                     }
                     else{$json['Analisis'][$i]['MESES'] =0;}
 
@@ -539,13 +541,12 @@ class Table extends CI_Model
                         ",SQLSRV_FETCH_ASSOC);                     
                     if(count($Array) <> 0)
                     {
-                        for ($a=0; $a <count($Array) ; $a++)
-                        {
-                            $json['Analisis'][$i]['TOTAL_ANUAL'] = number_format($Array[$a]['TOTALGENERAL'],2);
-                            $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($Array[$a]['TOTAL_ANUAL_CA'],2,'.','');
-                            $json['Analisis'][$i]['CANT12CA'] = $Array[$a]['CANT12CA'];
-                            $json['Analisis'][$i]['MENSAJE'] = $Array[$a]['MENSAJE'];
-                        }
+                        /*for ($a=0; $a <count($Array) ; $a++){*/
+                            /*$json['Analisis'][$i]['TOTAL_ANUAL'] = number_format($Array[$a]['TOTALGENERAL'],2);*/
+                            $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($Array[0]['TOTAL_ANUAL_CA'],2,'.','');
+                            $json['Analisis'][$i]['CANT12CA'] = $Array[0]['CANT12CA'];
+                            $json['Analisis'][$i]['MENSAJE'] = $Array[0]['MENSAJE'];                            
+                        /*}*/
                     }
                     else{
                         $json['Analisis'][$i]['TOTAL_ANUAL'] =0;
@@ -567,9 +568,9 @@ class Table extends CI_Model
                         {                  
                         $json['Analisis'][$i]['PDA'] = number_format($row['PEDDCA'],2);
                         $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);   
-                        $i++;
+                        
                         }
-                    }
+                    }$i++;
                 }
              
         } else {   
@@ -598,6 +599,7 @@ class Table extends CI_Model
                 $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = "";
                 $json['Analisis'][$i]['VENCIDOS'] = "";
         }      
+        $this->sqlsrv->close();
         return $json;
     }
     
