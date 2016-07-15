@@ -490,7 +490,7 @@ class Table extends CI_Model
     }
     public function MASTER_ARTICULOS(){        
         //$this->db->order_by('DESCRIPCION', 'ASC');
-       $this->db->limit(5);
+       #$this->db->limit(5);
         $query = $this->db->get('masterarticulos');
         if($query->num_rows() <> 0){            
             return $query->result_array();
@@ -526,51 +526,22 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
                     $json['Analisis'][$i]['CLASE_ABC'] = $row['CLASE_ABC'];
                     $json['Analisis'][$i]['VENCIDOS'] = $row['VENCIDO'];
-                    /*tambien mando a traer otros datos de un procedimiento almacenado*/                    
-                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);                    
 
+                    /*tambien mando a traer otros datos de un procedimiento almacenado*/                    
+                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
                     if(count($Array) <> 0)
                     {
                         /*for ($a=0; $a <count($Array) ; $a++){*/
                             $json['Analisis'][$i]['MESES'] = number_format($Array[0]['MESESEXISTENCIA'],2);
                         /*}*/
                     }
-                    else{$json['Analisis'][$i]['MESES'] =0;}
-
-                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$row['ARTICULO']."','".$row['PEDDCA']."','".$row['CONTRATO_ANUAL']."'
-                        ",SQLSRV_FETCH_ASSOC);                     
-                    if(count($Array) <> 0)
-                    {
-                        /*for ($a=0; $a <count($Array) ; $a++){*/
-                            /*$json['Analisis'][$i]['TOTAL_ANUAL'] = number_format($Array[$a]['TOTALGENERAL'],2);*/
-                            $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($Array[0]['TOTAL_ANUAL_CA'],2,'.','');
-                            $json['Analisis'][$i]['CANT12CA'] = number_format($Array[0]['CANT12CA'],2);
-                            $json['Analisis'][$i]['MENSAJE'] = $Array[0]['MENSAJE'];                            
-                        /*}*/
-                    }
-                    else{
-                        $json['Analisis'][$i]['TOTAL_ANUAL'] =0;
-                        $json['Analisis'][$i]['TOTAL_ANUAL_CA'] =0;
-                        $json['Analisis'][$i]['CANT12CA'] ="";
-                        $json['Analisis'][$i]['MENSAJE'] = "";
-                        }
-
-                    $this->db->select('PEDDCA,CTBP');
-                    $this->db->where('ARTICULO',$row['ARTICULO']);
-                    $Array2=$this->db->get('masterarticulos');
-
-                    foreach ($Array2->result_array() as $row) 
-                    { 
-                      if($row['PEDDCA']==NULL OR $row['PEDDCA']==NULL)
-                        {$json['Analisis'][$i]['PDA'] ="EKISDE";
-                         $json['Analisis'][$i]['CTBP'] ="EKISDE";$i++;}
-                        else
-                        {                  
-                        $json['Analisis'][$i]['PDA'] = number_format($row['PEDDCA'],2);
-                        $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);   
-                        
-                        }
-                    }$i++;
+                    else{$json['Analisis'][$i]['MESES'] =0;}               
+                    $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($row['TOTAL_ANUAL_CA'],2,'.','');
+                    $json['Analisis'][$i]['CANT12CA'] = number_format($row['CANT12CA'],2);
+                    $json['Analisis'][$i]['MENSAJE'] = $row['MENSAJE'];                                   
+                    $json['Analisis'][$i]['PDA'] =number_format($row['PEDDCA'],2);  
+                    $json['Analisis'][$i]['CTBP'] =number_format($row['CTBP'],2);
+                    $i++;
                 }
              
         } else {   
@@ -591,20 +562,21 @@ class Table extends CI_Model
                 $json['Analisis'][$i]['Comnet3'] = "";
                 $json['Analisis'][$i]['ORDENAR'] = "";   
                 $json['Analisis'][$i]['MESES'] ="";  
-                $json['Analisis'][$i]['PDA'] ="";
-                $json['Analisis'][$i]['CTBP'] =""; 
+                $json['Analisis'][$i]['PDA'] ="";        
                 $json['Analisis'][$i]['CLASE_ABC'] ="";
                 $json['Analisis'][$i]['CONTRATO_ANUAL'] ="";
                 $json['Analisis'][$i]['TOTAL_ANUAL'] = "";
                 $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = "";
                 $json['Analisis'][$i]['VENCIDOS'] = "";
+                $json['Analisis'][$i]['CANT12CA'] ="";
+                $json['Analisis'][$i]['MENSAJE'] = "";
         }      
         $this->sqlsrv->close();
         return $json;
     }
     
     
-    public function Guardar($Key,$C,$P1,$P2,$P3,$P4){
+    public function Guardar($Key,$C,$P1,$P2,$P3,$P4,$P5){
         if ($C == 1){
             $data = array(
                     'PEDDCA' => $P1,
@@ -615,7 +587,8 @@ class Table extends CI_Model
         }elseif ($C == 2){
                 $data = array(
                     'PEDDCA' => $P1,
-                    'CSCA' =>  $P2
+                    'CSCA' =>  $P2,
+                    'CONTRATO_ANUAL'=>$P5
                 );
             }elseif ($C == 3){
                 $data = array(

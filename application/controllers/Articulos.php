@@ -22,11 +22,11 @@ class Articulos extends CI_Controller {
         $this->load->view('footer');
     }
   
-    public function UpdateRow($key,$C,$P1,$P2,$P3,$P4){
-        $OK = $this->Table->Guardar($key,$C,$P1,$P2,$P3,$P4);
+    public function UpdateRow($key,$C,$P1,$P2,$P3,$P4,$P5){
+        $OK = $this->Table->Guardar($key,$C,$P1,$P2,$P3,$P4,$P5);
 		
         if ($OK==1) {
-		    redirect('Articulos');
+		    redirect('Articulos','refresh');
 		}		
     }
     public function vencidos(){

@@ -111,7 +111,7 @@
             else{$impresion1 = "<a style='color:#4D4D4D;'class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".$key['PEDDCA']."</a>";}
             
             if ($key['Comnet1']=="")
-                {$impresion2 = "<a style='color:#4D4D4D;'>".$key['PEDDCA']."</a>";}
+                {$impresion2 = "<a style='color:#4D4D4D;'>".$key['CSCA']."</a>";}
             else{$impresion2 = "<a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet1']."'>".$key['PEDDCA']."</a>";}
             
             if ($key['Comnet2']=="")

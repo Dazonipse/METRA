@@ -119,19 +119,23 @@
     });
     
     
-    function MUP(key, per,FE){
+    function MUP(key, per,FE,CONTRATO){
         $('#MyBar').show("slow");
         
         
         var Row0 = $("#Row-0-"+key).val();
         var Row1 = $("#Row-1-"+key).val();
         var Row2 = $("#Row-2-"+key).val();
-        var Row3 = $("#Row-3-"+key).val();      
+        var Row3 = $("#Row-3-"+key).val();
+        var Row4 = $("#Row-4-"+key).val();
+
+
 
         Row0 = Row0.replace(",",'');
-        Row1 = Row1.replace(",",'');       
+        Row1 = Row1.replace(",",'');
+        Row4 = Row4.replace(",",'');
                 
-        if (($("#Row-0-"+key).hasClass("ClssEdited")) ||($("#Row-1-"+key).hasClass("ClssEdited")) ) {
+        if (($("#Row-0-"+key).hasClass("ClssEdited")) || ($("#Row-1-"+key).hasClass("ClssEdited")) ) {
             if(($("#Row-0-"+key).hasClass("ClssEdited"))){
                 console.log("0")
                 $( "#Row-0-"+key ).removeClass( "ClssEdited" );
@@ -155,7 +159,7 @@
         if (per == 1){
             condicion = "UpdateRow/"+key+"/"+per+"/"+Row0+"/"+Row1+"/"+Row2+"/"+Row3;
         }else{
-            condicion = "UpdateRow/"+key+"/"+per+"/"+Row0+"/"+Row1+"/0/0";
+            condicion = "UpdateRow/"+key+"/"+per+"/"+Row0+"/"+Row1+"/0/0/"+Row4;
         }                 
         
        $.ajax({

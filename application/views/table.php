@@ -94,6 +94,7 @@
             <th>UNIDADES DISP.</th>
             <th>PEDIDO CRUZ AZUL</th>
             <th>CONSUMO CRUZ AZUL</th>
+            <th>CONTRATO ANUAL</th>
 
             ";
             break;
@@ -135,7 +136,8 @@
             $sql .= "<th style='display:none'>FACTOR DE EMPAQUE</th>
             <th style='display:none'>UNIDADES DISP.</th>
             <th style='display:none'>PEDIDO CRUZ AZUL</th>
-            <th style='display:none'>CONSUMO CRUZ AZUL</th>";
+            <th style='display:none'>CONSUMO CRUZ AZUL</th>
+            <th style='display:none'>CONTRATO ANUAL</th>";
             break;
 
             case 3:
@@ -229,7 +231,15 @@
             <div style='display:none' id = 'DivRow-1-".$key['ARTICULO']."'><center><span>Modificado</span></center></div>
             <br><a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."1".")'><i class='material-icons Small' style='font-size:30px;'>note_add</i></a>
             </td>
-            <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>send</i></a></td>
+            <td><input type='text' step='any' style='text-align:center; width:60%;' min = '0' 
+            onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44 || event.charCode == 46 || event.charCode == 0 ' min = '0'
+            value=".number_format($key['CONTRATO_ANUAL'], 2)." 
+            id='Row-4-".$key['ARTICULO']."'>
+            <br><div></div>
+            </td>
+
+            <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.",".'"'.$key['CONTRATO_ANUAL'].'"'.")'
+            ='font-size:30px;' class='material-icons'>send</i></a></td>
             ";
 
             break;
@@ -280,6 +290,26 @@
         </div>
     <div class="modal-content">
         <span style="display: none;" id="IdRowComent">000000</span>
+        
+        <div class="row">
+            <div class="col offset-l2 s12 l12">
+                <h4 class="center negra" style="color: #4D4D4D">Agregar Comentarios sobre el Articulo: <span id="IdArtiComent">000000</span></h4>
+            </div>
+        </div>
+        <textarea id='textarea1' class='materialize-textarea' length='450'></textarea>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action waves-effect waves-green btn-flat " onclick="SaveComentario()"><i style="color:#253778; font-size:28px;" class='material-icons'>save</i></a>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modal2" class="modal modal-fixed-footer" style="height:45%;">
+     <div class="row right" style="margin-right:4%; margin-top:1%;">
+              <a href="#!" class=" modal-action modal-close waves-effect waves-blue"><i style="color:red;font-size:35px;" class="material-icons">close</i></a>
+        </div>
+    <div class="modal-content">
+        <span style="display: none;" id="IdRowComent2">000000</span>
         
         <div class="row">
             <div class="col offset-l2 s12 l12">
