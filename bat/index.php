@@ -57,9 +57,7 @@
             return $a_array;
         }
     }
-    /**
-    * 
-    */
+
     class ClassCore{
         public static function UpdateBAT(){
             $ObjSQLSRV = new CnxSrvSQL;

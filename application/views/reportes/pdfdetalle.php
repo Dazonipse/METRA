@@ -42,7 +42,6 @@
   </div>
   <div class="row" style="width:100%;">  
     <div class="col s12 m6 l12">                
-      <h5 style="color:#4D4D4D;">REAL</h5>
       <table id="pdf" style=" border-collapse: collapse; border: 1px solid #28B1E7!important;width:100%; text-align:center" >
         <thead>
           <tr style="background-color:#253778;">
@@ -101,8 +100,6 @@
     </div>
   </div>
   <div class="col s12 m6 l12">
-
-   <h5 style="color:#4D4D4D;">REAL</h5>
    <table id="pdf" style=" border-collapse: collapse; border: 1px solid #28B1E7!important;width:100%; text-align:center">
     <thead>
       <tr style="background-color:#253778;">

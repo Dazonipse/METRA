@@ -44,6 +44,7 @@
             </table>
         </div>
     </div>
+    <div style="overflow-x:auto;">
     <div id="DivFiltros" class="left"><br><br><br>
         <div  id="Filtro4_wrapper" class="dataTables_wrapper"></div>
     </div>
@@ -140,20 +141,15 @@
             echo "   
             <td>PENDIENTE</td>        
             <td>".$key['PEDDCA']."</td>";
-
-
             /*CANT DOCE MESES CA*/
           $CANTIDADCA = $key['CANT12CA'];
                    echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='".$key['MENSAJE']. "'>
             ".$key['CANT12CA']."</a></td>";
             /***************************************/
-
-
             /*CUMPLIMIENTO CA%*/
             echo"
             <td>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'],1)." %</td>";
             /***************************************/
-
             /*PENDIENTE ORDER CA*/    
             $CONTRATO; $color;
             if ($key['CONTRATO_ANUAL']>($key['TOTAL_ANUAL_CA']+$key['PEDDCA']))
@@ -169,7 +165,6 @@
             }
             echo "<td class='negra' style='color: ".$color.";!important'>".number_format($CONTRATO,2)."</td>";
             /********************************************************/
-
             /*ORDERNAR----CLASIFICACION-----DAÑADOS Y VENCIDOS*/
             $ORDENAR;
             $ORDENAR=number_format(($key['CANT_DISPONIBLE']+$key['CTBP']+$key['CTTS'])-($key['PEDDCA']+$CANTIDADCA+($key['PROMEDIO']*6)));
@@ -185,10 +180,11 @@
 </table>
 </div>
 </div>
+</div>
 
 
   <!-- Modal Structure -->
-  <div id="modalABC" class="modal">
+  <div id="modalABC" class="modal">    
     <div class="row center">
               <h4 class="center negra">ANALISIS DE CONSUMO</h4>
     </div>
@@ -197,9 +193,7 @@
         <thead>
             <tr style="background-color:#273778;color:white;">
                 <th rowspan="2">CÓDIGO</th>
-                <th rowspan="2">DESCRIPCIÓN</th>
-              <!--  <th rowspan="2">PRESENTACIÓN</th>
-                <th rowspan="2">LABORATORIO</th>-->
+                <th rowspan="2">DESCRIPCIÓN</th>            
 
                 <?php for($i = 0; $i < count($meses); ++$i) {?>
                      <th colspan="4"><?php echo $meses[$i];?></th>
@@ -267,6 +261,9 @@
             
         </tbody>    
     </table>
+    <div class="row center">
+        <label style="color: #ff0000; font-size:12px;"><code style="font-size:13px; font-weight:bold;">NOTA:</code>  EL ANÁLISIS MUESTRA TODOS LOS ARTÍCULOS EXCEPTUANDO LOS VENCIDOS A MINSA</label>
+    </div>
     </div>
   </div>
 

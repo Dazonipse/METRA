@@ -108,13 +108,13 @@ class Table extends CI_Model
                 $json['data'][$i]['20'] = number_format($row['TOTAL5'],2);
                 $json['data'][$i]['21'] = number_format($row['IPRIVADA6'],2);
                 $json['data'][$i]['22'] = number_format($row['FPRIVADA6'],2);
-                $json['data'][$i]['29'] = number_format($row['FPUBLICA6'],2);                                
-                $json['data'][$i]['23'] = number_format($row['TOTAL6'],2);
-                $json['data'][$i]['24'] = number_format($row['IPRIVADA7'],2);
-                $json['data'][$i]['25'] = number_format($row['FPRIVADA7'],2);
-                $json['data'][$i]['26'] = number_format($row['FPUBLICA7'],2);
-                $json['data'][$i]['27'] = number_format($row['TOTAL7'],2);
-                $json['data'][$i]['28'] = number_format($row['IPRIVADA8'],2);                                  
+                $json['data'][$i]['23'] = number_format($row['FPUBLICA6'],2);                                
+                $json['data'][$i]['24'] = number_format($row['TOTAL6'],2);
+                $json['data'][$i]['25'] = number_format($row['IPRIVADA7'],2);
+                $json['data'][$i]['26'] = number_format($row['FPRIVADA7'],2);
+                $json['data'][$i]['27'] = number_format($row['FPUBLICA7'],2);
+                $json['data'][$i]['28'] = number_format($row['TOTAL7'],2);
+                $json['data'][$i]['29'] = number_format($row['IPRIVADA8'],2);                                  
                 $json['data'][$i]['30'] = number_format($row['FPRIVADA8'],2);  
                 $json['data'][$i]['31'] = number_format($row['FPUBLICA8'],2);
                 $json['data'][$i]['32'] = number_format($row['TOTAL8'],2);
@@ -499,7 +499,7 @@ class Table extends CI_Model
     }
    public function ANALISIS_CONSUMO(){        
         
-        $query = $this->db->query("SELECT * FROM view_analisis_consumo");
+        $query = $this->db->query("SELECT * FROM view_analisis_consumo limit 1");
         $json = array();
         $i=0;       
         
@@ -525,7 +525,7 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
                     $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
                     $json['Analisis'][$i]['CLASE_ABC'] = $row['CLASE_ABC'];
-                    $json['Analisis'][$i]['VENCIDOS'] = $row['VENCIDO'];
+                    $json['Analisis'][$i]['VENCIDOS'] = number_format($row['VENCIDO'],2);
 
                     /*tambien mando a traer otros datos de un procedimiento almacenado*/                    
                     $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
