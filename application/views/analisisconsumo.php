@@ -1,7 +1,8 @@
+<style>.input-field label{position: static!important}</style>
 <div id= "MyBar" class="progress green" style="Display:none;">
     <div class="indeterminate blue"></div>
 </div>
-<h5 class="center" style="font-family:'robotoblack'; color:#616161"><br>ANALISIS DE CONSUMO</h5>
+<h5 class="center" style="font-family:'robotoblack'; color:#616161"><br>ANÁLISIS DE CONSUMO</h5>
 <div class="row">
     <div class="col s12">
        <div class="row center">
@@ -11,9 +12,10 @@
                     <tr class="cabecerafiltro" style="text-align:left">
                         <th>Buscar</th>       
                         <th>Mostrar Registro</th>                     
-                        <th>Laboratorio</th>       
+                        <th>Laboratorio</th>
                         <th>Proveedor</th> 
-                        <th>Exportar</th>
+                        <th>EXCEL</th>
+                        <th>PDF</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,8 +38,11 @@
                         <td class="center">                           
                             <form action="XLS" method="post" target="_blank" id="FormularioExportacion">                                
                                 <a href="#" class="botonExcel"><i style="font-size:40px; color:#253778" class='material-icons center'>file_download</i></a>                                
-                                <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />                                           
+                                <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
                             </form> 
+                        </td>
+                        <td>
+                            <a style="cursor:pointer"  class="modal-trigger2" href="#modal1"  ><i style=" color:#253778; font-size:40px;" class="material-icons">picture_as_pdf</i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -58,12 +63,12 @@
              <th>PROVEEDOR</th>
              <th>EXISTENCIAS</th>
              <th>PROMEDIO TRES MÁS ALTOS</th>
-             <th>PEDIDO CRUZ AZUL</th>
+             <th>PENDIENTE CRUZ AZUL</th>
              <th>CONSUMO CRUZ AZUL</th>
              <th>CANTIDAD BAJO PEDIDO</th>
              <th>CANTIDAD EN TRANSITO</th>             
              <th>MESES DE EXISTENCIA POR PROMEDIO DE TRES MAS ALTOS</th>
-             <th>MESES DE EXISTENCIA POR CONSUMO HISTORICO</th>
+             <th>CONTRATO ANUAL</th>
              <th>PENDIENTES INST-PUB</th>
              <th>CANT DOCE MESES CRUZ AZUL</th>
              <th>CUMPLIMIENTO CA %</th>
@@ -125,10 +130,10 @@
             else{$impresion4 = "<a style='color:#4D4D4D;' 
             class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a>";}
             
-            echo "<td>".$impresion1."</td>
-               <td>".$impresion2."</td> 
-               <td>".$impresion3."</td>
-               <td>".$impresion4."</td>
+            echo "<td style='background-color:#c1f4ff'>".$impresion1."</td>
+               <td style='background-color:#c1f4ff'>".$impresion2."</td> 
+               <td style='background-color:#63e3ff'>".$impresion3."</td>
+               <td style='background-color:#63e3ff'>".$impresion4."</td>
             ";
             $promedio;
             if ($key['PROMEDIO']==0)
@@ -139,7 +144,7 @@
             }
             echo "<td>".$promedio."</td>";
             echo "   
-            <td>PENDIENTE</td>        
+            <td>".number_format($key['CONTRATO_ANUAL'],2)."</td>        
             <td>".$key['PEDDCA']."</td>";
             /*CANT DOCE MESES CA*/
           $CANTIDADCA = $key['CANT12CA'];
@@ -147,8 +152,12 @@
             ".$key['CANT12CA']."</a></td>";
             /***************************************/
             /*CUMPLIMIENTO CA%*/
+            if($key['CONTRATO_ANUAL']!=0)
+            {
             echo"
             <td>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'],1)." %</td>";
+            }else{echo"
+            <td>CONTRATO ANUAL NO DISPONIBLE</td>";}
             /***************************************/
             /*PENDIENTE ORDER CA*/    
             $CONTRATO; $color;
@@ -182,6 +191,47 @@
 </div>
 </div>
 
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+        <h5 class="center" style="font-family:'robotoblack'; color:#616161">FILTRAR REPORTE</h5>
+      <div class="row">
+    <form name="pdf" id="reportepdf" action="<?php echo base_url('index.php/pdf_analisisConsumo')?>" method="post" target="_blank" class="col s12">
+      <div class="row">       
+        <div class="input-field col s12 l4">
+          <label >ARTÍCULO</label>
+          <input name="articulo" id="articulo" type="text" class="validate">
+        </div>
+        <div class="input-field col s12 l4 ">
+          <label>LABORATORIO</label>
+              <select name="laboratorio" class="browser-default">
+                <option value=""></option>
+                 <?php foreach($laboratorios as $key):  ?>
+                  <option value="<?php echo $key['LABORATORIO']; ?>"> <?php echo $key['LABORATORIO'];  ?></option>
+                <?php endforeach ?>
+              </select>
+        </div>
+         <div class="input-field col s12 l4">
+          <label>PROVEEDOR</label>
+              <select name="proveedor" class="browser-default">
+                <option value="" ></option>
+                 <?php foreach($proveedores as $key):  ?>
+                  <option value="<?php echo $key['PROVEEDOR']; ?>"> <?php echo $key['PROVEEDOR'];  ?></option>
+                <?php endforeach ?>
+              </select>
+        </div>
+      </div> 
+      <div class="row center">
+          <label>DEJE VACIO LOS CAMPOS PARA FILTRAR TODOS LOS ARTÍCULOS </label>
+      </div>     
+    </form>
+  </div>        
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat"><i class="material-icons left">close</i>CANCELAR</a>
+        <a href="#!" onclick="generarPdf()" class="waves-effect waves-light btn-flat"><i class="material-icons left">picture_as_pdf</i>GENERAR</a>
+    </div>
+  </div>
 
   <!-- Modal Structure -->
   <div id="modalABC" class="modal">    
@@ -201,69 +251,63 @@
                 <th colspan="6"></th>
             </tr>
             <tr style="background-color:#273778;color:white;">
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>
-                <th>INST.PUB</th>
                 <th>INST.PRIV</th>
                 <th>FPRIVADO</th>
+                <th>INST.PUB</th>
                 <th>TOTAL</th>         
                 <th>TOTAL GENERAL</th>
              
             </tr>
         </thead>
-        <tbody>
-            
-        </tbody>    
+        <tbody> </tbody>    
     </table>
-    <div class="row center">
-        <label style="color: #ff0000; font-size:12px;"><code style="font-size:13px; font-weight:bold;">NOTA:</code>  EL ANÁLISIS MUESTRA TODOS LOS ARTÍCULOS EXCEPTUANDO LOS VENCIDOS A MINSA</label>
-    </div>
     </div>
   </div>
-

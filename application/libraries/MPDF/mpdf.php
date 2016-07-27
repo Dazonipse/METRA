@@ -12,7 +12,7 @@
 // Changes:  See changelog.txt                                                  *
 // ******************************************************************************
 
-
+ini_set("memory_limit","192M");
 define('mPDF_VERSION','5.7');
 
 //Scale factor
@@ -30626,7 +30626,7 @@ function is_utf8(&$string) {
 		return true;
 	  }
 	  else {
-		return false;
+		return true;
 	  }
 	}
 } 

@@ -191,7 +191,7 @@ $this->autoMarginPadding = 2;		// distance in mm used as padding if 'stretch' mo
 
 // TABLES
 $this->simpleTables = false; // Forces all cells to have same border, background etc. Improves performance
-$this->packTableData = false; // Reduce memory usage processing tables (but with increased processing time)
+$this->packTableData = true; // Reduce memory usage processing tables (but with increased processing time)
 // Using disk to cache table data can reduce memory usage dramatically, but at a cost of increased 
 // executon time and disk access (read and write)
 $this->cacheTables = false;

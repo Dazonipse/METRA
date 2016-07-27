@@ -179,16 +179,16 @@ td,th{
     font-family: 'robotoregular'!important;
 }
 .bold{
- font-family: 'robotobold';   
+ font-family: 'robotobold'!important;   
 }
 .negra{
- font-family: 'robotoblack';   
+ font-family: 'robotoblack'!important;   
 }
 .medium{
- font-family: 'robotomedium';   
+ font-family: 'robotomedium'!important;   
 }
 .tblcabecera{
-     font-family: 'robotoblack'; 
+     font-family: 'robotoblack'!important; 
     color: white;
 }
 .filtro{

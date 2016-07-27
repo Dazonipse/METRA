@@ -27,6 +27,15 @@
             }
         },
     });*/
+ $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger2').leanModal();
+  });
+ function generarPdf()
+   {    
+    document.getElementById('reportepdf').submit();
+   }
+
     $('#Articulos').DataTable( {
         "ordering": false,
         "info":     false,
@@ -57,11 +66,11 @@
             
      
 
-        $('#tbArticulos').DataTable( {
+     var tableAlder=  $('#tbArticulos').DataTable( {
             "sPaginationType": "full_numbers",
             "aaSorting": [[ 1, "asc" ]],
             "columnDefs": [{ "targets": [ 0, 1, 2 ],
-                "className": 'mdl-data-table__cell--non-numeric',
+            "className": 'mdl-data-table__cell--non-numeric',
             }],
             "lengthMenu": [[10,50,-1], [10,50,"Todo"]] ,
             "language": {
@@ -78,29 +87,36 @@
                 "infoFiltered":   "(filtrado de _MAX_ registros totales)",
                 "zeroRecords":    "No se han encontrado resultados para tu búsqueda",
             },
+        
 
             initComplete: function () {
+                var contador=1;
                 this.api().columns().every( function () {
-                    var column = this;
-                    var select = $('<select><option value=""></option></select>')
-                        .appendTo( $(column.footer()).empty() )
+                    var column = this;                    
+                    var select = $('<select><option value=""></option></select>').appendTo($(column.footer()).empty())
                         .on( 'change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
                                 $(this).val()
-                            );
-     
+                            );               contador++;              
                             column
                                 .search( val ? '^'+val+'$' : '', true, false )
                                 .draw();
-                        } );
-     
-                    column.data().unique().sort().each( function ( d, j ) {
-                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                        } );                    
+                        column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option  value="'+d+'">'+d+'</option>' )
                     } );
                 } );
             }
         } );
-                
+            
+   var filteredData = tableAlder
+                                .columns( [0, 5] )
+                                .data()
+                                .eq( 0 )
+                                .filter( function ( value, index ) {
+                                   // alert(index);
+                                    return value > 0 ? true : false;});
+
         //$("#tbArticulos_length").hide();
         $("#TblFiltros").appendTo("#DivFiltros > #Filtro1_wrapper");
         $("#tbArticulos_length").appendTo("#DivFiltros > #Filtro2_wrapper");

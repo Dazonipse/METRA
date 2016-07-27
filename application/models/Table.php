@@ -12,6 +12,27 @@ class Table extends CI_Model
     {
         parent::__construct();
     }
+
+    public function laboratorios()
+    {
+        $this->db->distinct();
+        $this->db->select('LABORATORIO');
+        $query=$this->db->get('view_analisis_consumo');
+         if($query->num_rows() <> 0){            
+            return $query->result_array();
+        }
+        return 0;
+    }
+    public function proveedores()
+    {
+        $this->db->distinct();
+        $this->db->select('PROVEEDOR');
+        $query=$this->db->get('view_analisis_consumo');
+         if($query->num_rows() <> 0){            
+            return $query->result_array();
+        }
+        return 0;
+    }
     public function obtenerABC($id)
     {
         $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$id."','0','0'",SQLSRV_FETCH_ASSOC); 
@@ -76,10 +97,6 @@ class Table extends CI_Model
                 $json['data'][$i]['51'] = NULL;
                 $json['data'][$i]['52'] = NULL;
                 $json['data'][$i]['TOTALGENERAL'] = NULL;
-                /*$json['data'][$i]['EXISTENCIA'] = NULL;
-                $json['data'][$i]['PROMEDIO3MESES'] = NULL;
-                $json['data'][$i]['MESESEXISTENCIA'] = NULL;*/
-                //$i++;
         } else {
             foreach ($Array as $row) {      
                 $json['data'][$i]['ARTICULO'] = $row['ARTICULO'];
@@ -138,11 +155,7 @@ class Table extends CI_Model
                 $json['data'][$i]['50'] = number_format($row['FPRIVADA13'],2);
                 $json['data'][$i]['51'] = number_format($row['FPUBLICA13'],2);
                 $json['data'][$i]['52'] = number_format($row['TOTAL13'],2);
-                $json['data'][$i]['TOTALGENERAL'] = number_format($row['TOTALGENERAL'],2);
-                /*$json['data'][$i]['EXISTENCIA'] = number_format($row['EXISTENCIA'],2);
-                $json['data'][$i]['PROMEDIO3MESES'] = number_format($row['PROMEDIO3MESES'],2);
-                $json['data'][$i]['MESESEXISTENCIA'] = number_format($row['MESESEXISTENCIA'],2);*/
-               // $i++;                
+                $json['data'][$i]['TOTALGENERAL'] = number_format($row['TOTALGENERAL'],2);                
             }
         }
        
@@ -480,9 +493,7 @@ class Table extends CI_Model
                 $json['LotesVenci'][$i]['CANTIDAD_INGRESADA'] = $row['CANTIDAD_INGRESADA'];
                 $i++;
             }
-        }
-        
-    
+        }    
 
         $this->sqlsrv->close();
         return $json;
@@ -499,7 +510,7 @@ class Table extends CI_Model
     }
    public function ANALISIS_CONSUMO(){        
         
-        $query = $this->db->query("SELECT * FROM view_analisis_consumo limit 1");
+        $query = $this->db->query("SELECT * FROM view_analisis_consumo");
         $json = array();
         $i=0;       
         
@@ -528,14 +539,13 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['VENCIDOS'] = number_format($row['VENCIDO'],2);
 
                     /*tambien mando a traer otros datos de un procedimiento almacenado*/                    
-                    $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
-                    if(count($Array) <> 0)
-                    {
-                        /*for ($a=0; $a <count($Array) ; $a++){*/
-                            $json['Analisis'][$i]['MESES'] = number_format($Array[0]['MESESEXISTENCIA'],2);
-                        /*}*/
-                    }
-                    else{$json['Analisis'][$i]['MESES'] =0;}               
+                    // $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
+                    //if(count($Array) <> 0)
+                    //{ /*for ($a=0; $a <count($Array) ; $a++){*/
+                   // $json['Analisis'][$i]['MESES'] = number_format($row['MESESEXISTENCIA'],2);
+                    /*}*/
+                    //}
+                    //else{$json['Analisis'][$i]['MESES'] =0;}               
                     $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($row['TOTAL_ANUAL_CA'],2,'.','');
                     $json['Analisis'][$i]['CANT12CA'] = number_format($row['CANT12CA'],2);
                     $json['Analisis'][$i]['MENSAJE'] = $row['MENSAJE'];                                   
@@ -575,7 +585,78 @@ class Table extends CI_Model
         return $json;
     }
     
-    
+    public function ANALISIS_CONSUMO2($Articulo,$laboratorio,$proveedor){        
+        
+
+       /* $CONSULTA="SELECT * FROM view_analisis_consumo where ARTICULO like '%".$Articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%' 
+            AND PROVEEDOR LIKE '%".$proveedor."%'";         echo $CONSULTA;*/
+            
+        $query = $this->db->query("SELECT * FROM view_analisis_consumo where ARTICULO like '%".$Articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%' 
+            AND PROVEEDOR LIKE '%".$proveedor."%'");
+        $json = array();
+        $i=0;          
+
+
+        if($query->num_rows() <> 0){                
+                foreach ($query->result_array() as $row){      
+                    $json['Analisis'][$i]['ARTICULO'] = $row['ARTICULO'];
+                    $json['Analisis'][$i]['DESCRIPCION'] = $row['DESCRIPCION'];
+                    $json['Analisis'][$i]['LABORATORIO'] = $row['LABORATORIO'];
+                    $json['Analisis'][$i]['UNIDAD'] = $row['UNIDAD'];
+                    $json['Analisis'][$i]['PROVEEDOR'] =$row['PROVEEDOR'];
+                    $json['Analisis'][$i]['CANT_DISPONIBLE'] =number_format($row['CANT_DISPONIBLE'],2);
+                    $json['Analisis'][$i]['PROMEDIO'] =number_format($row['PROMEDIO'],2);
+                    $json['Analisis'][$i]['PEDDCA'] = number_format($row['PEDDCA'],2);
+                    $json['Analisis'][$i]['CSCA'] = number_format($row['CSCA'],2);
+                    $json['Analisis'][$i]['Comnet0'] = $row['Comnet0'];
+                    $json['Analisis'][$i]['Comnet1'] = $row['Comnet1'];
+                    $json['Analisis'][$i]['Comnet2'] = $row['Comnet2'];
+                    $json['Analisis'][$i]['Comnet3'] = $row['Comnet3'];
+                    $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);
+                    $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'],2);
+                    $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
+                    $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
+                    $json['Analisis'][$i]['CLASE_ABC'] = $row['CLASE_ABC'];
+                    $json['Analisis'][$i]['VENCIDOS'] = number_format($row['VENCIDO'],2);                            
+                    $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($row['TOTAL_ANUAL_CA'],2,'.','');
+                    $json['Analisis'][$i]['CANT12CA'] = number_format($row['CANT12CA'],2);
+                    $json['Analisis'][$i]['MENSAJE'] = $row['MENSAJE'];                                   
+                    $json['Analisis'][$i]['PDA'] =number_format($row['PEDDCA'],2);  
+                    $json['Analisis'][$i]['CTBP'] =number_format($row['CTBP'],2);
+                    $i++;
+                }
+             
+        } else {   
+                $json['Analisis'][$i]['ARTICULO'] = "";
+                $json['Analisis'][$i]['DESCRIPCION'] = "";
+                $json['Analisis'][$i]['LABORATORIO'] = "";
+                $json['Analisis'][$i]['UNIDAD'] = "";
+                $json['Analisis'][$i]['PROVEEDOR'] ="";
+                $json['Analisis'][$i]['CANT_DISPONIBLE'] ="";
+                $json['Analisis'][$i]['PROMEDIO'] ="";
+                $json['Analisis'][$i]['PEDDCA'] = "";
+                $json['Analisis'][$i]['CSCA'] = "";
+                $json['Analisis'][$i]['CTBP'] = "";
+                $json['Analisis'][$i]['CTTS'] = "";
+                $json['Analisis'][$i]['Comnet0'] = "";
+                $json['Analisis'][$i]['Comnet1'] = "";
+                $json['Analisis'][$i]['Comnet2'] = "";
+                $json['Analisis'][$i]['Comnet3'] = "";
+                $json['Analisis'][$i]['ORDENAR'] = "";   
+                $json['Analisis'][$i]['MESES'] ="";  
+                $json['Analisis'][$i]['PDA'] ="";        
+                $json['Analisis'][$i]['CLASE_ABC'] ="";
+                $json['Analisis'][$i]['CONTRATO_ANUAL'] ="";
+                $json['Analisis'][$i]['TOTAL_ANUAL'] = "";
+                $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = "";
+                $json['Analisis'][$i]['VENCIDOS'] = "";
+                $json['Analisis'][$i]['CANT12CA'] ="";
+                $json['Analisis'][$i]['MENSAJE'] = "";
+        }      
+        $this->sqlsrv->close();
+        return $json;
+    }
+
     public function Guardar($Key,$C,$P1,$P2,$P3,$P4,$P5){
         if ($C == 1){
             $data = array(

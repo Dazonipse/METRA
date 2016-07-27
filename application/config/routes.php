@@ -26,6 +26,7 @@ $route['Articulos'] = 'Articulos';
 
 /*************RUTAS PDF***********/
 $route['pdf_detalles'] = 'reportes/pdfdetalle';
+$route['pdf_analisisConsumo'] = 'reportes/pdfanalisisconsumo';
 
 /**************RUTAS AJAX***********/
 $route['ajax_contrato/(:any)']= "Articulos/get_contrato/$1";
