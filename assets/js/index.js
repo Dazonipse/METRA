@@ -205,8 +205,7 @@ Objtable = $('#tblcontrato').DataTable();
           }
 
 /***********************************************************/
-function Deathalles(IdArticulo){
-  
+function Deathalles(IdArticulo){  
   var opciones="toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=1, resizable=no";  
   window.open("Detalles/"+IdArticulo,"",opciones); 
 }
@@ -239,7 +238,7 @@ function number_format(number, decimals, dec_point, thousands_sep){
 }
 
 function date(format, timestamp){
-	 var that = this;
+	var that = this;
   var jsdate, f;
   // Keep this here (works, but for code commented-out below for file size reasons)
   // var tal= [];

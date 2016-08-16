@@ -493,8 +493,7 @@ class Table extends CI_Model
                 $json['LotesVenci'][$i]['CANTIDAD_INGRESADA'] = $row['CANTIDAD_INGRESADA'];
                 $i++;
             }
-        }    
-
+        }
         $this->sqlsrv->close();
         return $json;
 
@@ -512,9 +511,7 @@ class Table extends CI_Model
         
         $query = $this->db->query("SELECT * FROM view_analisis_consumo");
         $json = array();
-        $i=0;       
-        
-
+        $i=0;
 
         if($query->num_rows() <> 0){                
                 foreach ($query->result_array() as $row){      
@@ -585,17 +582,19 @@ class Table extends CI_Model
         return $json;
     }
     
-    public function ANALISIS_CONSUMO2($Articulo,$laboratorio,$proveedor){        
-        
-
+    public function ANALISIS_CONSUMO2($Articulo,$laboratorio,$proveedor,$ignorar){
        /* $CONSULTA="SELECT * FROM view_analisis_consumo where ARTICULO like '%".$Articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%' 
-            AND PROVEEDOR LIKE '%".$proveedor."%'";         echo $CONSULTA;*/
-            
+            AND PROVEEDOR LIKE '%".$proveedor."%'";echo $CONSULTA;*/
+        if ($ignorar=='1') {
+                $query = $this->db->query("SELECT * FROM view_analisis_consumo where ARTICULO like '%".$Articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%' 
+            AND PROVEEDOR LIKE '%".$proveedor."%' AND PROMEDIO >0");
+            }    
+            else{
         $query = $this->db->query("SELECT * FROM view_analisis_consumo where ARTICULO like '%".$Articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%' 
             AND PROVEEDOR LIKE '%".$proveedor."%'");
+        }
         $json = array();
-        $i=0;          
-
+        $i=0;
 
         if($query->num_rows() <> 0){                
                 foreach ($query->result_array() as $row){      
@@ -814,4 +813,86 @@ class Table extends CI_Model
         }
         return 0;
     }
+     public function ANALISIS_CONSUMO_EXCEL($bandera,$articulo,$laboratorio,$proveedor){   
+     /******by alder*/     
+        $consulta="";
+        if ($bandera==1) {
+        $consulta="SELECT * FROM view_analisis_consumo where PROMEDIO>0 AND ARTICULO LIKE '%".$articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%'
+         AND PROVEEDOR LIKE '%".$proveedor."%'";
+        }else{
+            $consulta="SELECT * FROM view_analisis_consumo where ARTICULO LIKE '%".$articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%'
+         AND PROVEEDOR LIKE '%".$proveedor."%'";
+        }
+        $query = $this->db->query($consulta);
+        $json = array();
+        $i=0;
+        if($query->num_rows() <> 0){                
+                foreach ($query->result_array() as $row){      
+                    $json['Analisis'][$i]['ARTICULO'] = $row['ARTICULO'];
+                    $json['Analisis'][$i]['DESCRIPCION'] = $row['DESCRIPCION'];
+                    $json['Analisis'][$i]['LABORATORIO'] = $row['LABORATORIO'];
+                    $json['Analisis'][$i]['UNIDAD'] = $row['UNIDAD'];
+                    $json['Analisis'][$i]['PROVEEDOR'] =$row['PROVEEDOR'];
+                    $json['Analisis'][$i]['CANT_DISPONIBLE'] =number_format($row['CANT_DISPONIBLE'],2);
+                    $json['Analisis'][$i]['PROMEDIO'] =number_format($row['PROMEDIO'],2);
+                    $json['Analisis'][$i]['PEDDCA'] = number_format($row['PEDDCA'],2);
+                    $json['Analisis'][$i]['CSCA'] = number_format($row['CSCA'],2);
+                    $json['Analisis'][$i]['Comnet0'] = $row['Comnet0'];
+                    $json['Analisis'][$i]['Comnet1'] = $row['Comnet1'];
+                    $json['Analisis'][$i]['Comnet2'] = $row['Comnet2'];
+                    $json['Analisis'][$i]['Comnet3'] = $row['Comnet3'];
+                    $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);
+                    $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'],2);
+                    $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
+                    $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
+                    $json['Analisis'][$i]['CLASE_ABC'] = $row['CLASE_ABC'];
+                    $json['Analisis'][$i]['VENCIDOS'] = number_format($row['VENCIDO'],2);
+
+                    /*tambien mando a traer otros datos de un procedimiento almacenado*/                    
+                    // $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
+                    //if(count($Array) <> 0)
+                    //{ /*for ($a=0; $a <count($Array) ; $a++){*/
+                   // $json['Analisis'][$i]['MESES'] = number_format($row['MESESEXISTENCIA'],2);
+                    /*}*/
+                    //}
+                    //else{$json['Analisis'][$i]['MESES'] =0;}               
+                    $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($row['TOTAL_ANUAL_CA'],2,'.','');
+                    $json['Analisis'][$i]['CANT12CA'] = number_format($row['CANT12CA'],2);
+                    $json['Analisis'][$i]['MENSAJE'] = $row['MENSAJE'];                                   
+                    $json['Analisis'][$i]['PDA'] =number_format($row['PEDDCA'],2);  
+                    $json['Analisis'][$i]['CTBP'] =number_format($row['CTBP'],2);
+                    $i++;
+                }
+             
+        } else {   
+                $json['Analisis'][$i]['ARTICULO'] = "";
+                $json['Analisis'][$i]['DESCRIPCION'] = "";
+                $json['Analisis'][$i]['LABORATORIO'] = "";
+                $json['Analisis'][$i]['UNIDAD'] = "";
+                $json['Analisis'][$i]['PROVEEDOR'] ="";
+                $json['Analisis'][$i]['CANT_DISPONIBLE'] ="";
+                $json['Analisis'][$i]['PROMEDIO'] ="";
+                $json['Analisis'][$i]['PEDDCA'] = "";
+                $json['Analisis'][$i]['CSCA'] = "";
+                $json['Analisis'][$i]['CTBP'] = "";
+                $json['Analisis'][$i]['CTTS'] = "";
+                $json['Analisis'][$i]['Comnet0'] = "";
+                $json['Analisis'][$i]['Comnet1'] = "";
+                $json['Analisis'][$i]['Comnet2'] = "";
+                $json['Analisis'][$i]['Comnet3'] = "";
+                $json['Analisis'][$i]['ORDENAR'] = "";   
+                $json['Analisis'][$i]['MESES'] ="";  
+                $json['Analisis'][$i]['PDA'] ="";        
+                $json['Analisis'][$i]['CLASE_ABC'] ="";
+                $json['Analisis'][$i]['CONTRATO_ANUAL'] ="";
+                $json['Analisis'][$i]['TOTAL_ANUAL'] = "";
+                $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = "";
+                $json['Analisis'][$i]['VENCIDOS'] = "";
+                $json['Analisis'][$i]['CANT12CA'] ="";
+                $json['Analisis'][$i]['MENSAJE'] = "";
+        }      
+        $this->sqlsrv->close();
+        return $json;
+    }
+
 }

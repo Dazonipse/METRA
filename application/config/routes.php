@@ -24,6 +24,10 @@ $route['dashboard'] = 'Menu';
 $route['Articulos'] = 'Articulos';
 
 
+/*************RUTAS EXCEL***********/
+$route['ExcelConsumo'] = 'reportes/ExecelConsumo';
+
+
 /*************RUTAS PDF***********/
 $route['pdf_detalles'] = 'reportes/pdfdetalle';
 $route['pdf_analisisConsumo'] = 'reportes/pdfanalisisconsumo';

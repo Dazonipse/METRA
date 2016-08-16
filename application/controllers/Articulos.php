@@ -68,11 +68,6 @@ class Articulos extends CI_Controller {
         $data['meses']=$this->Table->generateMeses();
         $data['laboratorios']=$this->Table->laboratorios();
         $data['proveedores']=$this->Table->proveedores();
-
-        //print_r($data['laboratorios']);
-       // print_r($data['proveedores']);
-
-
         $this->load->view('analisisconsumo', $data);
         $this->load->view('footer');
     }
