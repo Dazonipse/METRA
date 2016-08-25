@@ -35,6 +35,8 @@ class Table extends CI_Model
     }
     public function obtenerABC($id)
     {
+     
+        //$Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$id."','0','0'",SQLSRV_FETCH_ASSOC); 
         $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_CLASIFICACION_ABC '".$id."','0','0'",SQLSRV_FETCH_ASSOC); 
         $json = array();
         $i=0;
@@ -155,26 +157,11 @@ class Table extends CI_Model
                 $json['data'][$i]['50'] = number_format($row['FPRIVADA13'],2);
                 $json['data'][$i]['51'] = number_format($row['FPUBLICA13'],2);
                 $json['data'][$i]['52'] = number_format($row['TOTAL13'],2);
-                $json['data'][$i]['TOTALGENERAL'] = number_format($row['TOTALGENERAL'],2);                
+                $json['data'][$i]['TOTALGENERAL'] = number_format($row['TOTAL1']+$row['TOTAL2']+$row['TOTAL3']+$row['TOTAL4']+
+                $row['TOTAL5']+$row['TOTAL6']+$row['TOTAL7']+$row['TOTAL8']+$row['TOTAL9']+$row['TOTAL10']+$row['TOTAL11']+$row['TOTAL12']+
+                $row['TOTAL13'],2);
             }
-        }
-       
-        /*$this->db->select('PEDDCA,CTBP');
-        $this->db->where('ARTICULO',$id);
-        $Array2=$this->db->get('masterarticulos');
-
-        foreach ($Array2->result_array() as $row) 
-        { 
-          if($row['PEDDCA']==NULL OR $row['PEDDCA']==NULL)
-            {$json['data'][$i]['PDA'] =0;
-             $json['data'][$i]['CTBP'] =0;$i++;}
-            else
-            {                  
-            $json['data'][$i]['PDA'] = number_format($row['PEDDCA'],2);
-            $json['data'][$i]['CTBP'] = number_format($row['CTBP'],2);   
-            $i++;
-            }
-        } */
+        }       
         $this->sqlsrv->close();
         return $json;
     }
@@ -440,7 +427,6 @@ class Table extends CI_Model
             }
         }
         
-        
 
         //DETALLE DE LOTES ARTICULOS BONIFICADOS
         $Array = $this->sqlsrv -> fetchArray("SELECT  * FROM Softland.umk.EXISTENCIA_LOTE where ARTICULO='".$id."-B' and BODEGA <>'004'",SQLSRV_FETCH_ASSOC); 
@@ -466,7 +452,8 @@ class Table extends CI_Model
         //DETALLE DE LOTES VENCIDOS        
         $this->db->where('ARTICULO', $id);
         $query = $this->db->get('lotesvendidos');
-        if (count($Array)==0) {            
+        if($query->num_rows() == 0){   
+        //if (count($Array)==0) {            
                 $json['LotesVenci'][$i]['ARTICULO'] = "";
                 $json['LotesVenci'][$i]['DESCRIPCION'] = "";
                 $json['LotesVenci'][$i]['CATEGORIA'] ="";
@@ -495,26 +482,34 @@ class Table extends CI_Model
             }
         }
         $this->sqlsrv->close();
+        print_r($json);
         return $json;
 
     }
-    public function MASTER_ARTICULOS(){        
+    public function MASTER_ARTICULOS(){
         //$this->db->order_by('DESCRIPCION', 'ASC');
-       #$this->db->limit(5);
+        #$this->db->limit(5);
         $query = $this->db->get('masterarticulos');
-        if($query->num_rows() <> 0){            
+        if($query->num_rows() <> 0){
             return $query->result_array();
         }
         return 0;
     }
-   public function ANALISIS_CONSUMO(){        
+   public function ANALISIS_CONSUMO(){
         
-        $query = $this->db->query("SELECT * FROM view_analisis_consumo");
+        $query = $this->db->query("SELECT * FROM view_analisis_consumo where ARTICULO
+        IN ('10102011','10415012','15022011','17402011','15011011','10118481') limit 15");
         $json = array();
         $i=0;
 
-        if($query->num_rows() <> 0){                
-                foreach ($query->result_array() as $row){      
+        if($query->num_rows() <> 0){
+                foreach ($query->result_array() as $row){
+                    $ORDENAR;
+                    if (($row['ORDENAR2']/$row['CANT_DISPONIBLE']) >=0.8 AND ($row['ORDENAR2']/$row['CANT_DISPONIBLE']) <0.99){
+                    $ORDENAR = '<div class="divalerta"><i class="material-icons iconoalertaAmarillo right">warning</i><br>'.number_format($row['ORDENAR2'],2).'</div>';}
+                    if (($row['ORDENAR2']/$row['CANT_DISPONIBLE']) >0.99){
+                    $ORDENAR = '<div class="divalerta"><i class="material-icons iconoalerta right">warning</i><br>'.number_format($row['ORDENAR2'],2).'</div>';}
+                    else{$ORDENAR = '<div class="divalerta"><br>'.number_format($row['ORDENAR2'],2).'</div>';}
                     $json['Analisis'][$i]['ARTICULO'] = $row['ARTICULO'];
                     $json['Analisis'][$i]['DESCRIPCION'] = $row['DESCRIPCION'];
                     $json['Analisis'][$i]['LABORATORIO'] = $row['LABORATORIO'];
@@ -534,20 +529,16 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
                     $json['Analisis'][$i]['CLASE_ABC'] = $row['CLASE_ABC'];
                     $json['Analisis'][$i]['VENCIDOS'] = number_format($row['VENCIDO'],2);
-
-                    /*tambien mando a traer otros datos de un procedimiento almacenado*/                    
-                    // $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
-                    //if(count($Array) <> 0)
-                    //{ /*for ($a=0; $a <count($Array) ; $a++){*/
-                   // $json['Analisis'][$i]['MESES'] = number_format($row['MESESEXISTENCIA'],2);
-                    /*}*/
-                    //}
-                    //else{$json['Analisis'][$i]['MESES'] =0;}               
                     $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($row['TOTAL_ANUAL_CA'],2,'.','');
                     $json['Analisis'][$i]['CANT12CA'] = number_format($row['CANT12CA'],2);
-                    $json['Analisis'][$i]['MENSAJE'] = $row['MENSAJE'];                                   
-                    $json['Analisis'][$i]['PDA'] =number_format($row['PEDDCA'],2);  
+                    $json['Analisis'][$i]['MENSAJE'] = $row['MENSAJE'];
+                    $json['Analisis'][$i]['PDA'] =number_format($row['PEDDCA'],2);
                     $json['Analisis'][$i]['CTBP'] =number_format($row['CTBP'],2);
+                    $json['Analisis'][$i]['M3_PRIVADA'] =number_format($row['M3_PRIVADA'],2);
+                    $json['Analisis'][$i]['M3_PUBLICA'] =number_format($row['M3_PUBLICA'],2);
+                    $json['Analisis'][$i]['MINIMO_P_REORDEN'] =number_format($row['MINIMO_P_REORDEN'],2);
+                    $json['Analisis'][$i]['INVENTARIO_OPTIMO'] =number_format($row['INVENTARIO_OPTIMO'],2);
+                    $json['Analisis'][$i]['ORDENAR2'] = $ORDENAR;
                     $i++;
                 }
              
@@ -577,6 +568,11 @@ class Table extends CI_Model
                 $json['Analisis'][$i]['VENCIDOS'] = "";
                 $json['Analisis'][$i]['CANT12CA'] ="";
                 $json['Analisis'][$i]['MENSAJE'] = "";
+                $json['Analisis'][$i]['M3_PRIVADA'] = "";
+                $json['Analisis'][$i]['M3_PUBLICA'] = "";
+                $json['Analisis'][$i]['MINIMO_P_REORDEN'] = "";
+                $json['Analisis'][$i]['INVENTARIO_OPTIMO'] = "";
+                $json['Analisis'][$i]['ORDENAR2'] = "";
         }      
         $this->sqlsrv->close();
         return $json;
@@ -586,11 +582,10 @@ class Table extends CI_Model
        /* $CONSULTA="SELECT * FROM view_analisis_consumo where ARTICULO like '%".$Articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%' 
             AND PROVEEDOR LIKE '%".$proveedor."%'";echo $CONSULTA;*/
         if ($ignorar=='1') {
-                $query = $this->db->query("SELECT * FROM view_analisis_consumo where ARTICULO like '%".$Articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%' 
+            $query = $this->db->query("SELECT * FROM view_analisis_consumo where ARTICULO like '%".$Articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%' 
             AND PROVEEDOR LIKE '%".$proveedor."%' AND PROMEDIO >0");
-            }    
-            else{
-        $query = $this->db->query("SELECT * FROM view_analisis_consumo where ARTICULO like '%".$Articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%' 
+            }else{
+            $query = $this->db->query("SELECT * FROM view_analisis_consumo where ARTICULO like '%".$Articulo."%' AND LABORATORIO LIKE '%".$laboratorio."%' 
             AND PROVEEDOR LIKE '%".$proveedor."%'");
         }
         $json = array();
@@ -623,9 +618,8 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['PDA'] =number_format($row['PEDDCA'],2);  
                     $json['Analisis'][$i]['CTBP'] =number_format($row['CTBP'],2);
                     $i++;
-                }
-             
-        } else {   
+                }             
+        }else {   
                 $json['Analisis'][$i]['ARTICULO'] = "";
                 $json['Analisis'][$i]['DESCRIPCION'] = "";
                 $json['Analisis'][$i]['LABORATORIO'] = "";

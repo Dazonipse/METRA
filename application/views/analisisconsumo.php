@@ -69,17 +69,22 @@
          <th>PROMEDIO TRES MÁS ALTOS</th>
          <th>PENDIENTE CRUZ AZUL</th>
          <th>CONSUMO CRUZ AZUL</th>
+         <th>PENDIENTES INST-PUB</th>
+         <th>CANT DOCE MESES CRUZ AZUL</th>
+         <th>PENDIENTE ORDENAR CA</th>
+         <th>CONTRATO ANUAL</th>
+         <th>CUMPLIMIENTO CA %</th>
          <th>CANTIDAD BAJO PEDIDO</th>
          <th>CANTIDAD EN TRANSITO</th>             
          <th>MESES DE EXISTENCIA POR PROMEDIO DE TRES MAS ALTOS</th>
-         <th>CONTRATO ANUAL</th>
-         <th>PENDIENTES INST-PUB</th>
-         <th>CANT DOCE MESES CRUZ AZUL</th>
-         <th>CUMPLIMIENTO CA %</th>
-         <th>PENDIENTE ORDER CA</th>
          <th>ORDENAR</th>
          <th>CLASIFICACIÓN</th>
          <th>DAÑADOS Y VENCIDOS</th>
+         <th>PROMEDIO INST.PRIVADA</th>
+         <th>PROMEDIO INST.PUBLICA</th>
+         <th>MINIMO P.REORDEN</th>
+         <th>INVENTARIO OPTIMO</th>
+         <th>ORDENAR</th>
        </tr>
      </thead>
      <tfoot id="TblFiltros" >
@@ -102,13 +107,10 @@
     <tbody>
       <?php
       foreach ($AllART['Analisis'] as $key) {
-
-
         if ($key['PROMEDIO']=='0.00') {
           echo "<tr class='ocultar'>";
         }
         else{echo "<tr>";}
-
         echo "<td class='Ancho negra'><a href='#' onclick='Deathalles(".'"'.$key['ARTICULO'].'"'.")'>".$key['ARTICULO']." </a></td>
         <td class='Ancho medium'>".utf8_decode($key['DESCRIPCION'])."</td>
         <td>".$key['LABORATORIO']."</td>
@@ -116,7 +118,6 @@
         <td class='Ancho medium'>".$key['PROVEEDOR']."</td>
         <td>".$key['CANT_DISPONIBLE']."</td>
         <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".$key['PROMEDIO']."</a></td>";
-
         $impresion1;
         $impresion2;
         $impresion3;
@@ -136,40 +137,17 @@
 
         if ($key['Comnet3']=="")
           {$impresion4 = "<a style='color:#4D4D4D;'>".$key['CTTS']."</a>";}
-        else{$impresion4 = "<a style='color:#4D4D4D;' 
+        else{$impresion4 = "<a style='color:#4D4D4D;'
         class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a>";}
 
-        echo "<td style='background-color:#c1f4ff'>".$impresion1."</td>
-        <td style='background-color:#c1f4ff'>".$impresion2."</td> 
-        <td style='background-color:#63e3ff'>".$impresion3."</td>
-        <td style='background-color:#63e3ff'>".$impresion4."</td>
-        ";
-        $promedio;
-        if ($key['PROMEDIO']==0)
-          {$promedio=0.00;  
-          }
-          else
-            {$promedio=number_format($key['CANT_DISPONIBLE']/$key['PROMEDIO'],2);
-        }
-        echo "<td>".$promedio."</td>";
-        echo "   
-        <td>".number_format($key['CONTRATO_ANUAL'],2)."</td>        
-        <td>".$key['PEDDCA']."</td>";
-        /*CANT DOCE MESES CA*/
         $CANTIDADCA = $key['CANT12CA'];
-        echo"<td><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='".$key['MENSAJE']. "'>
+        /*CANT DOCE MESES CA 4 posicion*/ 
+        echo "<td class='cesia'>".$impresion1."</td>
+        <td class='cesia'>".$impresion2."</td>
+        <td class='cesia'>".$key['PEDDCA']."</td> 
+        <td class='cesia'><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='".$key['MENSAJE']. "'>
         ".$key['CANT12CA']."</a></td>";
-        /***************************************/
-        /*CUMPLIMIENTO CA%*/
-        if($key['CONTRATO_ANUAL']!=0)
-        {
-          echo"
-          <td>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'],1)." %</td>";
-        }else{echo"
-        <td>CONTRATO ANUAL NO DISPONIBLE</td>";}
-        /***************************************/
-        /*PENDIENTE ORDER CA*/    
-        $CONTRATO; $color;
+         $CONTRATO; $color;
         if ($key['CONTRATO_ANUAL']>($key['TOTAL_ANUAL_CA']+$key['PEDDCA']))
         {
           $CONTRATO=$key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']);
@@ -179,9 +157,31 @@
         else{
           $CONTRATO=($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])-$key['CONTRATO_ANUAL'];
           $color="green";
-          /*echo " <td class='negra' style='color: green;!important'>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])-$key['CONTRATO_ANUAL'],2)."</td> ";*/
         }
-        echo "<td class='negra' style='color: ".$color.";!important'>".number_format($CONTRATO,2)."</td>";
+        echo "<td class='negra cesia' style='color: ".$color.";!important'>".number_format($CONTRATO,2)."</td>";
+        echo "<td class='negra cesia'>".number_format($key['CONTRATO_ANUAL'],2)."</td>";
+        /***************************************/
+        /*CUMPLIMIENTO CA%*/
+        if($key['CONTRATO_ANUAL']!=0)
+        {
+          echo"
+          <td class='cesia'>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'],1)." %</td>";
+        }else{echo"
+        <td class='cesia'>CONTRATO ANUAL NO DISPONIBLE</td>";}
+        echo "
+        <td class='vivian'>".$impresion3."</td>
+        <td class='vivian'>".$impresion4."</td>";
+        $promedio;
+        if ($key['PROMEDIO']==0)
+        {$promedio=0.00;}
+        else
+        {
+          $promedio=number_format($key['CANT_DISPONIBLE']/$key['PROMEDIO'],2);
+        }
+        echo "<td>".$promedio."</td>";
+        /***************************************/
+        /*PENDIENTE ORDER CA*/    
+       
         /********************************************************/
         /*ORDERNAR----CLASIFICACION-----DAÑADOS Y VENCIDOS*/
         $ORDENAR;
@@ -190,6 +190,11 @@
         <td class='Ancho negra'>".$ORDENAR."</td>
         <td class='negra'>".$key['CLASE_ABC']."</td>
         <td>".$key['VENCIDOS']."</td>
+        <td>".$key['M3_PRIVADA']."</td>
+        <td>".$key['M3_PUBLICA']."</td>
+        <td>".$key['MINIMO_P_REORDEN']."</td>
+        <td>".$key['INVENTARIO_OPTIMO']."</td>
+        <td>".$key['ORDENAR2']."</td>
         </tr>
         ";
       }
@@ -257,8 +262,7 @@
       <thead>
         <tr style="background-color:#273778;color:white;">
           <th rowspan="2">CÓDIGO</th>
-          <th rowspan="2">DESCRIPCIÓN</th>            
-
+          <th rowspan="2">DESCRIPCIÓN</th>
           <?php for($i = 0; $i < count($meses); ++$i) {?>
           <th colspan="4"><?php echo $meses[$i];?></th>
           <?php }?>
@@ -320,7 +324,7 @@
           <th>TOTAL GENERAL</th>             
         </tr>
       </thead>
-      <tbody> </tbody>    
+      <tbody></tbody>    
     </table>
   </div>
 </div>

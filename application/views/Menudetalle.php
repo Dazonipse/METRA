@@ -158,6 +158,8 @@
               </thead>
               <tbody>
                <?php
+               if (!($Bodega['LotesVenci'])) {}
+                else{
                foreach ($Bodega['LotesVenci'] as $RowV) {
                 echo "
                 <tr>
@@ -169,7 +171,7 @@
                 </tr>                          
                 ";
               }
-
+            }
               ?>   
             </tbody>
           </table>

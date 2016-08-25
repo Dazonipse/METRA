@@ -281,3 +281,26 @@ select
 #tooltipIgnorar{
     color:#9e9e9e;
 }
+.cesia{
+    background-color:#c1f4ff;
+}
+.vivian{
+    background-color:#63e3ff;
+}
+.iconoalerta{
+    font-size: 18px;
+    color: red!important;
+    margin: 0;
+
+}
+.iconoalertaAmarillo{
+    font-size: 18px;
+    color: #FF9801 !important;
+    margin: 0;
+
+}
+.divalerta{
+    margin-bottom: 20px;
+    margin-top: 0px;
+    margin-right: 5px;
+}
