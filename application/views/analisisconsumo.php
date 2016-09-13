@@ -1,4 +1,3 @@
-<style></style>
 <div id= "MyBar" class="progress green" style="Display:none;">
   <div class="indeterminate blue"></div>
 </div>
@@ -54,71 +53,159 @@
     </div>
   </div>
   <div style="overflow-x:auto;">
+  <table id="tblAlvaro" style="font-size:11px;">
+       <thead>
+         <tr style="background-color:#253778; color:white;">
+           <th>EXISTENCIAS</th>
+           <th>PROMEDIO TRES MÁS ALTOS PRIVADO</th>
+           <th>PROMEDIO TRES MÁS ALTOS INST. PUBLICO</th>
+           <th>CONTRATO ANUAL CRUZ AZUL</th>
+           <th>ENTREGA PENDIENTE CRUZ AZUL</th>
+           <th>CONSUMO INST. PUBLICO 12 MESES</th>
+           <th>ORDENADO CONTRATO CRUZ AZUL</th>
+           <th>PENDIENTE ORDENAR CRUZ AZUL</th>
+           <th>CUMPLIMIENTO CONTRATO CRUZ AZUL %</th>
+           <th>CANTIDAD BAJO PEDIDO A PROVEEDOR</th>
+           <th>CANTIDAD EN TRANSITO</th>
+           <th>MESES DE EXISTENCIA POR PROMEDIO DE TRES MAS ALTOS</th>
+           <th>INVENTARIO MINIMO (PUNTO DE RE-ORDEN)</th>
+           <th>ORDENAR</th>
+           <th>CLASIFICACIÓN</th>
+           <th>DAÑADOS Y VENCIDOS</th>
+           <th>PROMEDIO MENSUAL FARMACIA E INST.PRIVADA (ULTIMOS 12M)</th>
+           <th>PROMEDIO MENSUAL INST.PUBLICO (ULTIMOS 12M)</th>
+         </tr>
+       </thead>
+
+        <tbody>
+          <tr>
+           <td>Existencias en bodega exceptuando nacionales</td>
+           <td>Promedio de los tres meses mas altos (Farmacia PRIVADO + Institucional Privado Esperanza y Mayorista. 
+Aca no se toman las Ventas de Cesia</td>
+           <td>Promedio de los tres meses mas altos SOLO las Ventas de Cesia, Exceptuando MINSA</td>
+           <td>CONTRATO QUE CESIA INGRESA CADA 1RO DE SEPT. (LOS DATOS SON FICTICIOS)</td>
+           <td>Lo ingresa Cesia hasta el momento. Es el producto ordenado y pendiente de entregar a Cruz Azul</td>
+           <td>Suma 12 meses de todo lo que factura Cesia, excepto MINSA. Estas son ventas de Cesia a Cruz Azul,
+            Hosp. Bertda Calderon, Hosp. Lenin, La Mascota, Conanca, etc; todos los clientes de Cesia Excepto MINSA.</td>
+           <td>CANTIDAD VENDIDA A CRUZ AZUL DESDEINICIO DE CONTRATO (Ej: 1 DE SEPTIEMBRE). </td>
+           <td>SE divide la cantidad de Contrato anual Cruz Azul (I) entre 12 meses, y se multipilca por el numero de meses transcurridos al momento de la corrida, esto nos da lo que deberian haber comprado a este momento. Si lo ordenado (L) es mayor a lo que deberian haber ordenado a este momento, pone la cantidad en verde del excendente comprado; pero si lo ordenado (L) hasta el momento es inferior (menor) a lo que deberia haber ordenado a este momento, pone el deficit en rojo, deficit es lo que faltaria que ordene para cumplir con el contrato a la fecha de corrida. </td>
+           <td>Es el porcentaje de cumplimiento de lo que deberia haber comprado a la fecha de la corrida.
+            Se divide 100% / 12 meses = 8.333%; siguiendo el ejemplo anterior, al 30 de noviembre deberia haber ordenado/comprado 25%;
+             en el Escenario A) aca deberia aparecer en rojo 16.25%;  en cambio, en el escenario B) aca deberia aparecer 43.75% en verder 
+             porque lleva sobrecumplimimiento. = (525/300)*25</td>
+           <td>LO LLENA VIVIAN/REBECA. Ellas lo digitan cuando ya enviaron pedido a Proveedor, cuando el proveedor manda notificacion de embarque, lo cambia Transito </td>
+           <td>LO LLENA VIVIAN, ya el producto salio de puerto. Permitir que Viviana escriba comentarios en un pop up, fecha de salida y fecha estimada de llegada.</td>
+           <td>ES LA DIVISION DE LA EXISTENCIA ENTRE EL PROMEDIO DE LOS 3 MESES MAS ALTOS TANTO DEL MERCADO PRIVADO e INST. PRIVADO, COMO DE INST. PUBLICO Cesia (Excluyendo MINSA)
+
+            SI NO HAY EXISTENCIA SE PONE 0</td>
+           <td>(CONSUMO INST. PUBLICO 12 MESES "K" * 50%) + (PROMEDIO TRES MAS ALTOS PRIVADO "G" * X)
+          X = 6 MESES SI ES AAA
+          X= 4 MESES SI ES AA
+          X = 2 MESES SI ES A</td>
+           <td>= (INVENTARIO MINIMO (PUNTO DE RE-ORDEN) + ENTREGA PENDIENTE CRUZ AZUL) - (EXISTENCIAS+CANTIDAD BAJO PEDIDO+CANTIDAD EN TRANSITO)
+Si el resultado es inferior a INVENTARIO MINIMO, la cantidad se refleja en negro; pero si el resultado es superior a INVENTARIO MINIMO, se refleja en Rojo.</td>
+           <td>CLASIFICACIÓN</td>
+           <td>DAÑADOS Y VENCIDOS</td>
+           <td>PROMEDIO DE LOS ULTIMOS 12 MESES DE FARMACIAS E INSTITUCION PRIVADA (TODAS LAS VENTAS EXCEPTUANDO CESIA)</td>
+           <td>PROMEDIO DE LOS ULTIMOS 12 MESES DE LAS VENTAS DE CESIA (EXCEPTUANDO MINSA)</td>
+         </tr>
+        </tbody>
+      </table>
+        </div>    
+  <div style="overflow-x:auto;">
     <div id="DivFiltros" class="left"><br><br><br>
       <div  id="Filtro4_wrapper" class="dataTables_wrapper"></div>
     </div>
     <table id = "tbArticulos" class="tableizer-table responsive-table"  width="100%">
-      <thead>
-       <tr>
-         <th>ARTICULO</th>
-         <th>DESCRIPCION</th>
-         <th>LABORATORIO</th>
-         <th>UNIDAD</th>
-         <th>PROVEEDOR</th>
-         <th>EXISTENCIAS</th>
-         <th>PROMEDIO TRES MÁS ALTOS</th>
-         <th>PENDIENTE CRUZ AZUL</th>
-         <th>CONSUMO CRUZ AZUL</th>
-         <th>PENDIENTES INST-PUB</th>
-         <th>CANT DOCE MESES CRUZ AZUL</th>
-         <th>PENDIENTE ORDENAR CA</th>
-         <th>CONTRATO ANUAL</th>
-         <th>CUMPLIMIENTO CA %</th>
-         <th>CANTIDAD BAJO PEDIDO</th>
-         <th>CANTIDAD EN TRANSITO</th>             
-         <th>MESES DE EXISTENCIA POR PROMEDIO DE TRES MAS ALTOS</th>
-         <th>ORDENAR</th>
-         <th>CLASIFICACIÓN</th>
-         <th>DAÑADOS Y VENCIDOS</th>
-         <th>PROMEDIO INST.PRIVADA</th>
-         <th>PROMEDIO INST.PUBLICA</th>
-         <th>MINIMO P.REORDEN</th>
-         <th>INVENTARIO OPTIMO</th>
-         <th>ORDENAR</th>
-       </tr>
-     </thead>
-     <tfoot id="TblFiltros" >
-      <tr>
-        <th style="display: none;">ARTICULO</th>
-        <th style="display: none;">DESCRIPCION</th>
-        <th id="filtroLaboratorio">LABORATORIO</th>
-        <th style="display: none;">UNIDAD</th>
-        <th id="filtroProveedor">PROVEEDOR</th>
-        <th style="display: none;">DISPONIBLE</th>
-        <th style="display: none;">PROMEDIO TRES MAS ALTOS</th>
-        <th style="display: none;">PEDIDO CRUZ AZUL</th>
-        <th style="display: none;">CONSUMO CRUZ AZUL</th>
-        <th style="display: none;">CANTIDAD BAJO PEDIDO</th>
-        <th style="display: none;">CANTIDAD EN TRANCITO</th>
-        <th style="display: none;">Ordenar</th>
-      </tr>
-    </tfoot>
+        <thead>
+         <tr>
+           <th>ARTICULO</th>
+           <th>DESCRIPCION</th>
+           <th>LABORATORIO</th>
+           <th>UNIDAD</th>
+           <th>PROVEEDOR</th>
+           <th>EXISTENCIAS</th>
+           <th>PROMEDIO TRES MÁS ALTOS PRIVADO</th>
+           <th>PROMEDIO TRES MÁS ALTOS INST. PUBLICO</th>
+           <th>CONTRATO ANUAL CRUZ AZUL</th>
+           <th>ENTREGA PENDIENTE CRUZ AZUL</th>
+           <th>CONSUMO INST. PUBLICO 12 MESES</th>
+           <th>ORDENADO CONTRATO CRUZ AZUL</th>
+           <th>PENDIENTE ORDENAR CRUZ AZUL</th>
+           <th>CUMPLIMIENTO CONTRATO CRUZ AZUL %</th>
+           <th>CANTIDAD BAJO PEDIDO A PROVEEDOR</th>
+           <th>CANTIDAD EN TRANSITO</th>
+           <th>MESES DE EXISTENCIA POR PROMEDIO DE TRES MAS ALTOS</th>
+           <th>INVENTARIO MINIMO (PUNTO DE RE-ORDEN)</th>
+           <th>ORDENAR</th>
+           <th>CLASIFICACIÓN</th>
+           <th>DAÑADOS Y VENCIDOS</th>
+           <th>PROMEDIO MENSUAL FARMACIA E INST.PRIVADA (ULTIMOS 12M)</th>
+           <th>PROMEDIO MENSUAL INST.PUBLICO (ULTIMOS 12M)</th>
+         </tr>
+       </thead>
+       <tfoot id="TblFiltros" >
+        <tr>
+          <th style="display: none;">ARTICULO</th>
+          <th style="display: none;">DESCRIPCION</th>
+          <th id="filtroLaboratorio">LABORATORIO</th>
+          <th style="display: none;">UNIDAD</th>
+          <th id="filtroProveedor">PROVEEDOR</th>
+          <th style="display: none;">DISPONIBLE</th>
+          <th style="display: none;">PROMEDIO TRES MAS ALTOS</th>
+          <th style="display: none;">PEDIDO CRUZ AZUL</th>
+          <th style="display: none;">CONSUMO CRUZ AZUL</th>
+          <th style="display: none;">CANTIDAD BAJO PEDIDO</th>
+          <th style="display: none;">CANTIDAD EN TRANCITO</th>
+          <th style="display: none;">Ordenar</th>
+        </tr>
+      </tfoot>
 
     <tbody>
       <?php
       foreach ($AllART['Analisis'] as $key) {
-        if ($key['PROMEDIO']=='0.00') {
+        if ($key['M3_PUBLICA']=='0.00') {
           echo "<tr class='ocultar'>";
         }
         else{echo "<tr>";}
-        echo "<td class='Ancho negra'><a href='#' onclick='Deathalles(".'"'.$key['ARTICULO'].'"'.")'>".$key['ARTICULO']." </a></td>
-        <td class='Ancho medium'>".utf8_decode($key['DESCRIPCION'])."</td>
+        echo "
+        <td class='Ancho negra'><a href='#' onclick='Deathalles(".'"'.$key['ARTICULO'].'"'.")'>".$key['ARTICULO']." </a></td>
+        <td class='Ancho negra'>".utf8_decode($key['DESCRIPCION'])."</td>
         <td>".$key['LABORATORIO']."</td>
         <td>".$key['UNIDAD']."</td>
         <td class='Ancho medium'>".$key['PROVEEDOR']."</td>
         <td>".$key['CANT_DISPONIBLE']."</td>
-        <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".$key['PROMEDIO']."</a></td>";
-        $impresion1;
+        <td>".$key['M3_PRIVADA']."</td>
+        <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".$key['M3_PUBLICA']."</td>
+        <td class='cesia'>".$key['CONTRATO_ANUAL']."</td>
+        <td class='cesia'>".$key['PEDDCA']."</td>
+        <td>".$key['CONSUMO_PUBLICO_12MESES']."</td>
+        <td>".$key['ORDENADO_CONTRATO_CRUZ_AZUL']."</td>";
+        if ($key['PENDIENTE_ORDENAR_CA']<0) {
+          echo "<td class='red-text negra'>".$key['PENDIENTE_ORDENAR_CA']."</td>";
+        }else{echo "<td class='green-text text-darken-3 negra'>".$key['PENDIENTE_ORDENAR_CA']."</td>";}
+        echo "<td>".$key['CUMPLIMIENTO_CONTRATO_CA']."</td>
+        <td class='vivian'>".$key['CTBP']."</td>";
+        if ($key['Comnet3']=="")
+          {echo "<td class='vivian'>".$key['CTTS']."</td>";}
+        else{echo "<td class='vivian'><a style='color:#4D4D4D;'
+        class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a></td>";}
+        echo "<td>".$key['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS']."</td>
+        <td>".number_format($key['INVENTARIO_MINIMO_PUNTO_REORDEN'])."</td>";
+
+        if ($key['ORDENAR']>$key['INVENTARIO_MINIMO_PUNTO_REORDEN']) {
+          echo "<td class='red-text'>".number_format($key['ORDENAR'])."</td>";  
+        }else{
+          echo "<td>".number_format($key['ORDENAR'])."</td>";}
+
+        echo"<td>".$key['CLASE_ABC']."</td>
+        <td>".$key['VENCIDO']."</td>
+        <td>".$key['PROMEDIO_MENSUAL_FARM_INSTPRIV']."</td>
+        <td>".$key['PROMEDIO_MENSUAL_INSTPUBLICA']."</td>
+        </tr>";
+      
+        /*$impresion1;
+        <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".$key['PROMEDIO']."</a></td>
         $impresion2;
         $impresion3;
         $impresion4;
@@ -142,27 +229,28 @@
 
         $CANTIDADCA = $key['CANT12CA'];
         /*CANT DOCE MESES CA 4 posicion*/ 
-        echo "<td class='cesia'>".$impresion1."</td>
+        /*echo "<td class='cesia'>".$impresion1."</td>
         <td class='cesia'>".$impresion2."</td>
         <td class='cesia'>".$key['PEDDCA']."</td> 
         <td class='cesia'><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='".$key['MENSAJE']. "'>
         ".$key['CANT12CA']."</a></td>";
-         $CONTRATO; $color;
+        $CONTRATO; $color;
         if ($key['CONTRATO_ANUAL']>($key['TOTAL_ANUAL_CA']+$key['PEDDCA']))
         {
           $CONTRATO=$key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']);
           $color="red";
           /*echo "<td class='negra' style='color: red;!important'>".number_format($key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']),2)."</td>";*/
-        }
+        /*}
         else{
           $CONTRATO=($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])-$key['CONTRATO_ANUAL'];
           $color="green";
         }
-        echo "<td class='negra cesia' style='color: ".$color.";!important'>".number_format($CONTRATO,2)."</td>";
+        /***************PENDIENTE DE ORDENAR CA*/
+        /*echo "<td class='negra cesia' style='color: ".$color.";!important'>".number_format($CONTRATO,2)."</td>";
         echo "<td class='negra cesia'>".number_format($key['CONTRATO_ANUAL'],2)."</td>";
         /***************************************/
         /*CUMPLIMIENTO CA%*/
-        if($key['CONTRATO_ANUAL']!=0)
+       /* if($key['CONTRATO_ANUAL']!=0)
         {
           echo"
           <td class='cesia'>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'],1)." %</td>";
@@ -180,11 +268,9 @@
         }
         echo "<td>".$promedio."</td>";
         /***************************************/
-        /*PENDIENTE ORDER CA*/    
-       
-        /********************************************************/
+        
         /*ORDERNAR----CLASIFICACION-----DAÑADOS Y VENCIDOS*/
-        $ORDENAR;
+        /*$ORDENAR;
         $ORDENAR=number_format(($key['CANT_DISPONIBLE']+$key['CTBP']+$key['CTTS'])-($key['PEDDCA']+$CANTIDADCA+($key['PROMEDIO']*6)));
         echo"
         <td class='Ancho negra'>".$ORDENAR."</td>
@@ -192,11 +278,8 @@
         <td>".$key['VENCIDOS']."</td>
         <td>".$key['M3_PRIVADA']."</td>
         <td>".$key['M3_PUBLICA']."</td>
-        <td>".$key['MINIMO_P_REORDEN']."</td>
-        <td>".$key['INVENTARIO_OPTIMO']."</td>
-        <td>".$key['ORDENAR2']."</td>
         </tr>
-        ";
+        ";*/
       }
       ?>                         
     </tbody>
@@ -204,7 +287,6 @@
 </div>
 </div>
 </div>
-
 <!-- Modal Structure -->
 <div id="modal1" class="modal reporte">
   <div class="modal-content">
@@ -251,7 +333,6 @@
   <a href="#!" onclick="generarPdf()" class="waves-effect waves-light btn-flat"><i style=" color:#253778; font-size:30px;" class="material-icons left">picture_as_pdf</i>GENERAR</a>
 </div>
 </div>
-
 <!-- Modal Structure -->
 <div id="modalABC" class="modal">    
   <div class="row center">
@@ -326,6 +407,7 @@
       </thead>
       <tbody></tbody>    
     </table>
+   <!-- <p class="center" style="color:red;"><u>NOTA</u>: El análisis de consumo no refleja artículos vendidos a MINSA</p>-->
   </div>
 </div>
 <form name="excel" id="excel" action="<?php echo base_url('index.php/ExcelConsumo')?>" target="_blank" method="post">

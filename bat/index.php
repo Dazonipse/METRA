@@ -125,19 +125,6 @@
                 $ObjMysql->query($sql);
             }//*/
             
-            
-            /*  $rows = funny_query_results("SELECT ...");
-                foreach($rows as $row) { // Uh... What should I use? foreach VS for VS while?
-                echo $row->something;
-                }$results = $mysqli->query("SELECT ...");
-                while( $row = $results->fetch_object()) {
-                    echo $row->something;
-                }   while ($row = mysql_fetch_assoc($result)) {
-                    echo $row["userid"];
-                    echo $row["fullname"];
-                    echo $row["userstatus"];}
-            */
-            
             echo " - FASE 2: Actualizaciones de Cantidades Disponibles de Articulos.<br>";
             //VERIFICAR CAMBIOS EN LAS CANTIDADES DE MYSQL
             @$sql = "SELECT Articulo, CANT_DISPONIBLE FROM MasterArticulos";

@@ -16,6 +16,26 @@ function generarExcel()
     document.getElementById('excel').submit();
 } 
 
+$('#tblAlvaro').DataTable( {
+    "ordering": false,
+    "info":     false,
+    "bPaginate2" : false,
+    "bFilter" : false,
+    "language": {
+        "emptyTable": "No hay datos disponibles en la tabla",
+        "lengthMenu": '_MENU_ ',
+        "search": '<i class="tiny material-icons">search</i>',
+        "loadingRecords": "",
+        "paginate": {
+            "first":      "Primera",
+            "last":       "Última ",
+            "next":       "Anterior",
+            "previous":   "Siguiente"
+        }
+    },
+});
+
+
 $('#Articulos').DataTable( {
     "ordering": false,
     "info":     false,

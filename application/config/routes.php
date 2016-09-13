@@ -1,12 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
 $route['default_controller'] = 'Login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-
-
 
 $route['Acreditar'] = 'Login/Acreditar';
 $route['Salir'] = 'Login/Salir';
@@ -23,10 +20,8 @@ $route['Eliminar/(:any)']= "Usuarios/Eliminar/$1";
 $route['dashboard'] = 'Menu';
 $route['Articulos'] = 'Articulos';
 
-
 /*************RUTAS EXCEL***********/
 $route['ExcelConsumo'] = 'reportes/ExecelConsumo';
-
 
 /*************RUTAS PDF***********/
 $route['pdf_detalles'] = 'reportes/pdfdetalle';
