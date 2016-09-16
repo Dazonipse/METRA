@@ -191,7 +191,7 @@ Si el resultado es inferior a INVENTARIO MINIMO, la cantidad se refleja en negro
         else{echo "<td class='vivian'><a style='color:#4D4D4D;'
         class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a></td>";}
         echo "<td>".$key['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS']."</td>
-        <td>".number_format($key['INVENTARIO_MINIMO_PUNTO_REORDEN'])."</td>";
+        <td>".$key['INVENTARIO_MINIMO_PUNTO_REORDEN']."</td>";
 
         if ($key['ORDENAR']>$key['INVENTARIO_MINIMO_PUNTO_REORDEN']) {
           echo "<td class='red-text'>".number_format($key['ORDENAR'])."</td>";  
@@ -203,83 +203,6 @@ Si el resultado es inferior a INVENTARIO MINIMO, la cantidad se refleja en negro
         <td>".$key['PROMEDIO_MENSUAL_FARM_INSTPRIV']."</td>
         <td>".$key['PROMEDIO_MENSUAL_INSTPUBLICA']."</td>
         </tr>";
-      
-        /*$impresion1;
-        <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".$key['PROMEDIO']."</a></td>
-        $impresion2;
-        $impresion3;
-        $impresion4;
-        if ($key['Comnet0']=="")
-          {$impresion1 = "<a style='color:#4D4D4D;'>".$key['PEDDCA']."</a>";}
-        else{$impresion1 = "<a style='color:#4D4D4D;'class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet0']."'>".$key['PEDDCA']."</a>";}
-
-        if ($key['Comnet1']=="")
-          {$impresion2 = "<a style='color:#4D4D4D;'>".$key['CSCA']."</a>";}
-        else{$impresion2 = "<a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet1']."'>".$key['PEDDCA']."</a>";}
-
-        if ($key['Comnet2']=="")
-          {$impresion3 = "<a style='color:#4D4D4D;'>".$key['CTBP']."</a>";}
-        else{$impresion3 = "<a style='color:#4D4D4D;'
-        class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet2']."'>".$key['CTBP']."</a>";}
-
-        if ($key['Comnet3']=="")
-          {$impresion4 = "<a style='color:#4D4D4D;'>".$key['CTTS']."</a>";}
-        else{$impresion4 = "<a style='color:#4D4D4D;'
-        class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a>";}
-
-        $CANTIDADCA = $key['CANT12CA'];
-        /*CANT DOCE MESES CA 4 posicion*/ 
-        /*echo "<td class='cesia'>".$impresion1."</td>
-        <td class='cesia'>".$impresion2."</td>
-        <td class='cesia'>".$key['PEDDCA']."</td> 
-        <td class='cesia'><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='".$key['MENSAJE']. "'>
-        ".$key['CANT12CA']."</a></td>";
-        $CONTRATO; $color;
-        if ($key['CONTRATO_ANUAL']>($key['TOTAL_ANUAL_CA']+$key['PEDDCA']))
-        {
-          $CONTRATO=$key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']);
-          $color="red";
-          /*echo "<td class='negra' style='color: red;!important'>".number_format($key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']),2)."</td>";*/
-        /*}
-        else{
-          $CONTRATO=($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])-$key['CONTRATO_ANUAL'];
-          $color="green";
-        }
-        /***************PENDIENTE DE ORDENAR CA*/
-        /*echo "<td class='negra cesia' style='color: ".$color.";!important'>".number_format($CONTRATO,2)."</td>";
-        echo "<td class='negra cesia'>".number_format($key['CONTRATO_ANUAL'],2)."</td>";
-        /***************************************/
-        /*CUMPLIMIENTO CA%*/
-       /* if($key['CONTRATO_ANUAL']!=0)
-        {
-          echo"
-          <td class='cesia'>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'],1)." %</td>";
-        }else{echo"
-        <td class='cesia'>CONTRATO ANUAL NO DISPONIBLE</td>";}
-        echo "
-        <td class='vivian'>".$impresion3."</td>
-        <td class='vivian'>".$impresion4."</td>";
-        $promedio;
-        if ($key['PROMEDIO']==0)
-        {$promedio=0.00;}
-        else
-        {
-          $promedio=number_format($key['CANT_DISPONIBLE']/$key['PROMEDIO'],2);
-        }
-        echo "<td>".$promedio."</td>";
-        /***************************************/
-        
-        /*ORDERNAR----CLASIFICACION-----DAÑADOS Y VENCIDOS*/
-        /*$ORDENAR;
-        $ORDENAR=number_format(($key['CANT_DISPONIBLE']+$key['CTBP']+$key['CTTS'])-($key['PEDDCA']+$CANTIDADCA+($key['PROMEDIO']*6)));
-        echo"
-        <td class='Ancho negra'>".$ORDENAR."</td>
-        <td class='negra'>".$key['CLASE_ABC']."</td>
-        <td>".$key['VENCIDOS']."</td>
-        <td>".$key['M3_PRIVADA']."</td>
-        <td>".$key['M3_PUBLICA']."</td>
-        </tr>
-        ";*/
       }
       ?>                         
     </tbody>

@@ -521,10 +521,14 @@ class Table extends CI_Model
         $PENDIENTE=$PENDIENTE*$fechameses;
         $PORCENTAJE = 8.3333;//ES EL RESULTADO DE DIVIDIR 100/12 MESES
         $PORCENTAJE = $PORCENTAJE*$fechameses;
+        if ($PENDIENTE==0) {
+            $CUMPLIMIENTO=0;
+        }else{
         $CUMPLIMIENTO = ($ORDENADO_CONTRATO_CA/$PENDIENTE) * $PORCENTAJE;
+        }
         if ($CUMPLIMIENTO>$PORCENTAJE) {
-            return '<p class ="green-text negra">'.number_format($CUMPLIMIENTO,2).' %</p>';
-        }else{return '<p class ="red-text negra">'.number_format($CUMPLIMIENTO,2).' %</p>';}
+            return '<p style="color:green;" class="negra">'.number_format($CUMPLIMIENTO,2).' %</p>';
+        }else{return '<p style="color:red;" class ="negra">'.number_format($CUMPLIMIENTO,2).' %</p>';}
         //return number_format($CUMPLIMIENTO,2);
     }
    public function ANALISIS_CONSUMO(){
@@ -532,7 +536,7 @@ class Table extends CI_Model
         $query = $this->db->query("SELECT * FROM view_analisis_consumo");
         $json = array();
         $i=0;
-
+      
         if($query->num_rows() <> 0){
                 foreach ($query->result_array() as $row){                   
                     $json['Analisis'][$i]['ARTICULO'] = $row['ARTICULO'];
@@ -616,45 +620,35 @@ class Table extends CI_Model
         $i=0;
 
         if($query->num_rows() <> 0){
-                foreach ($query->result_array() as $row){
-                    $ORDENAR;
-                    if ($row['CANT_DISPONIBLE']!=0)
-                    {
-                    if (($row['ORDENAR2']/$row['CANT_DISPONIBLE']) >=0.8 AND ($row['ORDENAR2']/$row['CANT_DISPONIBLE']) <0.99){
-                    $ORDENAR = '<div class="divalerta"><i class="material-icons iconoalertaAmarillo right">warning</i><br>'.number_format($row['ORDENAR2'],2).'</div>';}
-                    if (($row['ORDENAR2']/$row['CANT_DISPONIBLE']) >0.99){
-                    $ORDENAR = '<div class="divalerta"><i class="material-icons iconoalerta right">warning</i><br>'.number_format($row['ORDENAR2'],2).'</div>';}
-                    else{$ORDENAR = '<div class="divalerta"><br>'.number_format($row['ORDENAR2'],2).'</div>';}
-                    }else{$ORDENAR = '<div class="divalerta"><br>'.number_format($row['ORDENAR2'],2).'</div>';}
+                foreach ($query->result_array() as $row){                   
                     $json['Analisis'][$i]['ARTICULO'] = $row['ARTICULO'];
                     $json['Analisis'][$i]['DESCRIPCION'] = $row['DESCRIPCION'];
                     $json['Analisis'][$i]['LABORATORIO'] = $row['LABORATORIO'];
                     $json['Analisis'][$i]['UNIDAD'] = $row['UNIDAD'];
                     $json['Analisis'][$i]['PROVEEDOR'] =$row['PROVEEDOR'];
                     $json['Analisis'][$i]['CANT_DISPONIBLE'] =number_format($row['CANT_DISPONIBLE'],2);
-                    $json['Analisis'][$i]['PROMEDIO'] =number_format($row['PROMEDIO'],2);
-                    $json['Analisis'][$i]['PEDDCA'] = number_format($row['PEDDCA'],2);
-                    $json['Analisis'][$i]['CSCA'] = number_format($row['CSCA'],2);
-                    $json['Analisis'][$i]['Comnet0'] = $row['Comnet0'];
+                    $json['Analisis'][$i]['M3_PRIVADA'] =number_format($row['M3_PRIVADA'],2);
+                    $json['Analisis'][$i]['M3_PUBLICA'] = number_format($row['M3_PUBLICA'],2);
+                    $json['Analisis'][$i]['CONTRATO_ANUAL'] = number_format($row['CONTRATO_ANUAL'],2);
+                    /*$json['Analisis'][$i]['Comnet0'] = $row['Comnet0'];
                     $json['Analisis'][$i]['Comnet1'] = $row['Comnet1'];
-                    $json['Analisis'][$i]['Comnet2'] = $row['Comnet2'];
+                    $json['Analisis'][$i]['Comnet2'] = $row['Comnet2'];*/
                     $json['Analisis'][$i]['Comnet3'] = $row['Comnet3'];
+                    $json['Analisis'][$i]['PEDDCA'] = number_format($row['PEDDCA'],2);
+                    $json['Analisis'][$i]['CONSUMO_PUBLICO_12MESES'] = number_format($row['CONSUMO_PUBLICO_12MESES'],2);
+                    $json['Analisis'][$i]['ORDENADO_CONTRATO_CRUZ_AZUL'] = number_format($row['ORDENADO_CONTRATO_CRUZ_AZUL'],2);
+                    #$json['Analisis'][$i]['PENDIENTE_ORDENAR_CA'] = $this->returnMeses($row['FECHA_CONTRATO']);
+                    $json['Analisis'][$i]['PENDIENTE_ORDENAR_CA'] = $this->pendienteOrdenar($row['CONTRATO_ANUAL'],$row['ORDENADO_CONTRATO_CRUZ_AZUL'],$row['FECHA_CONTRATO']);
+                    $json['Analisis'][$i]['CUMPLIMIENTO_CONTRATO_CA'] = $this->cumplimientoContrato($row['CONTRATO_ANUAL'],$row['ORDENADO_CONTRATO_CRUZ_AZUL'],$row['FECHA_CONTRATO']);
                     $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);
                     $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'],2);
-                    //$json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
-                    $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
-                    $json['Analisis'][$i]['CLASE_ABC'] = $row['CLASE_ABC'];
-                    $json['Analisis'][$i]['VENCIDOS'] = number_format($row['VENCIDO'],2);
-                    $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($row['TOTAL_ANUAL_CA'],2,'.','');
-                    $json['Analisis'][$i]['CANT12CA'] = number_format($row['CANT12CA'],2);
-                    $json['Analisis'][$i]['MENSAJE'] = $row['MENSAJE'];
-                    $json['Analisis'][$i]['PDA'] =number_format($row['PEDDCA'],2);
-                    $json['Analisis'][$i]['CTBP'] =number_format($row['CTBP'],2);
-                    $json['Analisis'][$i]['M3_PRIVADA'] =number_format($row['M3_PRIVADA'],2);
-                    $json['Analisis'][$i]['M3_PUBLICA'] =number_format($row['M3_PUBLICA'],2);
-                    $json['Analisis'][$i]['MINIMO_P_REORDEN'] =number_format($row['MINIMO_P_REORDEN'],2);
-                    $json['Analisis'][$i]['INVENTARIO_OPTIMO'] =number_format($row['INVENTARIO_OPTIMO'],2);
-                    $json['Analisis'][$i]['ORDENAR2'] = $ORDENAR;
+                    $json['Analisis'][$i]['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS'] = number_format($row['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS'],2);
+                    $json['Analisis'][$i]['INVENTARIO_MINIMO_PUNTO_REORDEN'] = $row['INVENTARIO_MINIMO_PUNTO_REORDEN'];
+                    $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
+                    $json['Analisis'][$i]['CLASE_ABC'] =$row['CLASE_ABC'];
+                    $json['Analisis'][$i]['VENCIDO'] =number_format($row['VENCIDO'],2);
+                    $json['Analisis'][$i]['PROMEDIO_MENSUAL_FARM_INSTPRIV'] =number_format($row['PROMEDIO_MENSUAL_FARM_INSTPRIV'],2);
+                    $json['Analisis'][$i]['PROMEDIO_MENSUAL_INSTPUBLICA'] =number_format($row['PROMEDIO_MENSUAL_INSTPUBLICA'],2);
                     $i++;
                 }
              
@@ -862,43 +856,39 @@ class Table extends CI_Model
          AND PROVEEDOR LIKE '%".$proveedor."%'";
         }
         $query = $this->db->query($consulta);
-        $json = array();
+       $json = array();
         $i=0;
-        if($query->num_rows() <> 0){                
-                foreach ($query->result_array() as $row){      
+
+        if($query->num_rows() <> 0){
+                foreach ($query->result_array() as $row){                   
                     $json['Analisis'][$i]['ARTICULO'] = $row['ARTICULO'];
                     $json['Analisis'][$i]['DESCRIPCION'] = $row['DESCRIPCION'];
                     $json['Analisis'][$i]['LABORATORIO'] = $row['LABORATORIO'];
                     $json['Analisis'][$i]['UNIDAD'] = $row['UNIDAD'];
                     $json['Analisis'][$i]['PROVEEDOR'] =$row['PROVEEDOR'];
                     $json['Analisis'][$i]['CANT_DISPONIBLE'] =number_format($row['CANT_DISPONIBLE'],2);
-                    $json['Analisis'][$i]['PROMEDIO'] =number_format($row['PROMEDIO'],2);
-                    $json['Analisis'][$i]['PEDDCA'] = number_format($row['PEDDCA'],2);
-                    $json['Analisis'][$i]['CSCA'] = number_format($row['CSCA'],2);
-                    $json['Analisis'][$i]['Comnet0'] = $row['Comnet0'];
+                    $json['Analisis'][$i]['M3_PRIVADA'] =number_format($row['M3_PRIVADA'],2);
+                    $json['Analisis'][$i]['M3_PUBLICA'] = number_format($row['M3_PUBLICA'],2);
+                    $json['Analisis'][$i]['CONTRATO_ANUAL'] = number_format($row['CONTRATO_ANUAL'],2);
+                    /*$json['Analisis'][$i]['Comnet0'] = $row['Comnet0'];
                     $json['Analisis'][$i]['Comnet1'] = $row['Comnet1'];
-                    $json['Analisis'][$i]['Comnet2'] = $row['Comnet2'];
+                    $json['Analisis'][$i]['Comnet2'] = $row['Comnet2'];*/
                     $json['Analisis'][$i]['Comnet3'] = $row['Comnet3'];
+                    $json['Analisis'][$i]['PEDDCA'] = number_format($row['PEDDCA'],2);
+                    $json['Analisis'][$i]['CONSUMO_PUBLICO_12MESES'] = number_format($row['CONSUMO_PUBLICO_12MESES'],2);
+                    $json['Analisis'][$i]['ORDENADO_CONTRATO_CRUZ_AZUL'] = number_format($row['ORDENADO_CONTRATO_CRUZ_AZUL'],2);
+                    #$json['Analisis'][$i]['PENDIENTE_ORDENAR_CA'] = $this->returnMeses($row['FECHA_CONTRATO']);
+                    $json['Analisis'][$i]['PENDIENTE_ORDENAR_CA'] = $this->pendienteOrdenar($row['CONTRATO_ANUAL'],$row['ORDENADO_CONTRATO_CRUZ_AZUL'],$row['FECHA_CONTRATO']);
+                    $json['Analisis'][$i]['CUMPLIMIENTO_CONTRATO_CA'] = $this->cumplimientoContrato($row['CONTRATO_ANUAL'],$row['ORDENADO_CONTRATO_CRUZ_AZUL'],$row['FECHA_CONTRATO']);
                     $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);
                     $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'],2);
+                    $json['Analisis'][$i]['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS'] = number_format($row['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS'],2);
+                    $json['Analisis'][$i]['INVENTARIO_MINIMO_PUNTO_REORDEN'] = $row['INVENTARIO_MINIMO_PUNTO_REORDEN'];
                     $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
-                    $json['Analisis'][$i]['CONTRATO_ANUAL'] = $row['CONTRATO_ANUAL'];
-                    $json['Analisis'][$i]['CLASE_ABC'] = $row['CLASE_ABC'];
-                    $json['Analisis'][$i]['VENCIDOS'] = number_format($row['VENCIDO'],2);
-
-                    /*tambien mando a traer otros datos de un procedimiento almacenado*/                    
-                    // $Array = $this->sqlsrv -> fetchArray("EXEC Softland.dbo.SP_ALDER_EXISTENCIA '".$row['ARTICULO']."'",SQLSRV_FETCH_ASSOC);
-                    //if(count($Array) <> 0)
-                    //{ /*for ($a=0; $a <count($Array) ; $a++){*/
-                   // $json['Analisis'][$i]['MESES'] = number_format($row['MESESEXISTENCIA'],2);
-                    /*}*/
-                    //}
-                    //else{$json['Analisis'][$i]['MESES'] =0;}               
-                    $json['Analisis'][$i]['TOTAL_ANUAL_CA'] = number_format($row['TOTAL_ANUAL_CA'],2,'.','');
-                    $json['Analisis'][$i]['CANT12CA'] = number_format($row['CANT12CA'],2);
-                    $json['Analisis'][$i]['MENSAJE'] = $row['MENSAJE'];                                   
-                    $json['Analisis'][$i]['PDA'] =number_format($row['PEDDCA'],2);  
-                    $json['Analisis'][$i]['CTBP'] =number_format($row['CTBP'],2);
+                    $json['Analisis'][$i]['CLASE_ABC'] =$row['CLASE_ABC'];
+                    $json['Analisis'][$i]['VENCIDO'] =number_format($row['VENCIDO'],2);
+                    $json['Analisis'][$i]['PROMEDIO_MENSUAL_FARM_INSTPRIV'] =number_format($row['PROMEDIO_MENSUAL_FARM_INSTPRIV'],2);
+                    $json['Analisis'][$i]['PROMEDIO_MENSUAL_INSTPUBLICA'] =number_format($row['PROMEDIO_MENSUAL_INSTPUBLICA'],2);
                     $i++;
                 }
              
@@ -928,6 +918,11 @@ class Table extends CI_Model
                 $json['Analisis'][$i]['VENCIDOS'] = "";
                 $json['Analisis'][$i]['CANT12CA'] ="";
                 $json['Analisis'][$i]['MENSAJE'] = "";
+                $json['Analisis'][$i]['M3_PRIVADA'] = "";
+                $json['Analisis'][$i]['M3_PUBLICA'] = "";
+                $json['Analisis'][$i]['MINIMO_P_REORDEN'] = "";
+                $json['Analisis'][$i]['INVENTARIO_OPTIMO'] = "";
+                $json['Analisis'][$i]['ORDENAR2'] = "";
         }      
         $this->sqlsrv->close();
         return $json;

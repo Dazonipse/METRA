@@ -108,37 +108,77 @@ tbody{
     <table id = "tbArticulos" class="tableizer-table responsive-table"  width="100%">
         <thead>
          <tr>
-         <th class="titulos" style=" color:white;">ARTICULO</th>
-         <th class="titulos" style=" color:white;">DESCRIPCION</th>
-         <th class="titulos" style=" color:white;">LABORATORIO</th>
-         <th class="titulos" style=" color:white;">UNIDAD</th>
-         <th class="titulos" style=" color:white;">PROVEEDOR</th>
-         <th class="titulos" style=" color:white;">EXISTENCIAS</th>
-         <th class="titulos" style=" color:white;">PROMEDIO TRES MÁS ALTOS</th>
-         <th class="titulos" style=" color:white;">PENDIENTE CRUZ AZUL</th>
-         <th class="titulos" style=" color:white;">CONSUMO CRUZ AZUL</th>
-         <th class="titulos" style=" color:white;">PENDIENTES INST-PUB</th>
-         <th class="titulos" style=" color:white;">CANT DOCE MESES CRUZ AZUL</th>
-         <th class="titulos" style=" color:white;">PENDIENTE ORDENAR CA</th>
-         <th class="titulos" style=" color:white;">CONTRATO ANUAL</th>
-         <th class="titulos" style=" color:white;">CUMPLIMIENTO CA %</th>
-         <th class="titulos" style=" color:white;">CANTIDAD BAJO PEDIDO</th>
-         <th class="titulos" style=" color:white;">CANTIDAD EN TRANSITO</th>             
-         <th class="titulos" style=" color:white;">MESES DE EXISTENCIA POR PROMEDIO DE TRES MAS ALTOS</th>
-         <th class="titulos" style=" color:white;">ORDENAR</th>
-         <th class="titulos" style=" color:white;">CLASIFICACIÓN</th>
-         <th class="titulos" style=" color:white;">DAÑADOS Y VENCIDOS</th>
-         <th class="titulos" style=" color:white;">PROMEDIO INST.PRIVADA</th>
-         <th class="titulos" style=" color:white;">PROMEDIO INST.PUBLICA</th>
-         <th class="titulos" style=" color:white;">MINIMO P.REORDEN</th>
-         <th class="titulos" style=" color:white;">INVENTARIO OPTIMO</th>
-         <th class="titulos" style=" color:white;">ORDENAR</th>
+            <th class="titulos" style=" color:white;">ARTICULO</th>
+           <th class="titulos" style=" color:white;">DESCRIPCION</th>
+           <th class="titulos" style=" color:white;">LABORATORIO</th>
+           <th class="titulos" style=" color:white;">UNIDAD</th>
+           <th class="titulos" style=" color:white;">PROVEEDOR</th>
+           <th class="titulos" style=" color:white;">EXISTENCIAS</th>
+           <th class="titulos" style=" color:white;">PROMEDIO TRES MÁS ALTOS PRIVADO</th>
+           <th class="titulos" style=" color:white;">PROMEDIO TRES MÁS ALTOS INST. PUBLICO</th>
+           <th class="titulos" style=" color:white;">CONTRATO ANUAL CRUZ AZUL</th>
+           <th class="titulos" style=" color:white;">ENTREGA PENDIENTE CRUZ AZUL</th>
+           <th class="titulos" style=" color:white;">CONSUMO INST. PUBLICO 12 MESES</th>
+           <th class="titulos" style=" color:white;">ORDENADO CONTRATO CRUZ AZUL</th>
+           <th class="titulos" style=" color:white;">PENDIENTE ORDENAR CRUZ AZUL</th>
+           <th class="titulos" style=" color:white;">CUMPLIMIENTO CONTRATO CRUZ AZUL %</th>
+           <th class="titulos" style=" color:white;">CANTIDAD BAJO PEDIDO A PROVEEDOR</th>
+           <th class="titulos" style=" color:white;">CANTIDAD EN TRANSITO</th>
+           <th class="titulos" style=" color:white;">MESES DE EXISTENCIA POR PROMEDIO DE TRES MAS ALTOS</th>
+           <th class="titulos" style=" color:white;">INVENTARIO MINIMO (PUNTO DE RE-ORDEN)</th>
+           <th class="titulos" style=" color:white;">ORDENAR</th>
+           <th class="titulos" style=" color:white;">CLASIFICACIÓN</th>
+           <th class="titulos" style=" color:white;">DAÑADOS Y VENCIDOS</th>
+           <th class="titulos" style=" color:white;">PROMEDIO MENSUAL FARMACIA E INST.PRIVADA (ULTIMOS 12M)</th>
+           <th class="titulos" style=" color:white;">PROMEDIO MENSUAL INST.PUBLICO (ULTIMOS 12M)</th>
          </tr>
      </thead>
     <tbody>
       <?php
       foreach ($AllART['Analisis'] as $key) {
-        if ($key['PROMEDIO']=='0.00') {
+          if ($key['M3_PUBLICA']=='0.00') {
+          echo "<tr class='ocultar'>";
+        }
+        else{echo "<tr>";}
+        echo "
+        <td class='Ancho'>".$key['ARTICULO']."</td>
+        <td class='Ancho negra'>".utf8_decode($key['DESCRIPCION'])."</td>
+        <td>".$key['LABORATORIO']."</td>
+        <td>".$key['UNIDAD']."</td>
+        <td class='Ancho medium'>".$key['PROVEEDOR']."</td>
+        <td>".$key['CANT_DISPONIBLE']."</td>
+        <td>".$key['M3_PRIVADA']."</td>
+        <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".$key['M3_PUBLICA']."</td>
+        <td class='cesia'>".$key['CONTRATO_ANUAL']."</td>
+        <td class='cesia'>".$key['PEDDCA']."</td>
+        <td>".$key['CONSUMO_PUBLICO_12MESES']."</td>
+        <td>".$key['ORDENADO_CONTRATO_CRUZ_AZUL']."</td>";
+        if ($key['PENDIENTE_ORDENAR_CA']<0) {
+          echo "<td style='color:red;' class='negra'>".$key['PENDIENTE_ORDENAR_CA']."</td>";
+        }else{echo "<td style='color:green;' class='negra'>".$key['PENDIENTE_ORDENAR_CA']."</td>";}
+        echo "<td>".$key['CUMPLIMIENTO_CONTRATO_CA']."</td>
+        <td class='vivian'>".$key['CTBP']."</td>";
+        if ($key['Comnet3']=="")
+          {echo "<td class='vivian'>".$key['CTTS']."</td>";}
+        else{echo "<td class='vivian'><a style='color:#4D4D4D;'
+        class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a></td>";}
+        echo "<td>".$key['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS']."</td>
+        <td>".number_format($key['INVENTARIO_MINIMO_PUNTO_REORDEN'])."</td>";
+
+        if ($key['ORDENAR']>$key['INVENTARIO_MINIMO_PUNTO_REORDEN']) {
+          echo "<td class='red-text'>".number_format($key['ORDENAR'])."</td>";  
+        }else{
+          echo "<td>".number_format($key['ORDENAR'])."</td>";}
+
+        echo"<td>".$key['CLASE_ABC']."</td>
+        <td>".$key['VENCIDO']."</td>
+        <td>".$key['PROMEDIO_MENSUAL_FARM_INSTPRIV']."</td>
+        <td>".$key['PROMEDIO_MENSUAL_INSTPUBLICA']."</td>
+        </tr>";
+
+
+
+        /*if ($key['PROMEDIO']=='0.00') {
           echo "<tr class='ocultar'>";
         }
         else{echo "<tr>";}
@@ -173,7 +213,7 @@ tbody{
 
         $CANTIDADCA = $key['CANT12CA'];
         /*CANT DOCE MESES CA 4 posicion*/ 
-        echo "<td class='cesia'>".$impresion1."</td>
+       /* echo "<td class='cesia'>".$impresion1."</td>
         <td class='cesia'>".$impresion2."</td>
         <td class='cesia'>".$key['PEDDCA']."</td> 
         <td class='cesia'><a style='color:#4D4D4D;' class='tooltipped' data-position='bottom' data-delay='20' data-tooltip='".$key['MENSAJE']. "'>
@@ -184,7 +224,7 @@ tbody{
           $CONTRATO=$key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']);
           $color="red";
           /*echo "<td class='negra' style='color: red;!important'>".number_format($key['CONTRATO_ANUAL']-($key['TOTAL_ANUAL_CA']+$key['PEDDCA']),2)."</td>";*/
-        }
+       /* }
         else{
           $CONTRATO=($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])-$key['CONTRATO_ANUAL'];
           $color="green";
@@ -193,7 +233,7 @@ tbody{
         echo "<td class='negra cesia'>".number_format($key['CONTRATO_ANUAL'],2)."</td>";
         /***************************************/
         /*CUMPLIMIENTO CA%*/
-        if($key['CONTRATO_ANUAL']!=0)
+        /*if($key['CONTRATO_ANUAL']!=0)
         {
           echo"
           <td class='cesia'>".number_format(($key['TOTAL_ANUAL_CA']+$key['PEDDCA'])*100/$key['CONTRATO_ANUAL'],1)." %</td>";
@@ -214,7 +254,7 @@ tbody{
         /*PENDIENTE ORDER CA*/       
         /********************************************************/
         /*ORDERNAR----CLASIFICACION-----DAÑADOS Y VENCIDOS*/
-        $ORDENAR;
+        /*$ORDENAR;
         $ORDENAR=number_format(($key['CANT_DISPONIBLE']+$key['CTBP']+$key['CTTS'])-($key['PEDDCA']+$CANTIDADCA+($key['PROMEDIO']*6)));
         echo"
         <td class='Ancho negra'>".$ORDENAR."</td>
@@ -226,7 +266,7 @@ tbody{
         <td>".$key['INVENTARIO_OPTIMO']."</td>
         <td class='negra'>".$key['ORDENAR2']."</td>
         </tr>
-        ";
+        ";*/
       }
       ?>                         
     </tbody>
