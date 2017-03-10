@@ -84,6 +84,35 @@ input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly
     color: #616161;
     font-family: 'robotoblack';
 }
+.toast.error{
+    /* border-radius: 2px; */
+    top: 0;
+    width: auto;
+    clear: both;
+    margin-top: 10px;
+    position: relative;
+    max-width: 100%;
+    height: auto;
+    /* min-height: 48px; */
+    line-height: 1.5em;
+    word-break: break-all;
+    font-family: 'robotoregular';
+    background: rgba(233, 30, 30, 0.75);
+    padding: 10px 25px;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: white;
+    box-shadow: -1px 1px 9px rgba(0,0,0,0.4);
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
 .error{
     color: rgba(255, 150, 0, 0.91);
     font-size: 18px;

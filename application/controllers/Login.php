@@ -38,6 +38,7 @@ class Login extends CI_Controller {
     		if ($data['user'] == 0) {
     			redirect('?error=2'); 
     		} else {
+                $this->Users->InsertLog($data['user'][0]['Name'],$data['user'][0]['IdUser']);
                 $sessiondata = array(
                                 'IdUS' => $data['user'][0]['IdUser'],
                                 'SlpName' => $data['user'][0]['Name'],

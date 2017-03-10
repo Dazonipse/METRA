@@ -4,6 +4,8 @@ $(document).ready(function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal-trigger2').leanModal();
 });
+
+var bandera2 =0;
 function generarPdf()
 {   
     document.getElementById('reportepdf').submit();
@@ -14,8 +16,11 @@ function generarExcel()
     $('#excel_laboratorio').val($( "#Filtro1_wrapper #filtroLaboratorio select option:selected").text());
     $('#excel_proveedor').val($('#Filtro1_wrapper #filtroProveedor select option:selected').text());
     document.getElementById('excel').submit();
-} 
-
+}
+function generarExcel2()
+{
+    document.getElementById('excel').submit();
+}
 $('#tblAlvaro').DataTable( {
     "ordering": false,
     "info":     false,
@@ -34,7 +39,6 @@ $('#tblAlvaro').DataTable( {
         }
     },
 });
-
 
 $('#Articulos').DataTable( {
     "ordering": false,
@@ -64,8 +68,7 @@ $("#chkPDF").on( 'change', function() {
 $(document).ready(function(){
     $.extend( $.fn.dataTable.defaults,{
         "bAutoWidth": true
-    });
-
+    });   
 
 
     var tableAlder=  $('#tbArticulos').DataTable( {
@@ -182,16 +185,29 @@ function ignorar()
 
 
 
-$('input[type="text"]').dblclick(function(){
+/*$('input[type="text"]').dblclick(function(){
     $( "#" + $(this).attr("id") ).addClass( "ClssEdited" );
     $( "#Div" + $(this).attr("id")).show("slow");
     Cnt = $(this).val();
     UndEmpaque = $("#"+"FE-"+$(this).attr("id").substring(6, 15).trim()).text();                
     CntUnd = (number_format(Cnt,2).replace(",",'')) * (number_format(UndEmpaque,2).replace(",",''));        
     $("#"+$(this).attr("id")).val(number_format(CntUnd,2));
-});
+});*/
 
-
+function mostrarALVARO() {
+    
+    if (bandera2==0) {
+    $("#mostrarAlvaro").show();
+    bandera2=1
+    }else{$("#mostrarAlvaro").hide();bandera2=0;}
+}
+function mensaje(mensaje,clase) {
+    var $toastContent = $('<span class="center">'+mensaje+'</span>');
+        if (clase == 'error'){
+            return Materialize.toast($toastContent, 3500,'rounded error');
+        }
+        return  Materialize.toast($toastContent, 3500,'rounded');    
+}
 function MUP(key, per,FE,CONTRATO){
     $('#MyBar').show("slow");
 
@@ -204,9 +220,12 @@ function MUP(key, per,FE,CONTRATO){
 
     Row0 = Row0.replace(",",'');
     Row1 = Row1.replace(",",'');
-    Row4 = Row4.replace(",",'');
+    if (Row4 != undefined) {
+        Row4 = Row4.replace(",",'');    
+    }
+    
 
-    if (($("#Row-0-"+key).hasClass("ClssEdited")) || ($("#Row-1-"+key).hasClass("ClssEdited")) ) {
+    /*if (($("#Row-0-"+key).hasClass("ClssEdited")) || ($("#Row-1-"+key).hasClass("ClssEdited")) ) {
         if(($("#Row-0-"+key).hasClass("ClssEdited"))){
             console.log("0")
             $( "#Row-0-"+key ).removeClass( "ClssEdited" );
@@ -222,10 +241,9 @@ function MUP(key, per,FE,CONTRATO){
     }       
 
     $("#Row-0-"+key).val(number_format(Row0,2));
-    $("#Row-1-"+key).val(number_format(Row1,2));
+    $("#Row-1-"+key).val(number_format(Row1,2));*/
         /*Row2 = Row2.replace(",",'');
         Row3 = Row3.replace(",",'');*/
-
         
         if (per == 1){
             condicion = "UpdateRow/"+key+"/"+per+"/"+Row0+"/"+Row1+"/"+Row2+"/"+Row3;
@@ -238,8 +256,11 @@ function MUP(key, per,FE,CONTRATO){
             type: "get",
             async:true,
             success: function(json){
+                if (json==1) {
+                    mensaje("ACTUALIZADO CORRECTAMENTE","");
+                }else{mensaje("ERROR AL ACTUALIZAR","error");}
                 $('#MyBar').hide("slow");                
-                $(location).attr('href',"Articulos");
+                //$(location).attr('href',"Articulos");
             }
         });
     };

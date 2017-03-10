@@ -37,7 +37,7 @@
             </td>
             <td class="center">                           
               <!--<form action="XLS" method="post" target="_blank" id="FormularioExportacion">-->
-              <a href="#" class="botonExcel" onclick="generarExcel()"><i style="font-size:40px; color:#253778" class='material-icons center'>file_download</i></a>                                
+              <a href="#" class="botonExcel" onclick="generarExcel()"><i style="font-size:40px; color:#253778" class='material-icons center'>file_download</i></a>
               <!--<input type="hidden" id="datos_a_enviar" name="datos_a_enviar" /></form> -->
             </td>
             <td>
@@ -52,7 +52,15 @@
       </table>
     </div>
   </div>
-  <div style="overflow-x:auto;">
+  <div class="row">
+   <ul class="collapsible" data-collapsible="accordion">
+    <li>
+      <div onclick="mostrarALVARO()" class="collapsible-header"><i class="material-icons">filter_drama</i>PRESIONE PARA VER LA DESCRIPCION</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+  </ul>
+  </div>
+  <div id="mostrarAlvaro" style="overflow-x:auto; display:none;">
   <table id="tblAlvaro" style="font-size:11px;">
        <thead>
          <tr style="background-color:#253778; color:white;">
@@ -111,7 +119,7 @@ Si el resultado es inferior a INVENTARIO MINIMO, la cantidad se refleja en negro
          </tr>
         </tbody>
       </table>
-        </div>    
+    </div>
   <div style="overflow-x:auto;">
     <div id="DivFiltros" class="left"><br><br><br>
       <div  id="Filtro4_wrapper" class="dataTables_wrapper"></div>
@@ -179,8 +187,8 @@ Si el resultado es inferior a INVENTARIO MINIMO, la cantidad se refleja en negro
         <td class='Ancho negra'><a style='cursor:pointer;' onclick='modalABC(".'"'.$key['ARTICULO'].'"'.")'>".$key['M3_PUBLICA']."</td>
         <td class='cesia'>".$key['CONTRATO_ANUAL']."</td>
         <td class='cesia'>".$key['PEDDCA']."</td>
-        <td>".$key['CONSUMO_PUBLICO_12MESES']."</td>
-        <td>".$key['ORDENADO_CONTRATO_CRUZ_AZUL']."</td>";
+        <td class='cesia'>".$key['CONSUMO_PUBLICO_12MESES']."</td>
+        <td class='cesia'>".$key['ORDENADO_CONTRATO_CRUZ_AZUL']."</td>";
         if ($key['PENDIENTE_ORDENAR_CA']<0) {
           echo "<td class='red-text negra'>".$key['PENDIENTE_ORDENAR_CA']."</td>";
         }else{echo "<td class='green-text text-darken-3 negra'>".$key['PENDIENTE_ORDENAR_CA']."</td>";}
@@ -191,12 +199,12 @@ Si el resultado es inferior a INVENTARIO MINIMO, la cantidad se refleja en negro
         else{echo "<td class='vivian'><a style='color:#4D4D4D;'
         class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='".$key['Comnet3']."'>".$key['CTTS']."</a></td>";}
         echo "<td>".$key['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS']."</td>
-        <td>".$key['INVENTARIO_MINIMO_PUNTO_REORDEN']."</td>";
+        <td>".number_format($key['INVENTARIO_MINIMO_PUNTO_REORDEN'],2)."</td>";
 
         if ($key['ORDENAR']>$key['INVENTARIO_MINIMO_PUNTO_REORDEN']) {
-          echo "<td class='red-text'>".number_format($key['ORDENAR'])."</td>";  
+          echo "<td class='red-text negra'>".number_format($key['ORDENAR'],2)."</td>";  
         }else{
-          echo "<td>".number_format($key['ORDENAR'])."</td>";}
+          echo "<td class='negra'>".number_format($key['ORDENAR'],2)."</td>";}
 
         echo"<td>".$key['CLASE_ABC']."</td>
         <td>".$key['VENCIDO']."</td>

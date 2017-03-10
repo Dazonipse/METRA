@@ -50,5 +50,11 @@ class Reportes extends CI_Controller {
         $data['proveedores']=$this->Table->proveedores();
         $this->load->view('reportes/ExcelConsumo', $data);
 	}
+	public function ExcelArticulos()
+	{
+		$data['articulos'] = $this->Table->ExcelArticulos();
+		// print_r($data['articulos']);
+		$this->load->view('reportes/ExcelArticulos', $data);
+	}
 
 }

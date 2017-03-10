@@ -2,7 +2,7 @@
     <div class="indeterminate blue"></div>
 </div>
  
-<h5 class="center" style="font-family:'robotoblack'; color:#616161"><br>PEDIDOS</h5>
+<h5 class="center" style="font-family:'robotoblack'; color:#616161"><br>PEDIDOS?></h5>
 
 <div class="row">
     <div class="col s12"> 
@@ -49,11 +49,11 @@
                             </div>
                         </td>
                         <td class="center">                           
-                                <form action="XLS" method="post" target="_blank" id="FormularioExportacion">                                
+                                <!--<form action="XLS" method="post" target="_blank" id="FormularioExportacion">
                                     <a href="#" class="botonExcel"><i style="font-size:40px; color:#253778" class='material-icons center'>file_download</i></a>                                
-                                    <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />                                           
-                                </form> 
-                           
+                                    <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
+                                </form>-->
+                           <a href="#" class="botonExcel" onclick="generarExcel2()"><i style="font-size:40px; color:#253778" class='material-icons center'>file_download</i></a>
                         </td>
 
                     </tr>
@@ -203,7 +203,7 @@
                 </td>
                 <td><input type='number' min = '0' value=".number_format($cv, 2)." id='Row-3-".$key['FACTOREMPAQUE']."'>
                 </td>
-                <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>send</i></a></td>
+                <td><a href='3'><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>send</i></a></td>
                 ";
             }
 
@@ -221,7 +221,7 @@
             value=".number_format($pv, 2)." 
             id='Row-0-".$key['ARTICULO']."'>            
             <div style='display:none' id = 'DivRow-0-".$key['ARTICULO']."'><center><span>Modificado</span></center></div>
-            <br><a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."0".")'><i class='material-icons Small' style='font-size:30px;'>note_add</i></a>
+            <br><a href='#' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."0".")'><i class='material-icons Small' style='font-size:30px;'>note_add</i></a>
             </td>
             <td>
             <input type='text' type='text' type='text' style='text-align:center; width:60%;'
@@ -229,7 +229,7 @@
             value=".number_format($sv, 2)." 
             id='Row-1-".$key['ARTICULO']."'>
             <div style='display:none' id = 'DivRow-1-".$key['ARTICULO']."'><center><span>Modificado</span></center></div>
-            <br><a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."1".")'><i class='material-icons Small' style='font-size:30px;'>note_add</i></a>
+            <br><a href='#' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."1".")'><i class='material-icons Small' style='font-size:30px;'>note_add</i></a>
             </td>
             <td><input type='text' step='any' style='text-align:center; width:60%;' min = '0' 
             onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44 || event.charCode == 46 || event.charCode == 0 ' min = '0'
@@ -238,7 +238,7 @@
             <br><div></div>
             </td>
 
-            <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.",".'"'.$key['CONTRATO_ANUAL'].'"'.")'
+            <td><a href='#'><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.",".'"'.$key['CONTRATO_ANUAL'].'"'.")'
             ='font-size:30px;' class='material-icons'>send</i></a></td>
             ";
 
@@ -249,18 +249,18 @@
 
             $sql .= "   
             <td>
-            <div class='input-field col s12'>                                                  
-            <input type='number' min = '0' value=".number_format($tv, 2)." id='Row-0-".$key['ARTICULO']."'><br>
-            <a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."2".")'><i style='font-size:30px;' class='material-icons Small'>note_add</i></a>
+            <br><input onKeypress='if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;' class='center' type='text' min = '0' value=".number_format($tv,0)." id='Row-0-".$key['ARTICULO']."'>
+            <div class='input-field col s12'>            
+            <a href='#' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."2".")'><i style='font-size:30px;' class='material-icons Small'>note_add</i></a>
             </div>                                                
             </td>
             <td>
-            <div class='input-field col s12'>
-            <input type='number' min = '0' value=".number_format($cv, 2)." id='Row-1-".$key['ARTICULO']."'><br>
-            <a href='#!' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."3".")'><i style='font-size:30px;' class='material-icons Small'>note_add</i></a>
+            <br><input onKeypress='if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;' class='center' type='text' min = '0' value=".number_format($cv,0)." id='Row-1-".$key['ARTICULO']."'>
+            <div class='input-field col s12'>            
+            <a href='#' onclick='ModalComentarios(".'"'.$key['ARTICULO'].'"'.","."3".")'><i style='font-size:30px;' class='material-icons Small'>note_add</i></a>
             </div>                                                
             </td>
-            <td><a href><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>send</i></a></td>
+            <td><a href='#'><i onclick='MUP(".'"'.$key['ARTICULO'].'",'.'"'.$_SESSION['Permiso'].'"'.", ".'"'.$key['FACTOREMPAQUE'].'"'.")' style='font-size:30px;' class='material-icons'>send</i></a></td>
             ";
             break;                            
         }
@@ -286,7 +286,7 @@
 <!-- Modal Structure -->
 <div id="modal1" class="modal modal-fixed-footer" style="height:45%;">
      <div class="row right" style="margin-right:4%; margin-top:1%;">
-              <a href="#!" class=" modal-action modal-close waves-effect waves-blue"><i style="color:red;font-size:35px;" class="material-icons">close</i></a>
+              <a href="#" class=" modal-action modal-close waves-effect waves-blue"><i style="color:red;font-size:35px;" class="material-icons">close</i></a>
         </div>
     <div class="modal-content">
         <span style="display: none;" id="IdRowComent">000000</span>
@@ -410,3 +410,5 @@
     </table>
     </div>
   </div>
+<form name="excel" id="excel" action="<?php echo base_url('index.php/XLS')?>" target="_blank" method="post">
+</form>

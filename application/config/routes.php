@@ -7,7 +7,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['Acreditar'] = 'Login/Acreditar';
 $route['Salir'] = 'Login/Salir';
-$route['XLS'] = 'Articulos/toXLS';
+$route['XLS'] = 'reportes/ExcelArticulos';
 $route['Detalles/(:any)'] = 'Articulos/Detalles/$1';
 $route['Consumo'] = 'Articulos/Consumo';
 $route['VENCIDOS'] = 'Articulos/vencidos';

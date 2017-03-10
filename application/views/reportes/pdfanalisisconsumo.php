@@ -166,9 +166,9 @@ tbody{
         <td>".number_format($key['INVENTARIO_MINIMO_PUNTO_REORDEN'])."</td>";
 
         if ($key['ORDENAR']>$key['INVENTARIO_MINIMO_PUNTO_REORDEN']) {
-          echo "<td class='red-text'>".number_format($key['ORDENAR'])."</td>";  
+          echo "<td class='red-text'>".$key['ORDENAR']."</td>";  
         }else{
-          echo "<td>".number_format($key['ORDENAR'])."</td>";}
+          echo "<td>".$key['ORDENAR']."</td>";}
 
         echo"<td>".$key['CLASE_ABC']."</td>
         <td>".$key['VENCIDO']."</td>

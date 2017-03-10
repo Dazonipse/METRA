@@ -98,7 +98,7 @@ class Articulos extends CI_Controller {
             $json['data'][$i]['EXISTENCIA'] = $row[$i]['EXISTENCIA'];
             $i++;
         }
-        echo json_encode($json);         
+        echo json_encode($json);
     }
       public function get_abc($id)
     {

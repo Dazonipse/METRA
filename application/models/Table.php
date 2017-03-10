@@ -531,9 +531,26 @@ class Table extends CI_Model
         }else{return '<p style="color:red;" class ="negra">'.number_format($CUMPLIMIENTO,2).' %</p>';}
         //return number_format($CUMPLIMIENTO,2);
     }
+    public function puntoReorden($clasificacion,$consumo12,$promedio)
+    {
+        switch ($clasificacion) {
+            case 'AAA':
+                return ($consumo12*0.5)+($promedio*6);
+                break;
+            case 'AA':
+                return ($consumo12*0.5)+($promedio*4);
+                break;
+            case 'A':
+                return ($consumo12*0.5)+($promedio*2);
+                break;
+            default:
+                return 0;
+                break;
+        }
+    }
    public function ANALISIS_CONSUMO(){
         
-        $query = $this->db->query("SELECT * FROM view_analisis_consumo");
+        $query = $this->db->query("SELECT * FROM view_analisis_consumo ");
         $json = array();
         $i=0;
       
@@ -561,8 +578,8 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);
                     $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'],2);
                     $json['Analisis'][$i]['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS'] = number_format($row['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS'],2);
-                    $json['Analisis'][$i]['INVENTARIO_MINIMO_PUNTO_REORDEN'] = $row['INVENTARIO_MINIMO_PUNTO_REORDEN'];
-                    $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
+                    $json['Analisis'][$i]['INVENTARIO_MINIMO_PUNTO_REORDEN'] = $this->puntoReorden($row['CLASE_ABC'],$row['CONSUMO_PUBLICO_12MESES'],$row['M3_PRIVADA']);
+                    $json['Analisis'][$i]['ORDENAR'] = ($this->puntoReorden($row['CLASE_ABC'],$row['CONSUMO_PUBLICO_12MESES'],$row['M3_PRIVADA'])+$row['PEDDCA'])-($row['CANT_DISPONIBLE']+$row['CTBP']+$row['CTTS']);
                     $json['Analisis'][$i]['CLASE_ABC'] =$row['CLASE_ABC'];
                     $json['Analisis'][$i]['VENCIDO'] =number_format($row['VENCIDO'],2);
                     $json['Analisis'][$i]['PROMEDIO_MENSUAL_FARM_INSTPRIV'] =number_format($row['PROMEDIO_MENSUAL_FARM_INSTPRIV'],2);
@@ -643,8 +660,8 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);
                     $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'],2);
                     $json['Analisis'][$i]['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS'] = number_format($row['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS'],2);
-                    $json['Analisis'][$i]['INVENTARIO_MINIMO_PUNTO_REORDEN'] = $row['INVENTARIO_MINIMO_PUNTO_REORDEN'];
-                    $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
+                    $json['Analisis'][$i]['INVENTARIO_MINIMO_PUNTO_REORDEN'] = $this->puntoReorden($row['CLASE_ABC'],$row['CONSUMO_PUBLICO_12MESES'],$row['M3_PRIVADA']);
+                    $json['Analisis'][$i]['ORDENAR'] = ($this->puntoReorden($row['CLASE_ABC'],$row['CONSUMO_PUBLICO_12MESES'],$row['M3_PRIVADA'])+$row['PEDDCA'])-($row['CANT_DISPONIBLE']+$row['CTBP']+$row['CTTS']);
                     $json['Analisis'][$i]['CLASE_ABC'] =$row['CLASE_ABC'];
                     $json['Analisis'][$i]['VENCIDO'] =number_format($row['VENCIDO'],2);
                     $json['Analisis'][$i]['PROMEDIO_MENSUAL_FARM_INSTPRIV'] =number_format($row['PROMEDIO_MENSUAL_FARM_INSTPRIV'],2);
@@ -689,6 +706,7 @@ class Table extends CI_Model
     }
 
     public function Guardar($Key,$C,$P1,$P2,$P3,$P4,$P5){
+
         if ($C == 1){
             $data = array(
                     'PEDDCA' => $P1,
@@ -707,15 +725,47 @@ class Table extends CI_Model
                     'CTBP' => $P1,
                     'CTTS' =>  $P2
                 );
-        }        
+        }
         $this->db->where('ARTICULO', $Key);
-        $update=$this->db->update('masterarticulos', $data);
+        $update = $this->db->update('masterarticulos', $data);
 
         $this ->log();
         if($update){
+            $this->GuardarLog($Key,$P1,$P2,$P3,$P4);
+            echo 1;
             return 1;
         }
         return 0;
+
+    }
+    public function ExcelArticulos()
+    {
+        switch ($this->session->userdata('Permiso')) {
+            case '2':
+                $this->db->where('Comnet0 !=', 'NO HAY NOTA');
+                $this->db->where('Comnet0 !=', '');
+                $query = $this->db->get('view_articulosExcel');
+                if($query->num_rows() > 0){
+                    return $query->result_array();
+                }return 0;
+            break;
+                case '3':
+                $query = $this->db->query("SELECT * FROM view_articulosexcel 
+                WHERE (CTBP >0 OR CTTS >0 ) OR (Comnet2 !='NO HAY NOTA') OR (Comnet3 != 'NO HAY NOTA')");
+                if($query->num_rows() > 0){
+                    return $query->result_array();
+                }return 0;
+            break;
+            default:
+            break;
+        }
+        
+    }
+    public function GuardarLog($articulo,$P1,$P2,$P3,$P4)
+    {
+        /*$datos = array('Grupo' => 1,
+                    'Us_name' => 
+                 );*/
     }
     public function GuardarComentario($Arti,$Coment,$IDC){
         $this->db->where('ARTICULO', $Arti);
@@ -883,8 +933,8 @@ class Table extends CI_Model
                     $json['Analisis'][$i]['CTBP'] = number_format($row['CTBP'],2);
                     $json['Analisis'][$i]['CTTS'] = number_format($row['CTTS'],2);
                     $json['Analisis'][$i]['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS'] = number_format($row['MESES_DE_EXIXTENCIA_PROMEDIO_MASALTOS'],2);
-                    $json['Analisis'][$i]['INVENTARIO_MINIMO_PUNTO_REORDEN'] = $row['INVENTARIO_MINIMO_PUNTO_REORDEN'];
-                    $json['Analisis'][$i]['ORDENAR'] = $row['ORDENAR'];
+                    $json['Analisis'][$i]['INVENTARIO_MINIMO_PUNTO_REORDEN'] = $this->puntoReorden($row['CLASE_ABC'],$row['CONSUMO_PUBLICO_12MESES'],$row['M3_PRIVADA']);
+                    $json['Analisis'][$i]['ORDENAR'] = ($this->puntoReorden($row['CLASE_ABC'],$row['CONSUMO_PUBLICO_12MESES'],$row['M3_PRIVADA'])+$row['PEDDCA'])-($row['CANT_DISPONIBLE']+$row['CTBP']+$row['CTTS']);
                     $json['Analisis'][$i]['CLASE_ABC'] =$row['CLASE_ABC'];
                     $json['Analisis'][$i]['VENCIDO'] =number_format($row['VENCIDO'],2);
                     $json['Analisis'][$i]['PROMEDIO_MENSUAL_FARM_INSTPRIV'] =number_format($row['PROMEDIO_MENSUAL_FARM_INSTPRIV'],2);
@@ -923,7 +973,7 @@ class Table extends CI_Model
                 $json['Analisis'][$i]['MINIMO_P_REORDEN'] = "";
                 $json['Analisis'][$i]['INVENTARIO_OPTIMO'] = "";
                 $json['Analisis'][$i]['ORDENAR2'] = "";
-        }      
+        }                 
         $this->sqlsrv->close();
         return $json;
     }

@@ -54,6 +54,15 @@ class Users extends CI_Model
         }
         return 0;
     }
+    public function InsertLog($usuario,$id)
+    {
+        $datos = array('Grupo' => 0, 
+                'Us_name' =>$usuario." ID=> ".$id,
+                'Date_Reg' => date('Y-m-d H:i:s'),
+                'Descripcion' => 'Ingreso al sistema'
+                );
+        $this->db->insert('log_transac',$datos);
+    }
     /*public function AllEmp(){
      $query = $this->db->get('Privilegio');        
         if($query->num_rows() <> 0){            
